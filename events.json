@@ -1,0 +1,17 @@
+[
+  {
+	"id": "60d726c2-3771-4b2c-8b7c-77f3d9261034",
+	"name": "event1",
+	"musicType": "rock"
+  },
+  {
+	"id": "e1864a1f-0594-427d-8b3b-7876bb33b9cc",
+	"name": "ariana grande in da town",
+	"musicType": "pop"
+  },
+  {
+	"id": "0d676125-6a42-487a-9018-1f6d03e502eb",
+	"name": "that cool guy with a cap",
+	"musicType": "reggae"
+  }
+]
