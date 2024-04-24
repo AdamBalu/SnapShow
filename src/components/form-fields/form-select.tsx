@@ -17,11 +17,9 @@ export const FormSelect = async ({
 	name,
 	label,
 	...selectProps
-}: FormSelectProps) => {
-	return (
-		<div className="flex flex-col gap-2">
-			<label htmlFor="type">{label}</label>
-			<FormSelectClient options={[]} {...selectProps} name={name} />
-		</div>
-	);
-};
+}: FormSelectProps) => (
+	<div className="flex flex-col gap-2">
+		<label htmlFor="type">{label}</label>
+		<FormSelectClient options={[]} {...selectProps} name={name} />
+	</div>
+);

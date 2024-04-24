@@ -5,8 +5,9 @@ import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import React from 'react';
 
-import { Providers } from './providers';
 import { Navigation } from '@/components/navigation/navigation';
+
+import { Providers } from './providers';
 
 const poppins = Poppins({ subsets: ['latin'], weight: ['400'] });
 
