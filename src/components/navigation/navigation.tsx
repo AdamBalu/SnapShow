@@ -1,14 +1,14 @@
+import React from 'react';
+
 import { NavLink } from '@/components/navigation/nav-link';
+import { NavigationItems } from '@/components/navigation/navigation-list';
 
 export const Navigation = () => (
-	<nav className="bg-[#16181D]">
-		<div className="container flex items-center h-32 justify-between">
-			<h1 className="text-3xl text-white font-bold">SnapShow</h1>
-			<ul className="flex gap-x-16 py-4">
-				<NavLink redirectLink="/" label="Home" />
-				<NavLink redirectLink="/events" label="Events" />
-				<NavLink redirectLink="/community" label="Community" />
-			</ul>
-		</div>
+	<nav className="flex navbar-end gap-5 flex-1">
+		<ul className="hidden lg:flex justify-end gap-x-16 py-4">
+			{NavigationItems.map(item => (
+				<NavLink key={item.label} href={item.href} label={item.label} />
+			))}
+		</ul>
 	</nav>
 );

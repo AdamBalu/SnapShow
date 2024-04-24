@@ -5,7 +5,8 @@ import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import React from 'react';
 
-import { Navigation } from '@/components/navigation/navigation';
+import { Header } from '@/components/header/header';
+import { Footer } from '@/components/footer/footer';
 
 import { Providers } from './providers';
 
@@ -21,11 +22,11 @@ const RootLayout = ({
 	children: React.ReactNode;
 }>) => (
 	<html lang="en">
-		<body className={poppins.className}>
+		<body className={`h-screen flex flex-col ${poppins.className}`}>
 			<Providers>
-				<Navigation />
-
-				<main className="container my-8">{children}</main>
+				<Header />
+				<main className="container flex-col flex-grow my-8">{children}</main>
+				<Footer />
 			</Providers>
 			<Toaster position="bottom-right" richColors />
 		</body>
