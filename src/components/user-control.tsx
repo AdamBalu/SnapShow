@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 import { NavLink } from '@/components/navigation/nav-link';
 
@@ -6,9 +7,11 @@ export const UserControl = () => (
 	<div className="dropdown dropdown-end">
 		<button tabIndex={0} className="btn btn-ghost btn-circle avatar">
 			<div className="w-10 rounded-full">
-				<img
+				<Image
+					width={64}
+					height={64}
 					alt="Tailwind CSS Navbar component"
-					src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+					src="/static/test_icon.png"
 				/>
 			</div>
 		</button>
