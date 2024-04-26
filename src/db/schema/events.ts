@@ -4,15 +4,16 @@ import { relations } from 'drizzle-orm';
 import { venues } from '@/db/schema/venue';
 import { usersToEvents } from '@/db/schema/usersToEvents';
 import { eventsToGenres } from '@/db/schema/eventsToGenres';
-import { interpretersToEvents } from "@/db/schema/interpretersToEvents";
-import { users } from "@/db/schema/users";
+import { interpretersToEvents } from '@/db/schema/interpretersToEvents';
 
 export const events = sqliteTable('events', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	name: text('name').notNull(),
 	description: text('description'),
 	datetime: text('datetime').notNull(),
-	venueId: integer('venueId').notNull().references(() => venues.id),
+	venueId: integer('venueId')
+		.notNull()
+		.references(() => venues.id),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 

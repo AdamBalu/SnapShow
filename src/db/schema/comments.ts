@@ -7,8 +7,12 @@ import { posts } from '@/db/schema/posts';
 export const comments = sqliteTable('comments', {
 	id: integer('id').primaryKey({ autoIncrement: true }),
 	text: text('text'),
-	userId: integer('userId').notNull().references(() => users.id),
-	postId: integer('postId').notNull().references(() => posts.id),
+	userId: integer('userId')
+		.notNull()
+		.references(() => users.id),
+	postId: integer('postId')
+		.notNull()
+		.references(() => posts.id),
 	timestamp: text('timestamp').default(sql`(CURRENT_TIMESTAMP)`),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });

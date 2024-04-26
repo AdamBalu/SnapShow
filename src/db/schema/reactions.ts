@@ -8,8 +8,12 @@ export const reactions = sqliteTable(
 	'reactions',
 	{
 		id: integer('id').primaryKey({ autoIncrement: true }),
-		postId: text('postId').notNull().references(() => posts.id),
-		userId: integer('userId').notNull().references(() => users.id),
+		postId: text('postId')
+			.notNull()
+			.references(() => posts.id),
+		userId: integer('userId')
+			.notNull()
+			.references(() => users.id),
 		name: text('name')
 	},
 	t => ({
