@@ -26,7 +26,7 @@ export const Header = () => (
 				<h1 className="text-2xl lg:text-3xl">SnapShow</h1>
 			</Link>
 
-			<div className="flex gap-5">
+			<div className="flex gap-x-16">
 				<Navigation />
 				<UserControl />
 			</div>
