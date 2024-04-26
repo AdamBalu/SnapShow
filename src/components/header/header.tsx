@@ -12,14 +12,14 @@ export const Header = () => (
 				<Image
 					className="hidden lg:block"
 					src="/static/logo.png"
-					alt="test"
+					alt="snapshow logo"
 					width="64"
 					height="64"
 				/>
 				<Image
 					className="block lg:hidden"
 					src="/static/logo.png"
-					alt="test"
+					alt="snapshow logo"
 					width="48"
 					height="48"
 				/>

@@ -14,7 +14,7 @@ export const NavLink = ({ className, href, label, ...props }: NavLinkProps) => {
 	const pathname = usePathname();
 
 	return (
-		<li className="uppercase ">
+		<li className="uppercase">
 			<Link
 				className={cn(
 					'btn btn-ghost font-extrabold text-xl',
