@@ -4,9 +4,13 @@ import React from 'react';
 
 import { Navigation } from '@/components/navigation/navigation';
 import { UserControl } from '@/components/user-control';
+import { FaviconLinks } from '@/components/header/favicon-links';
 
 export const Header = () => (
 	<header className="font-sarpanch font-extrabold bg-zinc-900 border-b-2 border-cyan-500 text-white">
+		<FaviconLinks />
+		<meta name="msapplication-TileColor" content="#da532c" />
+		<meta name="theme-color" content="#ffffff" />
 		<div className="navbar container flex items-center h-20 justify-between">
 			<Link className="navbar-start flex gap-5 items-center" href="/">
 				<Image
