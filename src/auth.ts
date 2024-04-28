@@ -7,7 +7,10 @@ import Facebook from '@auth/core/providers/facebook';
 import { db } from './db';
 
 const getIsProtectedPath = (path: string) =>
-	path !== '/' && !path.startsWith('/static') && !path.startsWith('/signin') && !path.startsWith('/api');
+	path !== '/' &&
+	!path.startsWith('/static') &&
+	!path.startsWith('/signin') &&
+	!path.startsWith('/api');
 
 export type SingInOption = {
 	name: string;
@@ -48,7 +51,7 @@ export const authOptions = {
 			return true;
 		}
 	},
-	secret: process.env.AUTH_SECRET,
+	secret: process.env.AUTH_SECRET
 } satisfies NextAuthConfig;
 
 export const { handlers, auth, signOut, signIn } = NextAuth(authOptions);
