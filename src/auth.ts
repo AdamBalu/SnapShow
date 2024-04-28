@@ -12,18 +12,6 @@ const getIsProtectedPath = (path: string) =>
 	!path.startsWith('/signin') &&
 	!path.startsWith('/api');
 
-export type SingInOption = {
-	name: string;
-	id: string;
-	icon: string;
-};
-
-export const SignInOptions: SingInOption[] = [
-	{ name: 'Github', id: 'github', icon: '/static/github.svg' },
-	{ name: 'Google', id: 'google', icon: '/static/google.png' },
-	{ name: 'Facebook', id: 'facebook', icon: '/static/facebook.svg' }
-];
-
 const providers = [GitHub, Google, Facebook];
 
 export const authOptions = {
