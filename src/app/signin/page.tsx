@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { CircleX } from 'lucide-react';
+import React, { Suspense, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
 import { SignInButton } from '@/components/sign-in/sign-in-button';
+import { SignInError } from '@/components/sign-in/sign-in-error';
 
 type SingInOption = {
 	name: string;
@@ -19,19 +19,7 @@ const SignInOptions: SingInOption[] = [
 	{ name: 'Facebook', id: 'facebook', icon: '/static/facebook.svg' }
 ];
 
-const errorMessages: Record<string, string> = {
-	OAuthSignin: 'Try signing in with a different account.',
-	OAuthCallback: 'Try signing in with a different account.',
-	OAuthCreateAccount: 'Try signing in with a different account.',
-	Callback: 'Try signing in with a different account.',
-	OAuthAccountNotLinked: 'Account with this email is already in use.',
-	SessionRequired: 'Please sign in to access this page.',
-	default: 'Unexpected error while signing in. Please try again later.'
-};
-
 const SignIn = () => {
-	const searchParams = useSearchParams();
-	const error = searchParams.get('error');
 	const { status } = useSession();
 	const router = useRouter();
 
@@ -57,12 +45,15 @@ const SignIn = () => {
 					))}
 				</ul>
 			</div>
-			{error && (
-				<div role="alert" className="alert alert-error flex">
-					<CircleX size={48} />
-					<span>{errorMessages[error]}</span>
-				</div>
-			)}
+			<Suspense
+				fallback={
+					<div className="flex justify-center">
+						<span className="loading loading-spinner loading-lg" />
+					</div>
+				}
+			>
+				<SignInError />
+			</Suspense>
 		</div>
 	);
 };
