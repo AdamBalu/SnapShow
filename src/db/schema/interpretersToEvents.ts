@@ -1,4 +1,4 @@
-import { integer, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core';
+import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
 
 import { events } from '@/db/schema/events';
@@ -7,10 +7,10 @@ import { interpreters } from '@/db/schema/interpreters';
 export const interpretersToEvents = sqliteTable(
 	'interpretersToEvents',
 	{
-		interpreterId: integer('interpreterId')
+		interpreterId: text('interpreterId')
 			.notNull()
 			.references(() => interpreters.id),
-		eventId: integer('eventId')
+		eventId: text('eventId')
 			.notNull()
 			.references(() => events.id)
 	},

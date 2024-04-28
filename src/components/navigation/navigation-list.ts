@@ -7,7 +7,7 @@ type NavigationItem = {
 
 export const NavigationItems: NavigationItem[] = [
 	{
-		href: '/',
+		href: '/home',
 		label: 'Home',
 		icon: '/static/home.svg',
 		selectedIcon: '/static/home-selected.svg'

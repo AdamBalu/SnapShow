@@ -1,4 +1,4 @@
-import { integer, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core';
+import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
 
 import { users } from '@/db/schema/users';
@@ -7,10 +7,10 @@ import { genres } from '@/db/schema/genre';
 export const usersToGenres = sqliteTable(
 	'usersToGenres',
 	{
-		userId: integer('userId')
+		userId: text('userId')
 			.notNull()
 			.references(() => users.id),
-		genreId: integer('genreId')
+		genreId: text('genreId')
 			.notNull()
 			.references(() => genres.id)
 	},

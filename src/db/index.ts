@@ -1,7 +1,13 @@
 import { drizzle } from 'drizzle-orm/libsql';
 import { createClient } from '@libsql/client';
 
-import { users, usersRelations } from '@/db/schema/users';
+import {
+	accounts,
+	sessions,
+	users,
+	usersRelations,
+	verificationTokens
+} from '@/db/schema/users';
 import { posts, postsRelations } from '@/db/schema/posts';
 import { genres, genresRelations } from '@/db/schema/genre';
 import { comments, commentsRelations } from '@/db/schema/comments';
@@ -42,6 +48,9 @@ export const db = drizzle(client, {
 		reactions,
 		venues,
 		events,
+		accounts,
+		sessions,
+		verificationTokens,
 
 		// many to many
 		eventsToGenres,

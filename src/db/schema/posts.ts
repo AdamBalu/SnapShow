@@ -5,10 +5,12 @@ import { users } from '@/db/schema/users';
 import { comments } from '@/db/schema/comments';
 import { reactions } from '@/db/schema/reactions';
 
-export const posts = sqliteTable('posts', {
-	id: integer('id').primaryKey({ autoIncrement: true }),
+export const posts = sqliteTable('post', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
 	comment: text('comment'),
-	userId: integer('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => users.id),
 	photo: text('photo'),

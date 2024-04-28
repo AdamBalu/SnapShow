@@ -5,8 +5,7 @@ import { Poppins } from 'next/font/google';
 import { Toaster } from 'sonner';
 import React from 'react';
 
-import { Header } from '@/components/header/header';
-import { Footer } from '@/components/footer/footer';
+import { FaviconLinks } from '@/components/header/favicon-links';
 
 import { Providers } from './providers';
 
@@ -22,12 +21,13 @@ const RootLayout = ({
 	children: React.ReactNode;
 }>) => (
 	<html lang="en">
+		<head>
+			<FaviconLinks />
+			<meta name="msapplication-TileColor" content="#da532c" />
+			<meta name="theme-color" content="#ffffff" />
+		</head>
 		<body className={`h-screen flex flex-col ${poppins.className}`}>
-			<Providers>
-				<Header />
-				<main className="container flex-col flex-grow my-8">{children}</main>
-				<Footer />
-			</Providers>
+			<Providers>{children}</Providers>
 			<Toaster position="bottom-right" richColors />
 		</body>
 	</html>

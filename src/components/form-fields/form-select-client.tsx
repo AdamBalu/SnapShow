@@ -6,7 +6,7 @@ import React, {
 } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Select } from '@/components/select';
+import { Select } from '@/components/ui/select';
 
 type FormSelectProps = DetailedHTMLProps<
 	SelectHTMLAttributes<HTMLSelectElement>,

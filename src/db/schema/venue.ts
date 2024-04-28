@@ -3,8 +3,10 @@ import { relations } from 'drizzle-orm';
 
 import { events } from '@/db/schema/events';
 
-export const venues = sqliteTable('venues', {
-	id: integer('id').primaryKey({ autoIncrement: true }),
+export const venues = sqliteTable('venue', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
 	address: text('address').notNull(),
 	zipCode: text('zipCode').notNull(),
 	country: text('country').notNull(),

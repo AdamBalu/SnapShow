@@ -3,8 +3,10 @@ import { relations } from 'drizzle-orm';
 
 import { interpretersToEvents } from '@/db/schema/interpretersToEvents';
 
-export const interpreters = sqliteTable('interpreters', {
-	id: integer('id').primaryKey({ autoIncrement: true }),
+export const interpreters = sqliteTable('interpreter', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
 	name: text('name').notNull(),
 	description: text('description'),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)

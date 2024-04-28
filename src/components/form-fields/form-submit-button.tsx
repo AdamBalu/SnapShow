@@ -1,7 +1,7 @@
 import { type ButtonHTMLAttributes, type DetailedHTMLProps } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { Button } from '@/components/button';
+import { Button } from '@/components/ui/button';
 
 type FromButtonProps = DetailedHTMLProps<
 	ButtonHTMLAttributes<HTMLButtonElement>,

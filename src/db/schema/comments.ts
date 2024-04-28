@@ -4,16 +4,20 @@ import { relations, sql } from 'drizzle-orm';
 import { users } from '@/db/schema/users';
 import { posts } from '@/db/schema/posts';
 
-export const comments = sqliteTable('comments', {
-	id: integer('id').primaryKey({ autoIncrement: true }),
+export const comments = sqliteTable('comment', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
 	text: text('text'),
-	userId: integer('userId')
+	userId: text('userId')
 		.notNull()
 		.references(() => users.id),
-	postId: integer('postId')
+	postId: text('postId')
 		.notNull()
 		.references(() => posts.id),
-	timestamp: text('timestamp').default(sql`(CURRENT_TIMESTAMP)`),
+	timestamp: integer('timestamp', { mode: 'timestamp' }).default(
+		sql`(CURRENT_TIMESTAMP)`
+	),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 

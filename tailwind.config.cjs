@@ -1,11 +1,14 @@
 /** @type {import("tailwindcss").Config} */
-import daisyui from "daisyui";
 
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
 
   theme: {
     extend: {
+      colors: {
+        'primary': "#08D9D6",
+        'primary-shadow': "#099E9C"
+      },
       container: {
         center: true
       },

@@ -1,16 +1,30 @@
 import React from 'react';
+import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
-import { db } from '@/db';
-import { genres } from '@/db/schema/genre';
+import { Button } from '@/components/ui/button';
+import { Banner } from '@/components/banner';
+import { auth } from '@/auth';
 
 const Page = async () => {
-	const genreList = await db.select().from(genres);
+	const session = await auth();
+
+	if (session?.user) {
+		redirect('/home');
+	}
+
 	return (
-		<div>
-			{genreList.map(genre => (
-				<div key={genre.id}>{genre.name}</div>
-			))}
-		</div>
+		<main className="container px-5 w-screen h-screen flex justify-center items-center">
+			<div className="flex flex-col gap-10 md:gap-36 md:flex-row">
+				<Banner />
+				<Link
+					href="/signin"
+					className="flex flex-col justify-center md:justify-start"
+				>
+					<Button className="justify-center">Sign In</Button>
+				</Link>
+			</div>
+		</main>
 	);
 };
 

@@ -1,20 +1,21 @@
-import { text, integer, sqliteTable, unique } from 'drizzle-orm/sqlite-core';
+import { text, sqliteTable, unique } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
 
 import { users } from '@/db/schema/users';
 import { posts } from '@/db/schema/posts';
 
 export const reactions = sqliteTable(
-	'reactions',
+	'reaction',
 	{
-		id: integer('id').primaryKey({ autoIncrement: true }),
+		id: text('id')
+			.primaryKey()
+			.$defaultFn(() => crypto.randomUUID()),
 		postId: text('postId')
 			.notNull()
 			.references(() => posts.id),
-		userId: integer('userId')
+		userId: text('userId')
 			.notNull()
-			.references(() => users.id),
-		name: text('name')
+			.references(() => users.id)
 	},
 	t => ({
 		// Unique constraint for postId and userId combination

@@ -1,4 +1,4 @@
-import { integer, primaryKey, sqliteTable } from 'drizzle-orm/sqlite-core';
+import { primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
 
 import { users } from '@/db/schema/users';
@@ -6,10 +6,10 @@ import { users } from '@/db/schema/users';
 export const usersFriends = sqliteTable(
 	'usersFriends',
 	{
-		user1Id: integer('user1Id')
+		user1Id: text('user1Id')
 			.notNull()
 			.references(() => users.id),
-		user2Id: integer('user2Id')
+		user2Id: text('user2Id')
 			.notNull()
 			.references(() => users.id)
 	},

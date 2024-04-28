@@ -6,12 +6,14 @@ import { usersToEvents } from '@/db/schema/usersToEvents';
 import { eventsToGenres } from '@/db/schema/eventsToGenres';
 import { interpretersToEvents } from '@/db/schema/interpretersToEvents';
 
-export const events = sqliteTable('events', {
-	id: integer('id').primaryKey({ autoIncrement: true }),
+export const events = sqliteTable('event', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
 	name: text('name').notNull(),
 	description: text('description'),
 	datetime: text('datetime').notNull(),
-	venueId: integer('venueId')
+	venueId: text('venueId')
 		.notNull()
 		.references(() => venues.id),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
