@@ -21,6 +21,7 @@ export const SignInButton = ({
 
 	const onSignIn = async () => {
 		setLoading(true);
+
 		await signInAction(providerId);
 	};
 

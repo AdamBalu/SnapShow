@@ -4,6 +4,8 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import Google from '@auth/core/providers/google';
 import Facebook from '@auth/core/providers/facebook';
 
+import { getUsername } from '@/server-actions/user';
+
 import { db } from './db';
 
 const getIsProtectedPath = (path: string) =>
@@ -21,13 +23,23 @@ export const authOptions = {
 		signIn: '/signin'
 	},
 	callbacks: {
-		session: ({ session, user }) => {
+		session: async ({ session, user }) => {
 			session.user.id = user.id;
+			session.user.username = await getUsername(user.id);
 			return session;
 		},
 		authorized: ({ auth, request: { nextUrl } }) => {
 			const isLoggedIn = !!auth?.user;
 			const isProtected = getIsProtectedPath(nextUrl.pathname);
+
+			// New user must set its username
+			if (
+				isLoggedIn &&
+				auth?.user?.username === null &&
+				nextUrl.pathname !== '/new-user'
+			) {
+				return Response.redirect(new URL('/new-user', nextUrl.origin));
+			}
 
 			if (!isLoggedIn && isProtected) {
 				const redirectUrl = new URL('/signin', nextUrl.origin);
