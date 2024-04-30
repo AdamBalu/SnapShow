@@ -1,22 +1,23 @@
-'use server';
-
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
-import { UploadThingError } from 'uploadthing/server';
+import { UploadThingError } from '@uploadthing/shared';
 
-import { auth } from '@/auth';
+import { getCurrentUser } from '@/server-actions/user';
 
 const f = createUploadthing();
 
 export const ourFileRouter = {
 	imageUploader: f({ image: { maxFileSize: '16MB' } })
 		.middleware(async () => {
-			const session = await auth();
+			// auth() must be wrapped with here with function with use server, db does not work otherwise
+			const session = await getCurrentUser();
 
-			if (!session?.user) {
+			const userId = session?.user?.id;
+
+			if (!userId) {
 				throw new UploadThingError('Unauthorized');
 			}
 
-			return { userId: session?.user.id };
+			return { userId: 1 };
 		})
 		.onUploadComplete(async ({ metadata }) => ({
 			uploadedBy: metadata.userId

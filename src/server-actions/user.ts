@@ -76,3 +76,5 @@ export const updateUser = async (updatedUser: UserFormSchema) => {
 		}
 	});
 };
+
+export const getCurrentUser = async () => await auth();
