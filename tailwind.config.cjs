@@ -1,6 +1,7 @@
 /** @type {import("tailwindcss").Config} */
+import { withUt } from "uploadthing/tw";
 
-module.exports = {
+export default withUt({
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
 
   theme: {
@@ -22,4 +23,4 @@ module.exports = {
   },
 
   plugins: [require("daisyui")]
-};
+});
