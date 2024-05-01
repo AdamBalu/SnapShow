@@ -20,4 +20,5 @@ export const getUsersFavoriteGenres = async (userId: string) =>
 		.innerJoin(genres, eq(genres.id, usersToGenres.genreId))
 		.where(eq(users.id, userId));
 
-export const getAllGenres = async () => db.select().from(genres);
+export const getAllGenres = async () =>
+	db.select().from(genres).where(eq(genres.isDeleted, false));

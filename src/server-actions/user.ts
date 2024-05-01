@@ -1,9 +1,8 @@
 'use server';
 
-import { count, eq, or } from 'drizzle-orm';
+import { and, eq } from 'drizzle-orm';
 
 import { auth, signIn, signOut } from '@/auth';
-import { usersFriends } from '@/db/schema/usersFriends';
 import { db } from '@/db';
 import { users } from '@/db/schema/users';
 import { type UserFormSchema } from '@/components/user-form/user-form';
@@ -17,36 +16,44 @@ export const signOutAction = async () => {
 	await signOut({ redirectTo: '/' });
 };
 
+export const getSignedUser = async () => await auth();
+
 export const getUsername = async (userId: string) => {
 	const result = await db
 		.select({ username: users.username })
 		.from(users)
-		.where(eq(users.id, userId));
+		.where(and(eq(users.id, userId), eq(users.isDeleted, false)));
 
 	return result.at(0)?.username;
 };
 
 export const getUser = async (userId: string) =>
-	db.select().from(users).where(eq(users.id, userId));
+	db.query.users.findFirst({
+		where: and(eq(users.id, userId), eq(users.isDeleted, false))
+	});
 
-export const getCountOfUsersFriends = async (userId: string) => {
-	const userCount = await db
-		.select({ count: count() })
-		.from(usersFriends)
-		.where(
-			or(eq(usersFriends.user1Id, userId), eq(usersFriends.user2Id, userId))
-		);
+export const checkUserNotDeleted = async (userId: string) => {
+	const user = await getUser(userId);
 
-	return userCount[0].count;
+	if (!user) {
+		throw new Error('User is deleted');
+	}
 };
 
-export const updateUser = async (updatedUser: UserFormSchema) => {
+export const checkUserIsSigned = async () => {
 	const session = await auth();
 	const userId = session?.user?.id;
 
 	if (!userId) {
 		throw new Error('Unexpected error, user is not signed in.');
 	}
+
+	return userId;
+};
+
+export const updateUser = async (updatedUser: UserFormSchema) => {
+	const userId = await checkUserIsSigned();
+	await checkUserNotDeleted(userId);
 
 	await db.transaction(async tx => {
 		// Update user details
@@ -76,5 +83,3 @@ export const updateUser = async (updatedUser: UserFormSchema) => {
 		}
 	});
 };
-
-export const getCurrentUser = async () => await auth();

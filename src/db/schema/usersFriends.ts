@@ -2,7 +2,8 @@ import {
 	integer,
 	primaryKey,
 	sqliteTable,
-	text
+	text,
+	unique
 } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
 
@@ -21,7 +22,8 @@ export const usersFriends = sqliteTable(
 		isPending: integer('isPending', { mode: 'boolean' }).default(false)
 	},
 	t => ({
-		pk: primaryKey({ columns: [t.user1Id, t.user2Id] })
+		pk: primaryKey({ columns: [t.user1Id, t.user2Id] }),
+		unq: unique().on(t.user2Id, t.user1Id)
 	})
 );
 
@@ -35,3 +37,5 @@ export const usersFriendsRelations = relations(usersFriends, ({ one }) => ({
 		references: [users.id]
 	})
 }));
+
+export type UsersFriends = typeof usersFriends.$inferSelect;
