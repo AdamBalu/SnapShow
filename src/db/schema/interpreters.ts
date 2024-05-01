@@ -12,7 +12,7 @@ export const interpreters = sqliteTable('interpreter', {
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
-export type Interpreters = typeof interpreters.$inferSelect;
+export type Interpreter = typeof interpreters.$inferSelect;
 
 export const interpretersRelations = relations(interpreters, ({ many }) => ({
 	interpretersToEvents: many(interpretersToEvents)
