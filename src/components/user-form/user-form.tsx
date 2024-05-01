@@ -25,7 +25,7 @@ const genreSchema = z.object({
 });
 
 const userFormSchema = z.object({
-	username: z.string().min(3),
+	username: z.string().min(3).max(32),
 	bio: z.string().max(1024).optional(),
 	genres: z.array(genreSchema),
 	userImage: z.string().optional()
@@ -62,7 +62,7 @@ export const UserForm = ({
 	};
 
 	return (
-		<div className="bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary p-8 sm:p-8 text-white flex flex-col gap-5 items-center mx-2 xl:w-1/2 mb-20">
+		<div className="bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary p-8 sm:p-8 text-white flex flex-col gap-5 items-center mx-2 xl:w-1/2">
 			<h1 className="text-xl sm:text-2xl md:text-4xl text-white font-sarpanch font-extrabold">
 				{heading}
 			</h1>

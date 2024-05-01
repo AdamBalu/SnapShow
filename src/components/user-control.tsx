@@ -26,7 +26,11 @@ export const UserControl = async () => {
 						Sign Out
 					</button>
 				</form>
-				<NavLink href="/profile" label="Profile" />
+				<NavLink
+					href="/user/[userId]"
+					as={`/user/${session?.user.id}`}
+					label="Profile"
+				/>
 			</ul>
 		</details>
 	);

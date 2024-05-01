@@ -1,7 +1,7 @@
 import { createUploadthing, type FileRouter } from 'uploadthing/next';
 import { UploadThingError } from '@uploadthing/shared';
 
-import { getCurrentUser } from '@/server-actions/user';
+import { getSignedUser } from '@/server-actions/user';
 
 const f = createUploadthing();
 
@@ -9,7 +9,7 @@ export const ourFileRouter = {
 	imageUploader: f({ image: { maxFileSize: '16MB' } })
 		.middleware(async () => {
 			// auth() must be wrapped with here with function with use server, db does not work otherwise
-			const session = await getCurrentUser();
+			const session = await getSignedUser();
 
 			const userId = session?.user?.id;
 
