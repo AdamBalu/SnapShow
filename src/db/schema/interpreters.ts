@@ -8,11 +8,12 @@ export const interpreters = sqliteTable('interpreter', {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text('name').notNull(),
+	imageUrl: text('imageUrl'),
 	description: text('description'),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
-export type Interpreters = typeof interpreters.$inferSelect;
+export type Interpreter = typeof interpreters.$inferSelect;
 
 export const interpretersRelations = relations(interpreters, ({ many }) => ({
 	interpretersToEvents: many(interpretersToEvents)

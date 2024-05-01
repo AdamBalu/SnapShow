@@ -7,6 +7,7 @@ export const venues = sqliteTable('venue', {
 	id: text('id')
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
+	name: text('name').notNull(),
 	address: text('address').notNull(),
 	zipCode: text('zipCode').notNull(),
 	country: text('country').notNull(),

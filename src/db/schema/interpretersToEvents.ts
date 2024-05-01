@@ -25,6 +25,8 @@ export const interpretersToEvents = sqliteTable(
 	})
 );
 
+export type InterpreterToEvent = typeof interpretersToEvents.$inferSelect;
+
 export const interpretersToEventsRelations = relations(
 	interpretersToEvents,
 	({ one }) => ({

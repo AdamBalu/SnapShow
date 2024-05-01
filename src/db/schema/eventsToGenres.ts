@@ -25,6 +25,8 @@ export const eventsToGenres = sqliteTable(
 	})
 );
 
+export type EventToGenre = typeof eventsToGenres.$inferSelect;
+
 export const eventsToGenresRelations = relations(eventsToGenres, ({ one }) => ({
 	genre: one(genres, {
 		fields: [eventsToGenres.genreId],
