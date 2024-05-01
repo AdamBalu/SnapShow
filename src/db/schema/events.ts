@@ -11,6 +11,7 @@ export const events = sqliteTable('event', {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	name: text('name').notNull(),
+	imageUrl: text('imageUrl'),
 	description: text('description'),
 	datetime: text('datetime').notNull(),
 	venueId: text('venueId')
