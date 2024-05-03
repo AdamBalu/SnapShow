@@ -9,7 +9,7 @@ const NewUserPage = async () => {
 	const session = await auth();
 
 	// User is already registered on website, redirect to home
-	if (!session?.user?.id || !session?.user.isRegistrationFinished) {
+	if (!session?.user?.id || session?.user.isRegistrationFinished) {
 		redirect('/');
 	}
 

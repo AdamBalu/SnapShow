@@ -17,8 +17,13 @@ export const UserControl = async () => {
 					{friendRequests}
 				</span>
 			)}
-			<details className="dropdown dropdown-end">
-				<summary role="button" className="btn btn-ghost btn-circle avatar">
+			<div className="dropdown dropdown-end">
+				<div
+					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+					tabIndex={0}
+					role="presentation"
+					className="btn btn-ghost btn-circle avatar"
+				>
 					<div className="w-10 rounded-full">
 						<Image
 							width={64}
@@ -27,8 +32,14 @@ export const UserControl = async () => {
 							src={session?.user?.image ?? '/static/user_placeholder.svg'}
 						/>
 					</div>
-				</summary>
-				<ul className="menu menu-sm dropdown-content bg-zinc-900 mt-3 z-[1] p-2 shadow rounded-box w-52">
+				</div>
+
+				<ul
+					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+					tabIndex={0}
+					role="presentation"
+					className="menu menu-sm dropdown-content bg-zinc-900 mt-3 z-[1] p-2 shadow rounded-box w-52"
+				>
 					<li>
 						<form
 							className="btn btn-ghost flex flex-col"
@@ -48,7 +59,7 @@ export const UserControl = async () => {
 						)}
 					</NavLink>
 				</ul>
-			</details>
+			</div>
 		</div>
 	);
 };
