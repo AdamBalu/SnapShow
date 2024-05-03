@@ -6,6 +6,7 @@ import { z } from 'zod';
 import { generateUploadButton } from '@uploadthing/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { useSession } from 'next-auth/react';
 
 import { cn } from '@/lib/cn';
 import { Button } from '@/components/ui/button';
@@ -50,11 +51,12 @@ export const UserForm = ({
 		resolver: zodResolver(userFormSchema)
 	});
 	const router = useRouter();
+	const session = useSession();
 
 	const onSubmit = async (values: UserFormSchema) => {
 		await updateUser(values)
 			.then(_ => {
-				router.push('/profile');
+				router.push(`/user/${session.data?.user?.id}`);
 			})
 			.catch(err => {
 				toast.error(err.message);

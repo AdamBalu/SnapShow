@@ -18,25 +18,46 @@ export const signOutAction = async () => {
 
 export const getSignedUser = async () => await auth();
 
-export const getUsername = async (userId: string) => {
+export const isRegistrationFinished = async (userId: string) => {
 	const result = await db
-		.select({ username: users.username })
+		.select({ registrationFinished: users.registrationFinished })
 		.from(users)
 		.where(and(eq(users.id, userId), eq(users.isDeleted, false)));
 
-	return result.at(0)?.username;
+	return result.at(0)?.registrationFinished;
 };
 
 export const getUser = async (userId: string) =>
 	db.query.users.findFirst({
-		where: and(eq(users.id, userId), eq(users.isDeleted, false))
+		where: and(
+			eq(users.id, userId),
+			eq(users.isDeleted, false),
+			eq(users.registrationFinished, true)
+		)
 	});
 
 export const checkUserNotDeleted = async (userId: string) => {
-	const user = await getUser(userId);
+	const user = await db
+		.select({ isDeleted: users.isDeleted })
+		.from(users)
+		.where(eq(users.id, userId));
 
-	if (!user) {
+	if (!user.at(0) || user.at(0)?.isDeleted) {
 		throw new Error('User is deleted');
+	}
+};
+
+export const checkUserIsValid = async (userId: string) => {
+	const user = await db
+		.select({
+			isDeleted: users.isDeleted,
+			registrationFinished: users.registrationFinished
+		})
+		.from(users)
+		.where(eq(users.id, userId));
+
+	if (user.at(0)?.isDeleted ?? !user.at(0)?.registrationFinished ?? true) {
+		throw new Error('User is deleted or did not finish his registration');
 	}
 };
 
@@ -62,7 +83,8 @@ export const updateUser = async (updatedUser: UserFormSchema) => {
 			.set({
 				username: updatedUser.username,
 				bio: updatedUser.bio,
-				image: updatedUser.userImage
+				image: updatedUser.userImage,
+				registrationFinished: true
 			})
 			.where(eq(users.id, userId));
 

@@ -20,11 +20,7 @@ export const FriendsInfoBanner = ({
 		<FriendsPreview userId={userId} />
 
 		{userId !== signedUserId && (
-			<FriendButton
-				signedUserId={signedUserId}
-				userId={userId}
-				friendStatus={friendStatus}
-			/>
+			<FriendButton userId={userId} friendStatus={friendStatus} />
 		)}
 	</div>
 );

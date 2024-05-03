@@ -1,16 +1,22 @@
 'use client';
 
 import Link from 'next/link';
-import { type ComponentProps } from 'react';
+import { type ComponentProps, type PropsWithChildren } from 'react';
 import { usePathname } from 'next/navigation';
 
 import { cn } from '@/lib/cn';
 
-type NavLinkProps = ComponentProps<typeof Link> & {
+type NavLinkProps = PropsWithChildren<ComponentProps<typeof Link>> & {
 	label: string;
 };
 
-export const NavLink = ({ className, href, label, ...props }: NavLinkProps) => {
+export const NavLink = ({
+	className,
+	href,
+	label,
+	children,
+	...props
+}: NavLinkProps) => {
 	const pathname = usePathname();
 
 	return (
@@ -25,6 +31,7 @@ export const NavLink = ({ className, href, label, ...props }: NavLinkProps) => {
 				{...props}
 			>
 				{label}
+				{children}
 			</Link>
 		</li>
 	);

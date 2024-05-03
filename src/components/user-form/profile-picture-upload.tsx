@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { Controller, useFormContext } from 'react-hook-form';
 
-import { Avatar } from '@/components/profile/avatar';
+import { Avatar } from '@/components/user/avatar';
 import { UploadButton } from '@/components/user-form/user-form';
 
 type AvatarProps = {
@@ -16,8 +16,11 @@ export const ProfilePictureUpload = ({ profilePicture, name }: AvatarProps) => {
 	const { register, control, setValue } = useFormContext();
 
 	return (
-		<div className="flex flex-col items-center">
-			<Avatar profilePicture={profilePic} />
+		<div className="flex flex-col items-center size-32 md:size-48">
+			<Avatar
+				className="size-32 p-1.5 md:p-2 md:size-48"
+				profilePicture={profilePic}
+			/>
 			<Controller
 				{...register(name)}
 				control={control}

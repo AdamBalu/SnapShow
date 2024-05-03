@@ -3,26 +3,22 @@
 import React, { type HTMLProps, useEffect, useState } from 'react';
 import { Ban, Mail, UserCheck, UserMinus, UserPlus } from 'lucide-react';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 
 import { type UsersFriends } from '@/db/schema/usersFriends';
 import { removeFriend, sendFriendRequest } from '@/server-actions/usersFriends';
 
 type AddFriendButtonProps = HTMLProps<HTMLButtonElement> & {
 	userId: string;
-	signedUserId: string;
 	friendStatus?: UsersFriends;
 };
 
 type FriendshipState = 'add' | 'pending' | 'friends';
 export const FriendButton = ({
 	userId,
-	signedUserId,
 	friendStatus
 }: AddFriendButtonProps) => {
 	const [friendshipState, setFriendshipState] = useState<FriendshipState>();
 	const [loading, setLoading] = useState(false);
-	const router = useRouter();
 
 	useEffect(() => {
 		setFriendshipState(
@@ -32,7 +28,7 @@ export const FriendButton = ({
 
 	const onFriendRequest = async () => {
 		setLoading(true);
-		await sendFriendRequest(signedUserId, userId)
+		await sendFriendRequest(userId)
 			.then(_ => {
 				setFriendshipState('pending');
 				setLoading(false);
@@ -44,14 +40,10 @@ export const FriendButton = ({
 
 	const onFriendRemove = async () => {
 		setLoading(true);
-		await removeFriend(signedUserId, userId)
+		await removeFriend(userId)
 			.then(_ => {
 				setFriendshipState('add');
 				setLoading(false);
-				if (friendshipState === 'friends') {
-					// Refresh friend count
-					router.refresh();
-				}
 			})
 			.catch(err => {
 				toast.error(err.message);
