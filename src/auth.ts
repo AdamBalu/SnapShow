@@ -4,7 +4,7 @@ import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import Google from '@auth/core/providers/google';
 import Facebook from '@auth/core/providers/facebook';
 
-import { getUsername } from '@/server-actions/user';
+import { isRegistrationFinished } from '@/server-actions/user';
 
 import { db } from './db';
 
@@ -25,7 +25,9 @@ export const authOptions = {
 	callbacks: {
 		session: async ({ session, user }) => {
 			session.user.id = user.id;
-			session.user.username = await getUsername(user.id);
+			session.user.isRegistrationFinished = await isRegistrationFinished(
+				user.id
+			);
 			return session;
 		},
 		authorized: ({ auth, request: { nextUrl } }) => {
@@ -35,7 +37,7 @@ export const authOptions = {
 			// New user must set its username
 			if (
 				isLoggedIn &&
-				auth?.user?.username === null &&
+				auth?.user?.isRegistrationFinished === false &&
 				nextUrl.pathname !== '/new-user'
 			) {
 				return Response.redirect(new URL('/new-user', nextUrl.origin));

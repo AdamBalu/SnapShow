@@ -24,7 +24,10 @@ export const users = sqliteTable('user', {
 	image: text('image'),
 	username: text('username').unique(),
 	bio: text('bio'),
-	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
+	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false),
+	registrationFinished: integer('registrationFinished', {
+		mode: 'boolean'
+	}).default(false)
 });
 
 export const accounts = sqliteTable(
