@@ -11,6 +11,12 @@ import {
 	interpretersToEvents
 } from '@/db/schema/interpretersToEvents';
 import { type EventToGenre, eventsToGenres } from '@/db/schema/eventsToGenres';
+import {
+	type Attraction,
+	type Image,
+	type TicketMasterEvent,
+	type EventVenue
+} from '@/types/ticket-master-data';
 
 const baseUrl = 'https://app.ticketmaster.com';
 const apiKey = process.env.TICKETMASTER_API_KEY;
@@ -20,7 +26,6 @@ type AttractionData = {
 	genre: Genre;
 };
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export const getTicketmasterEvents = async () => {
 	const result = await fetch(
 		`${baseUrl}/discovery/v2/events.json?countryCode=CZ&apikey=${apiKey}`,
@@ -56,7 +61,7 @@ export const getTicketmasterEvents = async () => {
 	return Response.json(data);
 };
 
-const loadData = async (eventsJson: any) => {
+const loadData = async (eventsJson: TicketMasterEvent[]) => {
 	for (let i = 0; i < eventsJson.length; i++) {
 		const eventJson = eventsJson[i];
 		const attractionData: AttractionData[] = [];
@@ -65,31 +70,25 @@ const loadData = async (eventsJson: any) => {
 			continue;
 		}
 
-		for (let j = 0; j < eventJson._links.attractions.length; j++) {
-			const { interpreter, genre } = await getAttractionData(
-				`${baseUrl}${eventJson._links.attractions[j].href}&apikey=${apiKey}`
-			);
+		const eventVenue = eventJson._embedded.venues[0];
+		const eventAttractions = eventJson._embedded.attractions;
+		for (let j = 0; j < eventAttractions.length; j++) {
+			const { interpreter, genre } = getAttractionData(eventAttractions[j]);
 
-			console.log(
-				`${baseUrl}${eventJson._links.attractions[j].href}&apikey=${apiKey}`
-			);
+			console.log(eventAttractions[j].name);
 
 			// append 'Music' genres with correstonping interprets
 			if (interpreter !== null && genre !== null) {
 				attractionData.push({ interpreter, genre });
 			}
-
-			await new Promise(resolve => setTimeout(resolve, 2000));
 		}
 
-		const venue = await getVenueData(
-			`${baseUrl}${eventJson._links.venues[0].href}&apikey=${apiKey}`
-		);
+		const venue = getVenueData(eventVenue);
 
 		// check if there are any genres related to 'Music' type
 		if (venue !== null && attractionData.length !== 0) {
 			const images = eventJson.images.filter(
-				(image: any) => image.width === 1024 && image.height === 683
+				(image: Image) => image.width === 1024 && image.height === 683
 			);
 
 			const event: Event = {
@@ -111,7 +110,7 @@ const loadData = async (eventsJson: any) => {
 				await updateGenreToEvent(event, attraction.genre);
 			});
 		}
-		await new Promise(resolve => setTimeout(resolve, 2000));
+		await new Promise(resolve => setTimeout(resolve, 500));
 	}
 };
 
@@ -163,6 +162,7 @@ const updateGenreToEvent = async (event: Event, genre: Genre) => {
 };
 
 const updateDbData = async (
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	table: SQLiteTableWithColumns<any>,
 	data: Event | Venue | Interpreter | Genre
 ) => {
@@ -176,54 +176,44 @@ const updateDbData = async (
 	return updateData;
 };
 
-const getVenueData = async (venueURL: string) => {
-	const result = await fetch(venueURL, {
-		cache: 'no-store'
-	});
-	const data = await result.json();
-
-	let venue: Venue | null = null;
-	venue = {
-		id: data.id,
-		name: data.name,
-		address: data.address ? data.address.line1 : '',
-		zipCode: data.postalCode,
-		country: data.country ? data.country.name : '',
+const getVenueData = (eventVenue: EventVenue) => {
+	const venue = {
+		id: eventVenue.id,
+		name: eventVenue.name,
+		address: eventVenue.address ? eventVenue.address.line1 : '',
+		zipCode: eventVenue.postalCode,
+		country: eventVenue.country ? eventVenue.country.name : '',
 		isDeleted: false
 	};
 
 	return venue;
 };
 
-const getAttractionData = async (attractionURL: string) => {
-	const result = await fetch(attractionURL, {
-		cache: 'no-store'
-	});
-	const data = await result.json();
+const getAttractionData = (attraction: Attraction) => {
 	let interpreter: Interpreter | null = null;
 	let genre: Genre | null = null;
 
 	// ignore genres that are not 'Music'
 	if (
-		data.classifications !== undefined &&
-		data.length !== null &&
-		data.classifications.length > 0 &&
-		data.classifications[0].segment.name === 'Music'
+		attraction.classifications !== undefined &&
+		attraction !== null &&
+		attraction.classifications.length > 0 &&
+		attraction.classifications[0].segment.name === 'Music'
 	) {
 		//console.log(data.images);
-		const images = data.images.filter(
-			(image: any) => image.width === 1024 && image.height === 683
+		const images = attraction.images.filter(
+			(image: Image) => image.width === 1024 && image.height === 683
 		);
 
 		interpreter = {
-			id: data.id,
-			name: data.name,
+			id: attraction.id,
+			name: attraction.name,
 			description: '',
 			imageUrl: images && images.length > 0 ? images[0].url : null,
 			isDeleted: false
 		};
 
-		const genreData = data.classifications[0].genre;
+		const genreData = attraction.classifications[0].genre;
 		genre = {
 			id: genreData.id,
 			name: genreData.name,
