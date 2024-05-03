@@ -38,7 +38,11 @@ export const FriendRemoveButton = ({
 				toast.error(err.message);
 			})
 			.finally(() => {
-				document.getElementById(`modal-${friendId}`)?.close();
+				if (document) {
+					(
+						document.getElementById(`modal-${friendId}`) as HTMLFormElement
+					).close();
+				}
 				setLoading(false);
 			});
 	};
@@ -46,9 +50,13 @@ export const FriendRemoveButton = ({
 	return (
 		<>
 			<button
-				onClick={() =>
-					document.getElementById(`modal-${friendId}`)?.showModal()
-				}
+				onClick={() => {
+					if (document) {
+						(
+							document.getElementById(`modal-${friendId}`) as HTMLFormElement
+						).showModal();
+					}
+				}}
 				{...props}
 				className={cn(
 					'size-auto self-center md:-mt-4 md:-mr-8 md:-mb-6 md:self-end',
