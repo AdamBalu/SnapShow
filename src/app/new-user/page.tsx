@@ -21,6 +21,8 @@ const NewUserPage = async () => {
 			heading="Welcome to SnapShow"
 			genres={genres}
 			usersGenres={[]}
+			bio={undefined}
+			username={undefined}
 		/>
 	);
 };
