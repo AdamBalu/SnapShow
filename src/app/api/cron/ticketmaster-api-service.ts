@@ -20,6 +20,7 @@ import {
 
 const baseUrl = 'https://app.ticketmaster.com';
 const apiKey = process.env.TICKETMASTER_API_KEY;
+const country = 'CZ';
 
 type AttractionData = {
 	interpreter: Interpreter;
@@ -28,7 +29,7 @@ type AttractionData = {
 
 export const getTicketmasterEvents = async () => {
 	const result = await fetch(
-		`${baseUrl}/discovery/v2/events.json?countryCode=CZ&apikey=${apiKey}`,
+		`${baseUrl}/discovery/v2/events.json?countryCode=${country}&apikey=${apiKey}`,
 		{
 			cache: 'no-store'
 		}
@@ -38,15 +39,14 @@ export const getTicketmasterEvents = async () => {
 	let items = data._embedded.events;
 
 	let pageNumber = 0;
-	const maxPageNumber = data.page.totalPages - 1;
+	const maxPageNumber = data.page.totalPages;
 
 	while (pageNumber !== maxPageNumber) {
-		pageNumber++;
 		console.log(`CURRENT PAGE: ${pageNumber}`);
-		console.log(`MAX PAGE: ${maxPageNumber}`);
+		console.log(`MAX PAGE: ${maxPageNumber - 1}`);
 
 		const result = await fetch(
-			`${baseUrl}/discovery/v2/events.json?page=${pageNumber}&countryCode=CZ&apikey=${apiKey}`,
+			`${baseUrl}/discovery/v2/events.json?page=${pageNumber}&countryCode=${country}&apikey=${apiKey}`,
 			{
 				cache: 'no-store'
 			}
@@ -55,7 +55,12 @@ export const getTicketmasterEvents = async () => {
 		data = await result.json();
 		items = data._embedded.events;
 
-		await loadData(items);
+		if (items !== undefined && items.length > 0) {
+			await loadData(items);
+		} else {
+			console.log('empty event list');
+		}
+		pageNumber++;
 	}
 
 	return Response.json(data);
@@ -66,20 +71,17 @@ const loadData = async (eventsJson: TicketMasterEvent[]) => {
 		const eventJson = eventsJson[i];
 		const attractionData: AttractionData[] = [];
 
-		if (eventJson === undefined) {
-			continue;
-		}
-
 		const eventVenue = eventJson._embedded.venues[0];
 		const eventAttractions = eventJson._embedded.attractions;
-		for (let j = 0; j < eventAttractions.length; j++) {
-			const { interpreter, genre } = getAttractionData(eventAttractions[j]);
 
-			console.log(eventAttractions[j].name);
+		if (eventAttractions !== undefined && eventAttractions.length > 0) {
+			for (let j = 0; j < eventAttractions.length; j++) {
+				const { interpreter, genre } = getAttractionData(eventAttractions[j]);
 
-			// append 'Music' genres with correstonping interprets
-			if (interpreter !== null && genre !== null) {
-				attractionData.push({ interpreter, genre });
+				// append 'Music' genres with correstonping interprets
+				if (interpreter !== null && genre !== null) {
+					attractionData.push({ interpreter, genre });
+				}
 			}
 		}
 
@@ -95,7 +97,10 @@ const loadData = async (eventsJson: TicketMasterEvent[]) => {
 				id: eventJson.id,
 				name: eventJson.name,
 				description: '',
-				datetime: eventJson.dates.start.dateTime ?? '1970-01-01T00:00:01Z',
+				datetime:
+					eventJson.dates.start.dateTime ??
+					eventJson.dates.start.localDate ??
+					'0000-00-00',
 				venueId: venue.id,
 				imageUrl: images && images.length > 0 ? images[0].url : null,
 				isDeleted: false
@@ -135,7 +140,15 @@ const updateInterpretToEvent = async (
 		);
 
 	if (res.length === 0) {
-		await db.insert(interpretersToEvents).values(interpreterToEvent);
+		await db
+			.insert(interpretersToEvents)
+			.values(interpreterToEvent)
+			.onConflictDoNothing({
+				target: [
+					interpretersToEvents.eventId,
+					interpretersToEvents.interpreterId
+				]
+			});
 	}
 };
 
@@ -157,7 +170,12 @@ const updateGenreToEvent = async (event: Event, genre: Genre) => {
 		);
 
 	if (res.length === 0) {
-		await db.insert(eventsToGenres).values(eventToGenre);
+		await db
+			.insert(eventsToGenres)
+			.values(eventToGenre)
+			.onConflictDoNothing({
+				target: [eventsToGenres.eventId, eventsToGenres.genreId]
+			});
 	}
 };
 
@@ -179,9 +197,9 @@ const updateDbData = async (
 const getVenueData = (eventVenue: EventVenue) => {
 	const venue = {
 		id: eventVenue.id,
-		name: eventVenue.name,
+		name: eventVenue.name ?? '',
 		address: eventVenue.address ? eventVenue.address.line1 : '',
-		zipCode: eventVenue.postalCode,
+		zipCode: eventVenue.postalCode ?? '',
 		country: eventVenue.country ? eventVenue.country.name : '',
 		isDeleted: false
 	};
@@ -200,7 +218,6 @@ const getAttractionData = (attraction: Attraction) => {
 		attraction.classifications.length > 0 &&
 		attraction.classifications[0].segment.name === 'Music'
 	) {
-		//console.log(data.images);
 		const images = attraction.images.filter(
 			(image: Image) => image.width === 1024 && image.height === 683
 		);
