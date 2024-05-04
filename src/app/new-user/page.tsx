@@ -16,14 +16,12 @@ const NewUserPage = async () => {
 	const genres = await getAllGenres();
 
 	return (
-		<div className="flex justify-center items-center">
-			<UserForm
-				userImage={session?.user?.image}
-				heading="Welcome to SnapShow"
-				genres={genres}
-				usersGenres={[]}
-			/>
-		</div>
+		<UserForm
+			userImage={session?.user?.image}
+			heading="Welcome to SnapShow"
+			genres={genres}
+			usersGenres={[]}
+		/>
 	);
 };
 

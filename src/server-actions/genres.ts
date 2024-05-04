@@ -1,6 +1,6 @@
 'use server';
 
-import { eq } from 'drizzle-orm';
+import { and, eq } from "drizzle-orm";
 
 import { db } from '@/db';
 import { users } from '@/db/schema/users';
@@ -18,7 +18,7 @@ export const getUsersFavoriteGenres = async (userId: string) =>
 		.from(users)
 		.innerJoin(usersToGenres, eq(users.id, usersToGenres.userId))
 		.innerJoin(genres, eq(genres.id, usersToGenres.genreId))
-		.where(eq(users.id, userId));
+		.where(and(eq(users.id, userId), eq(usersToGenres.isDeleted, false), eq(genres.isDeleted, false)));
 
 export const getAllGenres = async () =>
 	db.select().from(genres).where(eq(genres.isDeleted, false));

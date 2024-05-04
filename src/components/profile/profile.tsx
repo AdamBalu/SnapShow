@@ -24,7 +24,7 @@ export const Profile = async ({ user }: ProfileProps) => {
 
 	return (
 		<div className="flex flex-col items-center mx-2 xl:w-1/2">
-			<div className="py-8 p-8 w-[100%] md:px-16 mt-16 font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary text-white flex flex-col gap-10 items-center">
+			<div className="py-8 p-8 md:px-16 mt-16 font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary text-white flex flex-col gap-10 items-center">
 				<div className="font-sarpanch -mt-24 items-center flex flex-col gap-4 md:mt-0 md:flex-row md:gap-20 md:w-full md:justify-evenly">
 					<Avatar
 						className="md:-mt-28 p-1.5 md:p-2 size-32 md:size-48"
@@ -47,13 +47,13 @@ export const Profile = async ({ user }: ProfileProps) => {
 						<span className="font-sarpanch">Bio</span>
 						<p className="text-sm md:text-md text-justify">{user?.bio}</p>
 					</div>
-					<div className="flex flex-col gap-3 w-[100%]">
+					<div className="flex flex-col gap-3">
 						<span className="font-sarpanch">Favorite genres</span>
-						<div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
+						<ul className="flex gap-5 flex-wrap justify-evenly md:justify-start">
 							{usersGenres.map(genre => (
 								<GenreItem key={genre.id} {...genre} />
 							))}
-						</div>
+						</ul>
 					</div>
 				</div>
 			</div>

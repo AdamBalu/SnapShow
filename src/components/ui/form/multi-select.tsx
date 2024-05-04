@@ -3,7 +3,6 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Multiselect } from 'multiselect-react-dropdown';
 import { CircleX } from 'lucide-react';
-import React from 'react';
 
 type MultiSelectInputProps<T> = {
 	label: string;
