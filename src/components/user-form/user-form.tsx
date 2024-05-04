@@ -35,6 +35,8 @@ const userFormSchema = z.object({
 export type UserFormSchema = z.infer<typeof userFormSchema>;
 
 type UserFormProps = {
+	username: string | null | undefined;
+	bio: string | null | undefined;
 	heading: string;
 	userImage: string | null | undefined;
 	genres: Genre[];
@@ -45,10 +47,18 @@ export const UserForm = ({
 	heading,
 	userImage,
 	usersGenres,
-	genres
+	genres,
+	username,
+	bio
 }: UserFormProps) => {
 	const form = useForm<UserFormSchema>({
-		resolver: zodResolver(userFormSchema)
+		resolver: zodResolver(userFormSchema),
+		defaultValues: {
+			genres: usersGenres,
+			bio: bio ?? undefined,
+			username: username ?? undefined,
+			userImage: userImage ?? undefined
+		}
 	});
 	const router = useRouter();
 	const session = useSession();

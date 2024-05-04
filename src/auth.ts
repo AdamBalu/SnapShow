@@ -38,9 +38,9 @@ export const authOptions = {
 			if (
 				isLoggedIn &&
 				auth?.user?.isRegistrationFinished === false &&
-				nextUrl.pathname !== '/new-user'
+				nextUrl.pathname !== '/registration'
 			) {
-				return Response.redirect(new URL('/new-user', nextUrl.origin));
+				return Response.redirect(new URL('/registration', nextUrl.origin));
 			}
 
 			if (!isLoggedIn && isProtected) {

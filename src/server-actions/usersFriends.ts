@@ -76,8 +76,8 @@ export const removeFriend = async (friendId: string) => {
 			)
 		);
 
-	revalidatePath('/friends', 'page');
-	revalidatePath('/user/[userId]', 'page');
+	revalidatePath('/friends');
+	revalidatePath(`/user/${userId}`);
 };
 
 export const getUsersFriends = async (userId: string, limit?: number) =>

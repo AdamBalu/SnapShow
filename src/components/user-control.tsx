@@ -58,6 +58,7 @@ export const UserControl = async () => {
 							</span>
 						)}
 					</NavLink>
+					<NavLink href="/edit-details" label="Edit profile" />
 				</ul>
 			</div>
 		</div>

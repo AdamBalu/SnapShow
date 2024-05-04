@@ -1,6 +1,7 @@
 'use server';
 
 import { and, eq } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 import { auth, signIn, signOut } from '@/auth';
 import { db } from '@/db';
@@ -104,4 +105,6 @@ export const updateUser = async (updatedUser: UserFormSchema) => {
 				});
 		}
 	});
+
+	revalidatePath(`/user/${userId}`);
 };
