@@ -3,8 +3,6 @@
 import { Controller, useFormContext } from 'react-hook-form';
 import { Multiselect } from 'multiselect-react-dropdown';
 import { CircleX } from 'lucide-react';
-import { useEffect } from 'react';
-
 type MultiSelectInputProps<T> = {
 	label: string;
 	name: string;
@@ -20,7 +18,7 @@ export const MultiSelectInput = <T,>({
 	displayValue,
 	selectedValues
 }: MultiSelectInputProps<T>) => {
-	const { register, control, setValue } = useFormContext();
+	const { register, control } = useFormContext();
 
 	return (
 		<label htmlFor={name} className="form-control w-full">
