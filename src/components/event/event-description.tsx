@@ -13,7 +13,7 @@ export const EventDescription = ({ event }: EventDetailProps) => (
 			<h1 className="text-xl sm:text-3xl md:text-2xl font-sarpanch font-extrabold">
 				{event.name}
 			</h1>
-			<Button className="flex mr-3 h-1 sm:h-16 text-sm px-2 py-0 sm:px-3 sm:py-1 md:px-8 lg:py-2">
+			<Button className="flex mr-3 h-1 sm:h-16 text-xs px-2 py-0 sm:px-3 sm:py-1 md:px-8 lg:py-2">
 				<Image
 					width={24}
 					height={24}

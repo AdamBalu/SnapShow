@@ -1,8 +1,9 @@
 import React, { Suspense } from 'react';
 import { notFound } from 'next/navigation';
+
 import { Loader } from '@/components/loader';
-import { getEvent } from "@/server-actions/events";
-import { EventDetail } from "@/components/event/event-detail";
+import { getEvent } from '@/server-actions/events';
+import { EventDetail } from '@/components/event/event-detail';
 
 type EventPageProps = {
 	params: {

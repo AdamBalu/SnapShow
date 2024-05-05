@@ -10,7 +10,7 @@ export const EventDescriptionAttribute = ({
 	description,
 	iconSrc
 }: EventDescriptionAttributeProps) => (
-	<div className="flex gap-3 items-center p-4 text-sm sm:text-md">
+	<div className="flex gap-3 items-center p-4 text-xs sm:text-base">
 		<Image
 			width={24}
 			height={24}
