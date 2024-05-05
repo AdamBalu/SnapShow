@@ -21,7 +21,7 @@ const SignInLayout = async ({
 				</div>
 			</div>
 		</header>
-		<main className="container mt-10 w-full flex flex-col gap-10 justify-center items-center">
+		<main className="container mt-10 px-3 flex justify-center items-center">
 			{children}
 		</main>
 	</>

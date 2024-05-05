@@ -19,7 +19,7 @@ const UserPage = async ({ params }: UserPageProps) => {
 	}
 
 	return (
-		<div className="flex flex-col items-center">
+		<div className="flex flex-col items-center lg:px-32">
 			<Suspense fallback={<Loader />}>
 				<Profile user={user} />
 			</Suspense>

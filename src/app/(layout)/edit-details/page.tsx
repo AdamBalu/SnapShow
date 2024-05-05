@@ -14,7 +14,7 @@ const NewUserPage = async () => {
 	const user = await getUser(session.user.id);
 
 	return (
-		<div className="flex justify-center items-center">
+		<div className="flex flex-grow justify-center items-center">
 			<UserForm
 				username={user?.username}
 				bio={user?.bio}

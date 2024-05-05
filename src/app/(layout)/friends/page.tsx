@@ -14,7 +14,7 @@ const FriendsPage = async () => {
 	const friends = await getUsersFriends(signedUserId);
 
 	return (
-		<div className="mx-2 md:mx-32 flex flex-col gap-8 items-center md:items-start">
+		<div className="flex flex-col gap-8 items-center md:items-start lg:px-32">
 			{friendRequests.length > 0 && (
 				<>
 					<h2 className="font-sarpanch text-xl md:text-3xl text-white font-extrabold">
