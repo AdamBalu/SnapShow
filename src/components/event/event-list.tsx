@@ -1,26 +1,35 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useRouter } from 'next/navigation';
 
-import { type Event } from '@/db/schema/events';
 import { Loader } from '@/components/loader';
 import { type Genre } from '@/db/schema/genre';
-import { displayableDateTime, formatDate } from '@/utils/date-time-converter';
+import { formatDate } from '@/utils/date-time-converter';
 import { useEventList } from '@/hooks/event-list';
-import { type Dates } from '@/types/event-data';
+import {
+	type EventsListData,
+	type Dates,
+	type EventFilterSortColumn
+} from '@/types/event-data';
 
+import { SortButton, type SortType } from './sort-button';
 import {
 	EventFilter,
 	type EventGenre,
 	type EventFilterSchema
 } from './event-filter';
+import { EventCard } from './event-card';
 
 type EventListProps = {
-	initialEvents: Event[];
+	initialEvents: EventsListData[];
 	genres: Genre[];
+};
+
+type Sort = {
+	sortType: SortType;
+	sortColumn: EventFilterSortColumn;
 };
 
 export const EventList = ({ initialEvents, genres }: EventListProps) => {
@@ -32,6 +41,10 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 		50
 	);
 
+	const [activeFilter, setActiveFilter] = useState<EventFilterSortColumn>(null);
+	const [sortType, setSortType] = useState<SortType>(null);
+
+	const [sort, setSort] = useState<Sort>({ sortType: null, sortColumn: null });
 	const [filter, setFilter] = useState<string>('');
 	const [selectedGenres, setSelectedGenres] = useState<EventGenre[]>([]);
 	const [selecteDates, setSelectedDates] = useState<Dates>({
@@ -42,9 +55,11 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 	const filterData = (
 		eventName: string,
 		genres: EventGenre[],
-		dates: Dates
+		dates: Dates,
+		sortColumn: EventFilterSortColumn,
+		sortType: SortType
 	) => {
-		fetchData(true, eventName, genres, dates, 1);
+		fetchData(true, eventName, genres, dates, sortColumn, sortType, 1);
 	};
 
 	const onSubmit = async (values: EventFilterSchema) => {
@@ -59,7 +74,13 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 		};
 
 		setSelectedDates(dates);
-		filterData(values.eventName, values.genres ?? [], dates);
+		filterData(
+			values.eventName,
+			values.genres ?? [],
+			dates,
+			sort.sortColumn,
+			sort.sortType
+		);
 	};
 
 	const onEventClick = (eventId: string) => {
@@ -67,6 +88,44 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 	};
 
 	const router = useRouter();
+
+	const sortData = (sortColumn: EventFilterSortColumn, direction: SortType) => {
+		setSort({
+			sortColumn,
+			sortType: direction
+		});
+		filterData(
+			filter,
+			selectedGenres ?? [],
+			selecteDates,
+			sortColumn,
+			direction
+		);
+	};
+
+	const onCountrySort = (direction: SortType) => {
+		if (!loading) {
+			const sortColumn = direction ? 'country' : null;
+			sortData(sortColumn, direction);
+		}
+	};
+
+	const onNameSort = (direction: SortType) => {
+		if (!loading) {
+			const sortColumn = direction ? 'name' : null;
+			sortData(sortColumn, direction);
+		}
+	};
+
+	const onDateTimeSort = (direction: SortType) => {
+		if (!loading) {
+			const sortColumn = direction ? 'date' : null;
+			sortData(sortColumn, direction);
+		}
+	};
+
+	useEffect(() => console.log(sortType), [sortType]);
+	useEffect(() => console.log(activeFilter), [activeFilter]);
 
 	return (
 		<div>
@@ -76,10 +135,50 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 				usersGenres={[]}
 				loading={loading}
 			/>
+			<div className="flex gap-x-4 mb-5 ml-2">
+				<SortButton
+					label="Country"
+					name="country"
+					sortType={sortType}
+					activeFilter={activeFilter}
+					setActiveFilter={setActiveFilter}
+					setSortType={setSortType}
+					onSort={onCountrySort}
+					disabled={loading}
+				/>
+				<SortButton
+					label="Name"
+					name="name"
+					sortType={sortType}
+					activeFilter={activeFilter}
+					setActiveFilter={setActiveFilter}
+					setSortType={setSortType}
+					onSort={onNameSort}
+					disabled={loading}
+				/>
+				<SortButton
+					label="Date"
+					name="date"
+					sortType={sortType}
+					activeFilter={activeFilter}
+					setActiveFilter={setActiveFilter}
+					setSortType={setSortType}
+					onSort={onDateTimeSort}
+					disabled={loading}
+				/>
+			</div>
+
 			<InfiniteScroll
 				dataLength={eventList.length}
 				next={async () =>
-					await fetchData(false, filter, selectedGenres, selecteDates)
+					await fetchData(
+						false,
+						filter,
+						selectedGenres,
+						selecteDates,
+						sort.sortColumn,
+						sort.sortType
+					)
 				}
 				hasMore={hasMore}
 				loader={
@@ -88,30 +187,14 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 					</div>
 				}
 			>
-				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
 					{eventList ? (
 						eventList.map(event => (
-							<button
-								onClick={() => onEventClick(event.id)}
-								key={event.id}
-								className="min-w-[30%] max-w-[100%] flex flex-col m-4 bg-zinc-900 border-primary-shadow shadow rounded-lg transform hover:scale-105 transition-transform duration-300 hover:cursor-pointer"
-							>
-								<Image
-									alt={`Image of ${event.name}`}
-									src={event.imageUrl ?? ''}
-									width={300}
-									height={150}
-									layout="responsive"
-									className="rounded-t-lg"
-								/>
-								<div className="flex flex-col p-4">
-									<span>{displayableDateTime(new Date(event.datetime))}</span>
-									<span>
-										<b>{event.name}</b>
-									</span>
-									<span>{event.id}</span>
-								</div>
-							</button>
+							<EventCard
+								event={event}
+								onClick={onEventClick}
+								key={event.eventId}
+							/>
 						))
 					) : (
 						<div>e</div>
