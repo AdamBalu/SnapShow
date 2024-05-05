@@ -48,7 +48,7 @@ export const SortButton = ({
 		<Button
 			disabled={disabled}
 			onClick={() => changeSortState()}
-			className="bg-zinc-900 text-primary hover:bg-zinc-800 disabled:bg-zinc-700"
+			className="bg-zinc-900 text-primary hover:bg-zinc-800 disabled:bg-zinc-700 text-sm p-3"
 		>
 			{label}
 			{sortType && name === activeFilter ? (
