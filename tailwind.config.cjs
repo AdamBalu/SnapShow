@@ -10,6 +10,11 @@ export default withUt({
         'primary': "#08D9D6",
         'primary-shadow': "#099E9C"
       },
+      backgroundImage: {
+        'body-main': "url('/static/background.svg')",
+      },
+
+
       container: {
         center: true
       },

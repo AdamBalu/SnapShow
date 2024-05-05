@@ -26,7 +26,9 @@ const RootLayout = ({
 			<meta name="msapplication-TileColor" content="#da532c" />
 			<meta name="theme-color" content="#ffffff" />
 		</head>
-		<body className={`h-screen flex flex-col ${poppins.className}`}>
+		<body
+			className={`h-screen flex flex-col ${poppins.className} bg-body-main bg-repeat-y`}
+		>
 			<Providers>{children}</Providers>
 			<Toaster position="bottom-right" richColors />
 		</body>

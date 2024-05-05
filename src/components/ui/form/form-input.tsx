@@ -1,6 +1,6 @@
 'use client';
 
-import { type HTMLProps } from 'react';
+import React, { type HTMLProps } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/cn';
@@ -8,11 +8,13 @@ import { cn } from '@/lib/cn';
 type FormInputProps = HTMLProps<HTMLInputElement> & {
 	label: string;
 	name: string;
+	icon?: React.ReactNode;
 };
 
 export const FormInput = ({
 	label,
 	name,
+	icon,
 	className,
 	...inputProps
 }: FormInputProps) => {
@@ -28,18 +30,21 @@ export const FormInput = ({
 					{label}
 				</span>
 			</div>
-			<input
-				id={name}
-				className={cn(
-					'input input-bordered w-full border-primary focus:border-primary',
-					errors[name] && 'input-error',
-					className
-				)}
-				{...inputProps}
-				{...register(name, {
-					valueAsNumber: inputProps.type === 'number'
-				})}
-			/>
+			<div className="relative">
+				<input
+					id={name}
+					className={cn(
+						'input input-bordered w-full border-primary focus:border-primary',
+						errors[name] && 'input-error',
+						className
+					)}
+					{...inputProps}
+					{...register(name, {
+						valueAsNumber: inputProps.type === 'number'
+					})}
+				/>
+				{icon && <div className="absolute right-3 top-2.5">{icon}</div>}
+			</div>
 
 			{errors[name] && (
 				<span className="mt-2 text-sm text-error">
