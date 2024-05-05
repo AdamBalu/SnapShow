@@ -8,7 +8,8 @@ export default withUt({
     extend: {
       colors: {
         'primary': "#08D9D6",
-        'primary-shadow': "#099E9C"
+        'primary-shadow': "#099E9C",
+        'secondary': "#1D232A",
       },
       backgroundImage: {
         'body-main': "url('/static/background.svg')",

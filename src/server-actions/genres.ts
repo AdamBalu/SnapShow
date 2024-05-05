@@ -6,6 +6,7 @@ import { db } from '@/db';
 import { users } from '@/db/schema/users';
 import { usersToGenres } from '@/db/schema/usersToGenres';
 import { genres } from '@/db/schema/genre';
+import { eventsToGenres } from '@/db/schema/eventsToGenres';
 
 export const getUsersFavoriteGenres = async (userId: string) =>
 	db
@@ -28,3 +29,17 @@ export const getUsersFavoriteGenres = async (userId: string) =>
 
 export const getAllGenres = async () =>
 	db.select().from(genres).where(eq(genres.isDeleted, false));
+
+export const getEventGenres = async (eventId: string) =>
+	db
+		.select({
+			id: genres.id,
+			name: genres.name,
+			icon: genres.icon,
+			isDeleted: genres.isDeleted
+		})
+		.from(eventsToGenres)
+		.innerJoin(genres, eq(genres.id, eventsToGenres.genreId))
+		.where(
+			and(eq(eventsToGenres.eventId, eventId), eq(genres.isDeleted, false))
+		);
