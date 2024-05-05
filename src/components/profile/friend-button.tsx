@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 
 import { type UsersFriends } from '@/db/schema/usersFriends';
 import { removeFriend, sendFriendRequest } from '@/server-actions/usersFriends';
+import { ControlButton } from '@/components/ui/control-button';
 
 type AddFriendButtonProps = HTMLProps<HTMLButtonElement> & {
 	userId: string;
@@ -53,7 +54,7 @@ export const FriendButton = ({
 	return (
 		<div className="flex flex-col md:flex-row gap-4">
 			{friendshipState === 'add' && (
-				<button
+				<ControlButton
 					onClick={onFriendRequest}
 					className="flex text-black justify-center rounded-2xl font-sarpanch border-0 btn btn-xs bg-primary py-0 h-3 px-4 text-xs sm:text-xs w-36 hover:bg-primary"
 				>
@@ -65,7 +66,7 @@ export const FriendButton = ({
 							<span>Add friend</span>
 						</div>
 					)}
-				</button>
+				</ControlButton>
 			)}
 			{friendshipState !== 'add' && (
 				<details className="dropdown dropdown-end">

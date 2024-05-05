@@ -12,7 +12,6 @@ type AvatarProps = {
 
 export const ProfilePictureUpload = ({ profilePicture, name }: AvatarProps) => {
 	const [profilePic, setProfilePic] = useState(profilePicture);
-
 	const { register, control, setValue } = useFormContext();
 
 	return (

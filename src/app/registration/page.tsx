@@ -5,7 +5,7 @@ import { UserForm } from '@/components/user-form/user-form';
 import { auth } from '@/auth';
 import { getAllGenres } from '@/server-actions/genres';
 
-const NewUserPage = async () => {
+const RegistrationPage = async () => {
 	const session = await auth();
 
 	// User is already registered on website, redirect to home
@@ -16,15 +16,15 @@ const NewUserPage = async () => {
 	const genres = await getAllGenres();
 
 	return (
-		<div className="flex justify-center items-center">
-			<UserForm
-				userImage={session?.user?.image}
-				heading="Welcome to SnapShow"
-				genres={genres}
-				usersGenres={[]}
-			/>
-		</div>
+		<UserForm
+			userImage={session?.user?.image}
+			heading="Welcome to SnapShow"
+			genres={genres}
+			usersGenres={[]}
+			bio={undefined}
+			username={undefined}
+		/>
 	);
 };
 
-export default NewUserPage;
+export default RegistrationPage;

@@ -26,7 +26,7 @@ const genreSchema = z.object({
 });
 
 const userFormSchema = z.object({
-	username: z.string().min(3).max(32),
+	username: z.string().min(3).max(16),
 	bio: z.string().max(1024).optional(),
 	genres: z.array(genreSchema),
 	userImage: z.string().optional()
@@ -35,6 +35,8 @@ const userFormSchema = z.object({
 export type UserFormSchema = z.infer<typeof userFormSchema>;
 
 type UserFormProps = {
+	username: string | null | undefined;
+	bio: string | null | undefined;
 	heading: string;
 	userImage: string | null | undefined;
 	genres: Genre[];
@@ -45,10 +47,18 @@ export const UserForm = ({
 	heading,
 	userImage,
 	usersGenres,
-	genres
+	genres,
+	username,
+	bio
 }: UserFormProps) => {
 	const form = useForm<UserFormSchema>({
-		resolver: zodResolver(userFormSchema)
+		resolver: zodResolver(userFormSchema),
+		defaultValues: {
+			genres: usersGenres,
+			bio: bio ?? undefined,
+			username: username ?? undefined,
+			userImage: userImage ?? undefined
+		}
 	});
 	const router = useRouter();
 	const session = useSession();
@@ -64,8 +74,8 @@ export const UserForm = ({
 	};
 
 	return (
-		<div className="bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary p-8 sm:p-8 text-white flex flex-col gap-5 items-center mx-2 xl:w-1/2">
-			<h1 className="text-xl sm:text-2xl md:text-4xl text-white font-sarpanch font-extrabold">
+		<div className="bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary p-8 text-white flex flex-col gap-5 items-center w-full md:w-2/3 lg:w-1/2">
+			<h1 className="text-xl md:text-2xl lg:text-3xl 2xl:text-4xl text-white font-sarpanch font-extrabold">
 				{heading}
 			</h1>
 			<FormProvider {...form}>
