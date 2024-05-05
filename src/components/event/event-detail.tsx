@@ -13,7 +13,7 @@ export type EventDetailProps = {
 export const EventDetail = async ({ event }: EventDetailProps) => {
 	const eventGenres = await getEventGenres(event.id);
 	return (
-		<div className="w-full lg:w-[90%] relative xl:w-[70%] mt-16 font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl text-white flex flex-col gap-10 items-center">
+		<div className="w-full lg:w-[90%] relative xl:w-[70%] mt-16 font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl text-white flex flex-col gap-10">
 			<div>
 				<Image
 					className="rounded-tl-2xl rounded-tr-2xl"
