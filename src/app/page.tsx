@@ -14,7 +14,7 @@ const Page = async () => {
 	}
 
 	return (
-		<main className="container px-5 w-screen h-screen flex justify-center items-center">
+		<main className="container px-5 w-screen min-h-screen flex justify-center items-center">
 			<div className="flex flex-col gap-10 md:gap-36 md:flex-row">
 				<Banner />
 				<Link

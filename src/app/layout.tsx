@@ -27,7 +27,7 @@ const RootLayout = ({
 			<meta name="theme-color" content="#ffffff" />
 		</head>
 		<body
-			className={`h-screen flex flex-col ${poppins.className} bg-body-main bg-repeat-y`}
+			className={`min-h-screen flex flex-col ${poppins.className} bg-body-main bg-repeat`}
 		>
 			<Providers>{children}</Providers>
 			<Toaster position="bottom-right" richColors />
