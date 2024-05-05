@@ -52,7 +52,7 @@ export const EventFilter = ({
 					<div className="flex flex-col w-full">
 						<div className="flex flex-row gap-3 md:gap-8 ">
 							<FormInput
-								className="w-auto"
+								className="w-full"
 								label="EventName"
 								name="eventName"
 							/>

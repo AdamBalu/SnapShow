@@ -195,10 +195,12 @@ const updateDbData = async (
 };
 
 const getVenueData = (eventVenue: EventVenue) => {
+	const fullAddress = `${eventVenue.city ? `${eventVenue.city},` : ''}${eventVenue.address ? eventVenue.address.line1 : ''}`;
+
 	const venue = {
 		id: eventVenue.id,
 		name: eventVenue.name ?? '',
-		address: eventVenue.address ? eventVenue.address.line1 : '',
+		address: fullAddress,
 		zipCode: eventVenue.postalCode ?? '',
 		country: eventVenue.country ? eventVenue.country.name : '',
 		isDeleted: false

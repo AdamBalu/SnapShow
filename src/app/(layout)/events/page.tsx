@@ -10,10 +10,18 @@ const Page = async () => {
 	const minDate = formatDate(new Date(-8640000000000000));
 
 	// load initial 50 items
-	const initialEvents = await getEventsWithNameAndGenre('', 1, 50, [], {
-		dateFrom: minDate,
-		dateTo: maxDate
-	});
+	const initialEvents = await getEventsWithNameAndGenre(
+		'',
+		1,
+		50,
+		[],
+		{
+			dateFrom: minDate,
+			dateTo: maxDate
+		},
+		null,
+		null
+	);
 
 	const genres = await getAllGenres();
 
