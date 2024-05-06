@@ -6,9 +6,9 @@ import { toast } from 'sonner';
 
 import { Avatar } from '@/components/user/avatar';
 import { Loader } from '@/components/loader';
-import { Button } from '@/components/ui/button';
 import { acceptFriendRequest } from '@/server-actions/usersFriends';
-import { FriendRemoveButton } from '@/components/user/friend-remove-button';
+import { FriendRemoveButton } from '@/components/friends/friend-remove-button';
+import { ControlButton } from '@/components/ui/control-button';
 
 type FriendCardProps = {
 	username: string | null;
@@ -17,7 +17,7 @@ type FriendCardProps = {
 	isPending: boolean;
 };
 
-export const FriendCard = ({
+export const FriendRequestCard = ({
 	image,
 	username,
 	friendId,
@@ -37,37 +37,22 @@ export const FriendCard = ({
 	};
 
 	return (
-		<div
-			className={`w-full md:w-48 px-3 py-2 md:py-6 md:px-10 justify-between font-sarpanch flex-grow md:flex-grow-0 gap-3 items-center font-extrabold text-white flex flex-row md:flex-col border border-solid border-primary rounded-3xl bg-zinc-900 ${!isPending && 'flex-row-reverse'}`}
-		>
-			<FriendRemoveButton
-				isPending={isPending}
-				username={username}
-				friendId={friendId}
-				className={`${!isPending ? 'flex' : 'hidden'} md:flex `}
-			/>
-
+		<div className="px-3 py-2 bg-opacity-70 justify-between font-sarpanch flex-grow gap-3 items-center font-extrabold text-white flex flex-row border border-solid border-primary rounded-3xl bg-zinc-900">
 			<Link
-				className="flex flex-row md:flex-col gap-4 md:gap-2 items-center"
+				className="flex flex-row gap-2 items-center"
 				href={`/user/${friendId}`}
 			>
-				<Avatar
-					className="size-16 md:size-24 p-1 md:p-1.5"
-					profilePicture={image}
-				/>
-				<span className="max-w-28 md:max-w-36 text-sm md:text-md break-words text-wrap">
+				<Avatar className="size-12 xl:size-16 p-1" profilePicture={image} />
+				<span className="text-sm md:text-md break-words text-wrap">
 					{username}
 				</span>
 			</Link>
 			{isPending && (
-				<div className="flex gap-4 md:gap-4 justify-between items-center">
+				<div className="flex gap-2 md:gap-4 justify-between items-center">
 					{isPending && !loading && (
-						<Button
-							onClick={onAcceptRequest}
-							className="h-10 justify-center md:w-36 text-md sm:text-lg px-3 mb-1 md:mb-0"
-						>
+						<ControlButton onClick={onAcceptRequest} className="md:h-10 w-16">
 							Accept
-						</Button>
+						</ControlButton>
 					)}
 					{isPending && loading && (
 						<div className="flex items-center h-12">
@@ -76,9 +61,9 @@ export const FriendCard = ({
 					)}
 					<FriendRemoveButton
 						isPending={isPending}
+						className="md:h-10 w-16 bg-zinc-900 hover:bg-zinc-900 text-primary border border-primary hover:border-primary"
 						username={username}
 						friendId={friendId}
-						className="md:hidden"
 					/>
 				</div>
 			)}

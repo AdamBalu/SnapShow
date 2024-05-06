@@ -1,14 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { getUsersFriends } from '@/server-actions/usersFriends';
+import { getUsers } from '@/server-actions/user';
 
-type FriendsPreviewProps = {
-	userId: string;
-};
-
-export const FriendsPreview = async ({ userId }: FriendsPreviewProps) => {
-	const friends = await getUsersFriends(userId, 4);
+export const FriendsPreview = async () => {
+	const friends = await getUsers(1, 4, 'friends', undefined);
 
 	return (
 		<div className="avatar-group -space-x-3 rtl:space-x-reverse">

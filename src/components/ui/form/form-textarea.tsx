@@ -24,14 +24,14 @@ export const FormTextArea = ({
 	return (
 		<label htmlFor={name} className="form-control w-full">
 			<div className="label">
-				<span className="label-text text-white font-sarpanch font-extrabold ">
+				<span className="label-text text-white font-sarpanch font-extrabold">
 					{label}
 				</span>
 			</div>
 			<textarea
 				id={name}
 				className={cn(
-					'input input-bordered w-full  min-h-20 py-2.5 border-primary focus:border-primary',
+					'input input-bordered w-full  min-h-20 py-2.5 border-primary focus:border-primary bg-neutral',
 					errors[name] && 'input-error',
 					className
 				)}
