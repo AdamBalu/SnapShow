@@ -7,32 +7,30 @@ import { toast } from 'sonner';
 import { Avatar } from '@/components/user/avatar';
 import { Loader } from '@/components/loader';
 import { acceptFriendRequest } from '@/server-actions/usersFriends';
-import { FriendRemoveButton } from '@/components/friends/friend-remove-button';
 import { ControlButton } from '@/components/ui/control-button';
+import { FriendRequestDenyButton } from '@/components/friends/friend-request-deny-button';
 
 type FriendCardProps = {
 	username: string | null;
 	image: string | null;
 	friendId: string;
-	isPending: boolean;
 };
 
 export const FriendRequestCard = ({
 	image,
 	username,
-	friendId,
-	isPending
+	friendId
 }: FriendCardProps) => {
-	const [loading, setLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const onAcceptRequest = async () => {
-		setLoading(true);
+		setIsLoading(true);
 		await acceptFriendRequest(friendId)
 			.catch(err => {
 				toast.error(err.message);
 			})
 			.finally(() => {
-				setLoading(false);
+				setIsLoading(false);
 			});
 	};
 
@@ -47,22 +45,18 @@ export const FriendRequestCard = ({
 					{username}
 				</span>
 			</Link>
-			{isPending && (
+			{isLoading && (
+				<div className="flex items-center h-12">
+					<Loader />
+				</div>
+			)}
+			{!isLoading && (
 				<div className="flex gap-2 md:gap-4 justify-between items-center">
-					{isPending && !loading && (
-						<ControlButton onClick={onAcceptRequest} className="md:h-10 w-16">
-							Accept
-						</ControlButton>
-					)}
-					{isPending && loading && (
-						<div className="flex items-center h-12">
-							<Loader />
-						</div>
-					)}
-					<FriendRemoveButton
-						isPending={isPending}
+					<ControlButton onClick={onAcceptRequest} className="md:h-10 w-16">
+						Accept
+					</ControlButton>
+					<FriendRequestDenyButton
 						className="md:h-10 w-16 bg-zinc-900 hover:bg-zinc-900 text-primary border border-primary hover:border-primary"
-						username={username}
 						friendId={friendId}
 					/>
 				</div>

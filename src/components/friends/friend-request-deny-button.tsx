@@ -18,14 +18,10 @@ type FriendRemoveButtonProps = DetailedHTMLProps<
 	HTMLButtonElement
 > & {
 	friendId: string;
-	username: string | null;
-	isPending: boolean;
 };
 
-export const FriendRemoveButton = ({
+export const FriendRequestDenyButton = ({
 	friendId,
-	username,
-	isPending,
 	className,
 	...props
 }: FriendRemoveButtonProps) => {
@@ -65,9 +61,7 @@ export const FriendRemoveButton = ({
 			<dialog id={`modal-${friendId}`} className="modal">
 				<div className="modal-box flex flex-col justify-between border border-solid border-primary rounded-3xl bg-zinc-900 h-52">
 					<p className="text-center py-4">
-						{isPending
-							? 'Do you really want to remove this friend request?'
-							: `Do you really want to remove ${username} from your friends?`}
+						Do you really want to remove this friend request?
 					</p>
 					{!loading && (
 						<div className="modal-action mt-0 flex gap-4">

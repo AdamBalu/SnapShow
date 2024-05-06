@@ -76,8 +76,7 @@ export const removeFriend = async (friendId: string) => {
 			)
 		);
 
-	revalidatePath('/friends');
-	revalidatePath(`/user/${userId}`);
+	revalidatePath(`/user/${friendId}`);
 };
 
 export const getFriendRequests = async () => {
@@ -130,6 +129,4 @@ export const acceptFriendRequest = async (friendId: string) => {
 		.where(
 			and(eq(usersFriends.user1Id, friendId), eq(usersFriends.user2Id, userId))
 		);
-
-	revalidatePath('/friends', 'page');
 };

@@ -20,7 +20,6 @@ export const FriendRequestList = async () => {
 							username={req.username}
 							image={req.image}
 							friendId={req.id}
-							isPending
 						/>
 					</li>
 				))}
