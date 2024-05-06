@@ -1,13 +1,15 @@
 'use server';
 
-import { and, eq } from 'drizzle-orm';
+import { and, count, eq, like, ne, or } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
+import { type SQLiteSelect } from 'drizzle-orm/sqlite-core';
 
 import { auth, signIn, signOut } from '@/auth';
 import { db } from '@/db';
 import { users } from '@/db/schema/users';
 import { type UserFormSchema } from '@/components/user-form/user-form';
 import { usersToGenres } from '@/db/schema/usersToGenres';
+import { usersFriends } from '@/db/schema/usersFriends';
 
 export const signInAction = async (providerId: string) => {
 	await signIn(providerId, { redirectTo: '/home' });
@@ -107,4 +109,88 @@ export const updateUser = async (updatedUser: UserFormSchema) => {
 	});
 
 	revalidatePath(`/user/${userId}`);
+};
+
+const withFriends = <T extends SQLiteSelect>(
+	qb: T,
+	userId: string,
+	method: 'all' | 'friends',
+	nameFilter?: string
+) =>
+	qb
+		.leftJoin(
+			usersFriends,
+			or(eq(users.id, usersFriends.user1Id), eq(users.id, usersFriends.user2Id))
+		)
+		.where(
+			and(
+				ne(users.id, userId),
+				eq(users.isDeleted, false),
+				nameFilter ? like(users.username, `%${nameFilter}%`) : undefined,
+				// UserFriend is with in relation with current user or is null if 'all' method is used
+				method === 'friends'
+					? or(
+							eq(usersFriends.user1Id, userId),
+							eq(usersFriends.user2Id, userId)
+						)
+					: undefined,
+				method === 'all'
+					? or(eq(usersFriends, null), eq(usersFriends.isDeleted, false))
+					: undefined,
+				method === 'friends'
+					? and(
+							eq(usersFriends.isPending, false),
+							eq(usersFriends.isDeleted, false)
+						)
+					: undefined
+			)
+		);
+
+const withPagination = <T extends SQLiteSelect>(
+	qb: T,
+	page: number = 1,
+	pageSize: number = 10
+) => qb.limit(pageSize).offset((page - 1) * pageSize);
+
+export const getUsers = async (
+	page: number,
+	pageSize: number,
+	method: 'all' | 'friends',
+	nameFilter?: string
+) => {
+	const userId = await checkUserIsSigned();
+
+	const query = db
+		.selectDistinct({
+			id: users.id,
+			username: users.username,
+			image: users.image,
+			friendStatus: usersFriends
+		})
+		.from(users)
+		.$dynamic();
+
+	return withPagination(
+		withFriends(query, userId, method, nameFilter),
+		page,
+		pageSize
+	);
+};
+
+export const getUsersCount = async (
+	method: 'all' | 'friends',
+	nameFilter?: string
+) => {
+	const userId = await checkUserIsSigned();
+
+	const query = db
+		.selectDistinct({
+			count: count()
+		})
+		.from(users)
+		.$dynamic();
+
+	const rowCount = await withFriends(query, userId, method, nameFilter);
+
+	return rowCount.at(0)!.count;
 };

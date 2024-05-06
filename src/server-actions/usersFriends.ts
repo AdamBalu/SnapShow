@@ -1,6 +1,6 @@
 'use server';
 
-import { and, count, eq, ne, or } from 'drizzle-orm';
+import { and, count, eq, or } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 import { checkUserIsSigned, checkUserIsValid } from '@/server-actions/user';
@@ -79,28 +79,6 @@ export const removeFriend = async (friendId: string) => {
 	revalidatePath('/friends');
 	revalidatePath(`/user/${userId}`);
 };
-
-export const getUsersFriends = async (userId: string, limit?: number) =>
-	db
-		.select({
-			id: users.id,
-			username: users.username,
-			image: users.image
-		})
-		.from(usersFriends)
-		.innerJoin(
-			users,
-			or(eq(users.id, usersFriends.user1Id), eq(users.id, usersFriends.user2Id))
-		)
-		.where(
-			and(
-				or(eq(usersFriends.user1Id, userId), eq(usersFriends.user2Id, userId)),
-				ne(users.id, userId),
-				eq(usersFriends.isPending, false),
-				eq(usersFriends.isDeleted, false)
-			)
-		)
-		.limit(limit ?? Number.MAX_SAFE_INTEGER);
 
 export const getFriendRequests = async () => {
 	const userId = await checkUserIsSigned();

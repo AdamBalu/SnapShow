@@ -4,19 +4,12 @@ import Image from 'next/image';
 import { NavLink } from '@/components/navigation/nav-link';
 import { auth } from '@/auth';
 import { signOutAction } from '@/server-actions/user';
-import { getCountOfFriendRequests } from '@/server-actions/usersFriends';
 
 export const UserControl = async () => {
 	const session = await auth();
-	const friendRequests = await getCountOfFriendRequests();
 
 	return (
-		<div className="indicator">
-			{friendRequests > 0 && (
-				<span className="indicator-item badge badge-outline bg-red-500 mt-2 ml-2 indicator-top indicator-start sm:indicator-end sm:indicator-top sm:mr-2">
-					{friendRequests}
-				</span>
-			)}
+		<div>
 			<div className="dropdown dropdown-end">
 				<div
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -51,13 +44,6 @@ export const UserControl = async () => {
 						</form>
 					</li>
 					<NavLink href={`/user/${session?.user.id}`} label="Profile" />
-					<NavLink href="/friends" label="Friends">
-						{friendRequests > 0 && (
-							<span className="indicator-item badge badge-outline bg-red-500 indicator-right indicator-middle mr-6">
-								{friendRequests}
-							</span>
-						)}
-					</NavLink>
 				</ul>
 			</div>
 		</div>
