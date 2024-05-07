@@ -1,13 +1,12 @@
 'use server';
 
-import { and, count, eq, ne, or } from 'drizzle-orm';
+import { and, count, eq, or } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 import { checkUserIsSigned, checkUserIsValid } from '@/server-actions/user';
 import { db } from '@/db';
 import { usersFriends } from '@/db/schema/usersFriends';
 import { users } from '@/db/schema/users';
-import { usersToEvents } from '@/db/schema/usersToEvents';
 
 export const getFriendsStatus = async (user1Id: string, user2Id: string) =>
 	db.query.usersFriends.findFirst({

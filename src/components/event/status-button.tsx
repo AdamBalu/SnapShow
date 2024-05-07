@@ -36,7 +36,7 @@ export const StatusButton = ({
 					.catch(err => toast.error(err.message));
 				break;
 			case 'going':
-				await updateUserEventStatus(eventId, 'not-interested')
+				await updateUserEventStatus(eventId, null)
 					.then(_ => {
 						setLoading(false);
 					})

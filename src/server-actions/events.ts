@@ -13,11 +13,12 @@ import {
 	notLike,
 	or
 } from 'drizzle-orm';
+import { revalidatePath } from 'next/cache';
 
 import {
 	type Dates,
 	type EventFilterSortColumn,
-	UserEventStatus
+	type UserEventStatus
 } from '@/types/event-data';
 import { type SortType } from '@/components/event/sort-button';
 import { venues } from '@/db/schema/venue';
@@ -29,7 +30,6 @@ import { checkUserIsSigned } from '@/server-actions/user';
 import { users } from '@/db/schema/users';
 import { usersToEvents } from '@/db/schema/usersToEvents';
 import { usersFriends } from '@/db/schema/usersFriends';
-import { revalidatePath } from 'next/cache';
 
 export type EventsListData = {
 	eventId: string;
@@ -211,7 +211,7 @@ export const getUserEventStatus = async (
 
 export const updateUserEventStatus = async (
 	eventId: string,
-	action: 'going' | 'interested'
+	action: 'going' | 'interested' | null
 ) => {
 	const userId = await checkUserIsSigned();
 
