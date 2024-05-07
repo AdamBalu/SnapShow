@@ -58,13 +58,13 @@ export const FriendsPreview = ({
 			<Modal
 				className="h-96"
 				modalId="friend-list-modal"
-				title={"User's friends"}
+				title="Your friends"
 				open={modalOpen}
 				close={() => setModalOpen(false)}
 			>
 				<div className="flex flex-col items-center h-96">
 					{isPending && <Loader />}
-					<ul className="overflow-scroll flex flex-col gap-2 w-full">
+					<ul className="flex flex-col gap-2 w-full">
 						{data?.map(friend => (
 							<li key={friend.id} className="btn h-16 w-full">
 								<Link
