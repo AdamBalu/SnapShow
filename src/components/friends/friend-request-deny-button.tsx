@@ -12,6 +12,7 @@ import { removeFriend } from '@/server-actions/usersFriends';
 import { Button } from '@/components/ui/button';
 import { Loader } from '@/components/loader';
 import { ControlButton } from '@/components/ui/control-button';
+import Modal from '@/components/ui/modal';
 
 type FriendRemoveButtonProps = DetailedHTMLProps<
 	ButtonHTMLAttributes<HTMLButtonElement>,
@@ -26,6 +27,7 @@ export const FriendRequestDenyButton = ({
 	...props
 }: FriendRemoveButtonProps) => {
 	const [loading, setLoading] = useState(false);
+	const [modalOpen, setModalOpen] = useState(false);
 
 	const onFriendRemove = async () => {
 		setLoading(true);
@@ -34,11 +36,7 @@ export const FriendRequestDenyButton = ({
 				toast.error(err.message);
 			})
 			.finally(() => {
-				if (document) {
-					(
-						document.getElementById(`modal-${friendId}`) as HTMLFormElement
-					).close();
-				}
+				setModalOpen(false);
 				setLoading(false);
 			});
 	};
@@ -46,40 +44,36 @@ export const FriendRequestDenyButton = ({
 	return (
 		<>
 			<ControlButton
-				onClick={() => {
-					if (document) {
-						(
-							document.getElementById(`modal-${friendId}`) as HTMLFormElement
-						).showModal();
-					}
-				}}
+				onClick={() => setModalOpen(true)}
 				{...props}
 				className={cn(className)}
 			>
 				Reject
 			</ControlButton>
-			<dialog id={`modal-${friendId}`} className="modal">
-				<div className="modal-box flex flex-col justify-between border border-solid border-primary rounded-3xl bg-zinc-900 h-52">
-					<p className="text-center py-4">
-						Do you really want to remove this friend request?
-					</p>
-					{!loading && (
-						<div className="modal-action mt-0 flex gap-4">
-							<Button onClick={onFriendRemove} className="">
-								Yes
+			<Modal
+				title="Do you really want to remove this friend request?"
+				modalId={`modal-${friendId}`}
+				open={modalOpen}
+				close={() => setModalOpen(false)}
+			>
+				{!loading && (
+					<div className="modal-action mt-10 flex gap-4">
+						<Button onClick={onFriendRemove} className="">
+							Yes
+						</Button>
+						<form method="dialog">
+							<Button onClick={() => setModalOpen(false)} className="">
+								No
 							</Button>
-							<form method="dialog">
-								<Button className="">No</Button>
-							</form>
-						</div>
-					)}
-					{loading && (
-						<div className="flex w-full justify-center">
-							<Loader />
-						</div>
-					)}
-				</div>
-			</dialog>
+						</form>
+					</div>
+				)}
+				{loading && (
+					<div className="flex w-full justify-center">
+						<Loader />
+					</div>
+				)}
+			</Modal>
 		</>
 	);
 };

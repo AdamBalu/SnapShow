@@ -8,7 +8,7 @@ export type UserFilter = {
 	nameFilter?: string;
 };
 
-export const usePagedUserList = (pageSize: number) => {
+export const usePagedUserList = (userId: string, pageSize: number) => {
 	const [page, setPage] = useState(1);
 	const [filter, setFilter] = useState<UserFilter>({
 		method: 'all',
@@ -27,13 +27,23 @@ export const usePagedUserList = (pageSize: number) => {
 		queryFn: async () => {
 			if (filterChanged) {
 				// Check for filter change, so we don't fetch count on every page change
-				const userCount = await getUsersCount(filter.method, filter.nameFilter);
+				const userCount = await getUsersCount(
+					userId,
+					filter.method,
+					filter.nameFilter
+				);
 				setPageCount(Math.ceil(userCount / pageSize));
 				setFilterChanged(false);
 				setPage(1);
 			}
 
-			return await getUsers(page, pageSize, filter.method, filter.nameFilter);
+			return await getUsers(
+				userId,
+				page,
+				pageSize,
+				filter.method,
+				filter.nameFilter
+			);
 		}
 	});
 
@@ -46,3 +56,12 @@ export const usePagedUserList = (pageSize: number) => {
 		...query
 	};
 };
+
+export const useFriendList = (userId: string) =>
+	useQuery({
+		queryKey: ['friends', userId],
+		queryFn: async () =>
+			await getUsers(userId, 1, Number.MAX_SAFE_INTEGER, 'friends'),
+		refetchOnWindowFocus: false,
+		enabled: false
+	});

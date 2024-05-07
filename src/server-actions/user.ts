@@ -150,13 +150,12 @@ const withPagination = <T extends SQLiteSelect>(
 ) => qb.limit(pageSize).offset((page - 1) * pageSize);
 
 export const getUsers = async (
+	userId: string,
 	page: number,
 	pageSize: number,
 	method: 'all' | 'friends',
 	nameFilter?: string
 ) => {
-	const userId = await checkUserIsSigned();
-
 	const query = db
 		.selectDistinct({
 			id: users.id,
@@ -175,11 +174,10 @@ export const getUsers = async (
 };
 
 export const getUsersCount = async (
+	userId: string,
 	method: 'all' | 'friends',
 	nameFilter?: string
 ) => {
-	const userId = await checkUserIsSigned();
-
 	const query = db
 		.selectDistinct({
 			count: count()
