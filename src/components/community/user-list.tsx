@@ -7,7 +7,7 @@ import { UserCard } from '@/components/user/user-card';
 import { UserSearch } from '@/components/community/user-search';
 import { Pagination } from '@/components/ui/pagination';
 import { usePagedUserList } from '@/hooks/user-list';
-import { Loader } from '@/components/loader';
+import { LogoLoader } from '@/components/logo-loader';
 
 export const UserList = () => {
 	const userId = useSession().data?.user?.id;
@@ -53,7 +53,7 @@ export const UserList = () => {
 					}
 				/>
 
-				{isPending && <Loader />}
+				{isPending && <LogoLoader />}
 
 				{data && (
 					<>

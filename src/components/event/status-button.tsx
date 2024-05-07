@@ -101,7 +101,7 @@ const getButtonStyle = (status: UserEventStatus) => {
 		case 'interested':
 			return 'w-[90px] bg-gray-800 border-2 border-primary hover:bg-gray-900 hover:border-2 hover:border-primary';
 		case 'going':
-			return 'w-[100px] bg-gray-800 shadow-[#108A0D] hover:bg-gray-900';
+			return 'w-[100px] bg-gray-800 border-2 border-[#108A0D] shadow-[#108A0D] hover:bg-gray-900';
 	}
 };
 
