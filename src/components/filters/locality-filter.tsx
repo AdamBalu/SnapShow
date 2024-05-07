@@ -1,1 +1,3 @@
-export const LocalityFilter = () => <div>this is a locality filter :)</div>;
+import { Button } from '../ui/button';
+
+export const LocalityFilter = () => <Button>Locality filter</Button>;

@@ -11,8 +11,8 @@ import { TimeBadge } from './time-badge';
 
 type PostProfileBadgeProps = {
 	userId: string | undefined;
-	eventId: string;
-	timestamp: number;
+	eventId: string | null | undefined;
+	timestamp: Date | null | undefined;
 };
 
 export const PostProfileBadge = async (props: PostProfileBadgeProps) => {
@@ -41,8 +41,8 @@ export const PostProfileBadge = async (props: PostProfileBadgeProps) => {
 					<span className="hover:underline">{user?.name}</span>
 				</a>
 				<div className="flex text-gray-600">
-					<TimeBadge timestamp={props.timestamp} />
-					<LocationBadge eventId="idkyet" />
+					{props.timestamp && <TimeBadge timestamp={props.timestamp} />}
+					{props.eventId && <LocationBadge eventId={props.eventId} />}
 				</div>
 			</div>
 		</div>

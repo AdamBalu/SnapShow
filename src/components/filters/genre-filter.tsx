@@ -1,1 +1,3 @@
-export const GenreFilter = () => <div>this is a genre filter :D</div>;
+import { Button } from '../ui/button';
+
+export const GenreFilter = () => <Button>Genre filter</Button>;

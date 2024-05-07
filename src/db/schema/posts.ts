@@ -1,9 +1,11 @@
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
-import { relations } from 'drizzle-orm';
+import { relations, sql } from 'drizzle-orm';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { users } from '@/db/schema/users';
 import { comments } from '@/db/schema/comments';
-import { reactions } from '@/db/schema/reactions';
+import { reactions, type Reaction } from '@/db/schema/reactions';
+import { users } from '@/db/schema/users';
+
+import { events } from './events';
 
 export const posts = sqliteTable('post', {
 	id: text('id')
@@ -13,11 +15,20 @@ export const posts = sqliteTable('post', {
 	userId: text('userId')
 		.notNull()
 		.references(() => users.id),
+	eventId: text('eventId')
+		.notNull()
+		.references(() => events.id),
 	photo: text('photo'),
+	timestamp: integer('timestamp', { mode: 'timestamp' }).default(
+		sql`(CURRENT_TIMESTAMP)`
+	),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
 export type Post = typeof posts.$inferSelect;
+export type PostWithReactions = Post & {
+	reactions: Reaction[];
+};
 
 export const postsRelations = relations(posts, ({ one, many }) => ({
 	userId: one(users, {

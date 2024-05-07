@@ -1,22 +1,26 @@
+'use server';
+
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
+
+import { displayableDateTime } from '@/utils/date-time-converter';
 
 TimeAgo.addDefaultLocale(en);
 
 type TimeBadgeProps = {
-	timestamp: number;
+	timestamp: Date;
 };
 
-export const TimeBadge = (props: TimeBadgeProps) => {
+export const TimeBadge = async (props: TimeBadgeProps) => {
 	const timeAgo = new TimeAgo('en-US');
-	console.log(props.timestamp);
-	const date = new Date(props.timestamp * 1000); // why is JS like this :((((((
-	const formattedDate = date.toLocaleString('en-US');
-	console.log(date);
-	console.log(timeAgo.format(date));
-	return (
-		<div className="tooltip tooltip-bottom" data-tip={formattedDate}>
-			<span>{timeAgo.format(date)}</span>
+	return props.timestamp ? (
+		<div
+			className="tooltip tooltip-bottom"
+			data-tip={displayableDateTime(props.timestamp)}
+		>
+			<span>{timeAgo.format(props.timestamp)}</span>
 		</div>
+	) : (
+		<div>unknown time</div>
 	);
 };

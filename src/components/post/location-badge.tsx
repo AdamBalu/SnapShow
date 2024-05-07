@@ -1,16 +1,35 @@
+import { eq } from 'drizzle-orm';
 import { LucideMapPin } from 'lucide-react';
+
+import { db } from '@/db';
+import { events } from '@/db/schema/events';
+import { venues } from '@/db/schema/venue';
 
 type LocationBadge = {
 	eventId: string;
 };
 
-export const LocationBadge = async (_props: LocationBadge) => {
-	const location = 'O2 Aréna; Praha'; // TODO: replace with actual venue location
+export const LocationBadge = async (props: LocationBadge) => {
+	const locationQuery = await db
+		.select()
+		.from(events)
+		.where(eq(events.id, props.eventId))
+		.leftJoin(venues, eq(events.venueId, venues.id));
 
+	const location = locationQuery[0] ?? null;
 	return (
-		<div className="flex ml-4">
-			<LucideMapPin />
-			<span>{location}</span>
+		<div
+			className="tooltip tooltip-bottom"
+			data-tip={`${location.venue?.address} ${location.venue?.country}`}
+		>
+			<div className="flex ml-4">
+				<LucideMapPin />
+				<a href={`/event/${location.event.id}`}>
+					{location?.venue && (
+						<span className="hover:underline">{`${location.event.name} | ${location.venue.name}`}</span>
+					)}
+				</a>
+			</div>
 		</div>
 	);
 };
