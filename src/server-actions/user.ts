@@ -120,23 +120,20 @@ const withFriends = <T extends SQLiteSelect>(
 	qb
 		.leftJoin(
 			usersFriends,
-			or(eq(users.id, usersFriends.user1Id), eq(users.id, usersFriends.user2Id))
+			and(
+				or(
+					eq(users.id, usersFriends.user1Id),
+					eq(users.id, usersFriends.user2Id)
+				),
+				or(eq(usersFriends.user1Id, userId), eq(usersFriends.user2Id, userId)),
+				eq(usersFriends.isDeleted, false)
+			)
 		)
 		.where(
 			and(
 				ne(users.id, userId),
 				eq(users.isDeleted, false),
 				nameFilter ? like(users.username, `%${nameFilter}%`) : undefined,
-				// UserFriend is with in relation with current user or is null if 'all' method is used
-				method === 'friends'
-					? or(
-							eq(usersFriends.user1Id, userId),
-							eq(usersFriends.user2Id, userId)
-						)
-					: undefined,
-				method === 'all'
-					? or(eq(usersFriends, null), eq(usersFriends.isDeleted, false))
-					: undefined,
 				method === 'friends'
 					? and(
 							eq(usersFriends.isPending, false),
