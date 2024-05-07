@@ -1,17 +1,13 @@
-import React from 'react';
+import { HomepageFilters } from '../../../components/filters/homepage-filters';
+import { PostsFeed } from '../../../components/post/posts-feed';
 
-import { db } from '@/db';
-import { genres } from '@/db/schema/genre';
-
-const Page = async () => {
-	const genreList = await db.select().from(genres);
-	return (
-		<div>
-			{genreList.map(genre => (
-				<div key={genre.id}>{genre.name}</div>
-			))}
+const Page = () => (
+	<>
+		<HomepageFilters />
+		<div className="flex justify-center">
+			<PostsFeed />
 		</div>
-	);
-};
+	</>
+);
 
 export default Page;
