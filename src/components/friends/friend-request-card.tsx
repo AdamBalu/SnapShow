@@ -5,10 +5,10 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 
 import { Avatar } from '@/components/user/avatar';
-import { Loader } from '@/components/loader';
 import { acceptFriendRequest } from '@/server-actions/usersFriends';
 import { ControlButton } from '@/components/ui/control-button';
 import { FriendRequestDenyButton } from '@/components/friends/friend-request-deny-button';
+import { LogoLoader } from '@/components/logo-loader';
 
 type FriendCardProps = {
 	username: string | null;
@@ -47,7 +47,7 @@ export const FriendRequestCard = ({
 			</Link>
 			{isLoading && (
 				<div className="flex items-center h-12">
-					<Loader />
+					<LogoLoader />
 				</div>
 			)}
 			{!isLoading && (
