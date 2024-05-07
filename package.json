@@ -17,6 +17,7 @@
 		"@uploadthing/react": "^6.5.0",
 		"clsx": "^2.1.0",
 		"drizzle-orm": "^0.30.9",
+		"javascript-time-ago": "^2.5.10",
 		"lucide-react": "^0.373.0",
 		"multiselect-react-dropdown": "^2.0.25",
 		"next": "14.1.0",
