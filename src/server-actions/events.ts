@@ -83,6 +83,27 @@ export const getEventsWithNameAndGenre = async (
 		.offset((page - 1) * pageSize);
 };
 
+export const getEventFullDetails = async (eventId: string) =>
+	await db
+		.select({
+			eventId: events.id,
+			eventName: events.name,
+			eventImageUrl: events.imageUrl,
+			eventDescription: events.description,
+			eventDateTime: events.datetime,
+			eventIsDeleted: events.isDeleted,
+			venueId: events.venueId,
+			venueName: venues.name,
+			venueAddress: venues.address,
+			venueCountry: venues.country,
+			venueZipCode: venues.zipCode
+		})
+		.from(events)
+		.innerJoin(eventsToGenres, eq(events.id, eventsToGenres.eventId))
+		.innerJoin(genres, eq(genres.id, eventsToGenres.genreId))
+		.innerJoin(venues, eq(events.venueId, venues.id))
+		.where(and(and(eq(events.id, eventId), eq(events.isDeleted, false))));
+
 export const getEventsWithName = async (
 	query: string,
 	page: number,

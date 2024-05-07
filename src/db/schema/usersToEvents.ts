@@ -5,9 +5,12 @@ import {
 	text
 } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
+import { z } from 'zod';
 
 import { users } from '@/db/schema/users';
 import { events } from '@/db/schema/events';
+
+const userActionSchema = z.enum(['going', 'interested']);
 
 export const usersToEvents = sqliteTable(
 	'usersToEvents',
@@ -18,6 +21,7 @@ export const usersToEvents = sqliteTable(
 		eventId: text('eventId')
 			.notNull()
 			.references(() => events.id),
+		userAction: text('userAction', { enum: userActionSchema.options }),
 		isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 	},
 	t => ({

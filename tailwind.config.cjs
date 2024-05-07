@@ -14,7 +14,9 @@ export default withUt({
       backgroundImage: {
         'body-main': "url('/static/background.svg')",
       },
-
+      transitionProperty: {
+        'width': 'width'
+      },
 
       container: {
         center: true
