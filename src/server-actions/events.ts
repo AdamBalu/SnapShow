@@ -1,23 +1,23 @@
 'use server';
 
 import {
-	eq,
-	asc,
-	desc,
-	like,
-	notLike,
 	and,
+	asc,
+	between,
+	desc,
+	eq,
 	inArray,
-	between
+	like,
+	notLike
 } from 'drizzle-orm';
 
-import { db } from '@/db';
-import { events } from '@/db/schema/events';
-import { genres } from '@/db/schema/genre';
-import { eventsToGenres } from '@/db/schema/eventsToGenres';
-import { type EventFilterSortColumn, type Dates } from '@/types/event-data';
-import { venues } from '@/db/schema/venue';
+import { type Dates, type EventFilterSortColumn } from '@/types/event-data';
 import { type SortType } from '@/components/event/sort-button';
+import { venues } from '@/db/schema/venue';
+import { events } from '@/db/schema/events';
+import { db } from '@/db';
+import { eventsToGenres } from '@/db/schema/eventsToGenres';
+import { genres } from '@/db/schema/genre';
 
 export type EventsListData = {
 	eventId: string;
@@ -82,6 +82,28 @@ export const getEventsWithNameAndGenre = async (
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
 };
+
+export const getEventFullDetails = async (eventId: string) =>
+	await db
+		.select({
+			eventId: events.id,
+			eventName: events.name,
+			eventImageUrl: events.imageUrl,
+			eventDescription: events.description,
+			eventDateTime: events.datetime,
+			eventIsDeleted: events.isDeleted,
+			venueId: events.venueId,
+			venueName: venues.name,
+			venueAddress: venues.address,
+			venueCountry: venues.country,
+			venueZipCode: venues.zipCode
+		})
+		.from(events)
+		.innerJoin(eventsToGenres, eq(events.id, eventsToGenres.eventId))
+		.innerJoin(genres, eq(genres.id, eventsToGenres.genreId))
+		.innerJoin(venues, eq(events.venueId, venues.id))
+		.where(and(and(eq(events.id, eventId), eq(events.isDeleted, false))));
+
 export const getEventsWithName = async (
 	query: string,
 	page: number,
@@ -96,3 +118,8 @@ export const getEventsWithName = async (
 		.orderBy(events.datetime)
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
+
+export const getEvent = async (eventId: string) =>
+	db.query.events.findFirst({
+		where: and(eq(events.id, eventId), eq(events.isDeleted, false))
+	});
