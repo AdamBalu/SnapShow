@@ -1,9 +1,9 @@
 import React, { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 
-import { Loader } from '@/components/loader';
 import { getEvent } from '@/server-actions/events';
 import { EventDetail } from '@/components/event/event-detail';
+import { LogoLoader } from '@/components/logo-loader';
 
 type EventPageProps = {
 	params: {
@@ -20,7 +20,7 @@ const EventPage = async ({ params }: EventPageProps) => {
 
 	return (
 		<div className="flex flex-col items-center lg:px-32">
-			<Suspense fallback={<Loader />}>
+			<Suspense fallback={<LogoLoader />}>
 				<EventDetail event={event} />
 			</Suspense>
 		</div>

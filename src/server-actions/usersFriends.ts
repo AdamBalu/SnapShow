@@ -1,13 +1,12 @@
 'use server';
 
-import { and, count, eq, ne, or } from 'drizzle-orm';
+import { and, count, eq, or } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 import { checkUserIsSigned, checkUserIsValid } from '@/server-actions/user';
 import { db } from '@/db';
 import { usersFriends } from '@/db/schema/usersFriends';
 import { users } from '@/db/schema/users';
-import { usersToEvents } from '@/db/schema/usersToEvents';
 
 export const getFriendsStatus = async (user1Id: string, user2Id: string) =>
 	db.query.usersFriends.findFirst({
@@ -130,39 +129,4 @@ export const acceptFriendRequest = async (friendId: string) => {
 		.where(
 			and(eq(usersFriends.user1Id, friendId), eq(usersFriends.user2Id, userId))
 		);
-};
-
-export const getFriendsActionOnEventCount = async (
-	eventId: string,
-	action: 'going' | 'interested'
-) => {
-	const userId = await checkUserIsSigned();
-
-	const userCount = await db
-		.select({ count: count() })
-		.from(users)
-		.innerJoin(
-			usersFriends,
-			or(eq(users.id, usersFriends.user1Id), eq(users.id, usersFriends.user2Id))
-		)
-		.innerJoin(
-			usersToEvents,
-			and(
-				or(
-					eq(usersFriends.user1Id, usersToEvents.userId),
-					eq(usersFriends.user2Id, usersToEvents.userId)
-				),
-				eq(usersToEvents.userAction, action),
-				eq(usersToEvents.eventId, eventId)
-			)
-		)
-		.where(
-			and(
-				ne(usersToEvents.userId, userId),
-				eq(usersFriends.isPending, false),
-				eq(usersFriends.isDeleted, false)
-			)
-		);
-
-	return userCount[0].count;
 };

@@ -24,26 +24,24 @@ export const FormInput = ({
 	return (
 		<div className="form-control w-full">
 			{label && (
-				<label className="label htmlFor={name}">
+				<label htmlFor={name} className="label">
 					<span className="label-text text-white font-sarpanch font-extrabold">
 						{label}
 					</span>
 				</label>
 			)}
-			<div className="relative">
-				<input
-					id={name}
-					className={cn(
-						'input input-bordered w-full border-primary focus:border-primary bg-neutral',
-						errors[name] && 'input-error',
-						className
-					)}
-					{...inputProps}
-					{...register(name, {
-						valueAsNumber: inputProps.type === 'number'
-					})}
-				/>
-			</div>
+			<input
+				id={name}
+				className={cn(
+					'input input-bordered w-full border-primary focus:border-primary bg-neutral',
+					errors[name] && 'input-error',
+					className
+				)}
+				{...inputProps}
+				{...register(name, {
+					valueAsNumber: inputProps.type === 'number'
+				})}
+			/>
 
 			{errors[name] && (
 				<span className="mt-2 text-sm text-error">

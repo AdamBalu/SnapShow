@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/navigation';
 
-import { Loader } from '@/components/loader';
 import { type Genre } from '@/db/schema/genre';
 import { formatDate } from '@/utils/date-time-converter';
 import { useEventList } from '@/hooks/event-list';
@@ -13,6 +12,7 @@ import {
 	type Dates,
 	type EventFilterSortColumn
 } from '@/types/event-data';
+import { LogoLoader } from '@/components/logo-loader';
 
 import { SortButton, type SortType } from './sort-button';
 import {
@@ -182,8 +182,8 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 				}
 				hasMore={hasMore}
 				loader={
-					<div className="flex justify-center">
-						<Loader />
+					<div className="flex justify-center mt-4">
+						<LogoLoader />
 					</div>
 				}
 			>

@@ -25,7 +25,7 @@ export const Profile = async ({ user }: ProfileProps) => {
 	return (
 		<div className="w-full">
 			<div className="py-8 p-8 md:px-16 mt-16 font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary text-white flex flex-col gap-10 items-center">
-				<div className="font-sarpanch -mt-24 items-center flex flex-col gap-4 md:mt-0 md:flex-row md:px-20 md:gap-20 md:w-full md:justify-items-start">
+				<div className="font-sarpanch -mt-24 items-center flex flex-col gap-4 md:mt-0 md:flex-row md:px-8 xl:px-20 md:gap-20 md:w-full md:justify-items-start">
 					<Avatar
 						className="md:-mt-28 p-1.5 xl:p-2 size-32 xl:size-48 flex-shrink-0"
 						profilePicture={user.image}
@@ -45,9 +45,11 @@ export const Profile = async ({ user }: ProfileProps) => {
 					</div>
 				</div>
 				<div className="flex flex-col items-start gap-10 w-full">
-					<div className="flex flex-col gap-3">
+					<div className="flex flex-col gap-3 w-full">
 						<span className="font-sarpanch">Bio</span>
-						<p className="text-sm md:text-md text-justify">{user?.bio}</p>
+						<p className="text-sm md:text-md text-justify break-words overflow-hidden">
+							{user?.bio}
+						</p>
 					</div>
 					<div className="flex flex-col gap-3">
 						<span className="font-sarpanch">Favorite genres</span>
