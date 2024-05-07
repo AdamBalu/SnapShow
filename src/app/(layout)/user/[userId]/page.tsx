@@ -1,8 +1,7 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import { notFound } from 'next/navigation';
 
 import { Profile } from '@/components/profile/profile';
-import { Loader } from '@/components/loader';
 import { getUser } from '@/server-actions/user';
 
 type UserPageProps = {
@@ -20,9 +19,7 @@ const UserPage = async ({ params }: UserPageProps) => {
 
 	return (
 		<div className="flex flex-col items-center lg:px-32">
-			<Suspense fallback={<Loader />}>
-				<Profile user={user} />
-			</Suspense>
+			<Profile user={user} />
 		</div>
 	);
 };
