@@ -18,3 +18,5 @@ export type EventsListData = {
 };
 
 export type EventFilterSortColumn = 'country' | 'name' | 'date' | null;
+
+export type UserEventStatus = 'interested' | 'going' | 'not-interested';

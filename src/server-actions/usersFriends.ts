@@ -131,38 +131,3 @@ export const acceptFriendRequest = async (friendId: string) => {
 			and(eq(usersFriends.user1Id, friendId), eq(usersFriends.user2Id, userId))
 		);
 };
-
-export const getFriendsActionOnEventCount = async (
-	eventId: string,
-	action: 'going' | 'interested'
-) => {
-	const userId = await checkUserIsSigned();
-
-	const userCount = await db
-		.select({ count: count() })
-		.from(users)
-		.innerJoin(
-			usersFriends,
-			or(eq(users.id, usersFriends.user1Id), eq(users.id, usersFriends.user2Id))
-		)
-		.innerJoin(
-			usersToEvents,
-			and(
-				or(
-					eq(usersFriends.user1Id, usersToEvents.userId),
-					eq(usersFriends.user2Id, usersToEvents.userId)
-				),
-				eq(usersToEvents.userAction, action),
-				eq(usersToEvents.eventId, eventId)
-			)
-		)
-		.where(
-			and(
-				ne(usersToEvents.userId, userId),
-				eq(usersFriends.isPending, false),
-				eq(usersFriends.isDeleted, false)
-			)
-		);
-
-	return userCount[0].count;
-};

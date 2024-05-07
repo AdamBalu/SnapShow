@@ -4,20 +4,32 @@ import {
 	and,
 	asc,
 	between,
+	count,
 	desc,
 	eq,
 	inArray,
 	like,
-	notLike
+	ne,
+	notLike,
+	or
 } from 'drizzle-orm';
 
-import { type Dates, type EventFilterSortColumn } from '@/types/event-data';
+import {
+	type Dates,
+	type EventFilterSortColumn,
+	UserEventStatus
+} from '@/types/event-data';
 import { type SortType } from '@/components/event/sort-button';
 import { venues } from '@/db/schema/venue';
 import { events } from '@/db/schema/events';
 import { db } from '@/db';
 import { eventsToGenres } from '@/db/schema/eventsToGenres';
 import { genres } from '@/db/schema/genre';
+import { checkUserIsSigned } from '@/server-actions/user';
+import { users } from '@/db/schema/users';
+import { usersToEvents } from '@/db/schema/usersToEvents';
+import { usersFriends } from '@/db/schema/usersFriends';
+import { revalidatePath } from 'next/cache';
 
 export type EventsListData = {
 	eventId: string;
@@ -123,3 +135,95 @@ export const getEvent = async (eventId: string) =>
 	db.query.events.findFirst({
 		where: and(eq(events.id, eventId), eq(events.isDeleted, false))
 	});
+
+export const getFriendsActionOnEventCount = async (
+	eventId: string,
+	action: 'going' | 'interested'
+) => {
+	const userId = await checkUserIsSigned();
+
+	const userCount = await db
+		.select({ count: count() })
+		.from(users)
+		.innerJoin(
+			usersFriends,
+			or(eq(users.id, usersFriends.user1Id), eq(users.id, usersFriends.user2Id))
+		)
+		.innerJoin(
+			usersToEvents,
+			and(
+				or(
+					eq(usersFriends.user1Id, usersToEvents.userId),
+					eq(usersFriends.user2Id, usersToEvents.userId)
+				),
+				eq(usersToEvents.userAction, action),
+				eq(usersToEvents.eventId, eventId)
+			)
+		)
+		.where(
+			and(
+				ne(usersToEvents.userId, userId),
+				eq(usersFriends.isPending, false),
+				eq(usersFriends.isDeleted, false)
+			)
+		);
+
+	return userCount[0].count;
+};
+
+export const getUsersActionOnEventCount = async (
+	eventId: string,
+	action: 'going' | 'interested'
+) => {
+	const userCount = await db
+		.select({ count: count() })
+		.from(users)
+		.innerJoin(usersToEvents, eq(users.id, usersToEvents.userId))
+		.where(
+			and(
+				eq(usersToEvents.userAction, action),
+				eq(usersToEvents.eventId, eventId)
+			)
+		);
+
+	return userCount[0].count;
+};
+
+export const getUserEventStatus = async (
+	eventId: string
+): Promise<UserEventStatus> => {
+	const userId = await checkUserIsSigned();
+
+	const userEvent = await db.query.usersToEvents.findFirst({
+		where: and(
+			eq(usersToEvents.userId, userId),
+			eq(usersToEvents.eventId, eventId),
+			eq(usersToEvents.isDeleted, false)
+		)
+	});
+
+	if (!userEvent) {
+		return 'not-interested';
+	}
+
+	return userEvent.userAction ?? 'not-interested';
+};
+
+export const updateUserEventStatus = async (
+	eventId: string,
+	action: 'going' | 'interested'
+) => {
+	const userId = await checkUserIsSigned();
+
+	await db.transaction(async tx => {
+		await tx
+			.insert(usersToEvents)
+			.values({ userId, eventId, userAction: action, isDeleted: false })
+			.onConflictDoUpdate({
+				target: [usersToEvents.userId, usersToEvents.eventId],
+				set: { userAction: action }
+			});
+	});
+
+	revalidatePath(`/event/${eventId}`);
+};

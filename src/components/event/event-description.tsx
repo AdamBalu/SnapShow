@@ -1,8 +1,12 @@
 import React from 'react';
+import { CircleCheck, Star } from 'lucide-react';
 
 import { displayableDateTime } from '@/utils/date-time-converter';
-import { getFriendsActionOnEventCount } from '@/server-actions/usersFriends';
 import { StatusButton } from '@/components/event/status-button';
+import {
+	getUserEventStatus,
+	getUsersActionOnEventCount
+} from '@/server-actions/events';
 
 import { EventDescriptionAttribute } from './event-description-attribute';
 
@@ -25,15 +29,18 @@ export const EventDescription = async ({
 }: {
 	event: EventDescriptionProps;
 }) => {
-	const friendsAttendingEventCount = await getFriendsActionOnEventCount(
+	const usersGoingCount = await getUsersActionOnEventCount(
 		event.eventId,
 		'going'
 	);
 
-	const friendsInterestedInEventCount = await getFriendsActionOnEventCount(
+	const usersInterestedCount = await getUsersActionOnEventCount(
 		event.eventId,
 		'interested'
 	);
+
+	const userEventStatus =
+		(await getUserEventStatus(event.eventId)) ?? 'not-interested';
 
 	return (
 		<>
@@ -41,7 +48,7 @@ export const EventDescription = async ({
 				<h1 className="text-xl sm:text-3xl md:text-2xl font-sarpanch font-extrabold">
 					{event.eventName}
 				</h1>
-				<StatusButton />
+				<StatusButton eventId={event.eventId} initialStatus={userEventStatus} />
 			</div>
 			<div className="flex justify-between p-4">
 				<div>
@@ -56,13 +63,15 @@ export const EventDescription = async ({
 				</div>
 				<div>
 					<EventDescriptionAttribute
-						description={`${friendsAttendingEventCount} friends are going`}
-						iconSrc="/static/going.svg"
+						description={`${usersGoingCount} going`}
+						icon={
+							<CircleCheck size={24} className="text-primary" strokeWidth={2} />
+						}
 					/>
 
 					<EventDescriptionAttribute
-						description={`${friendsInterestedInEventCount} friends are interested`}
-						iconSrc="/static/interested.svg"
+						description={`${usersInterestedCount} interested`}
+						icon={<Star size={24} className="text-primary" strokeWidth={2} />}
 					/>
 				</div>
 			</div>
