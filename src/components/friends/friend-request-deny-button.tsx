@@ -5,27 +5,23 @@ import React, {
 	type DetailedHTMLProps,
 	useState
 } from 'react';
-import { CircleX } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { cn } from '@/lib/cn';
 import { removeFriend } from '@/server-actions/usersFriends';
 import { Button } from '@/components/ui/button';
 import { Loader } from '@/components/loader';
+import { ControlButton } from '@/components/ui/control-button';
 
 type FriendRemoveButtonProps = DetailedHTMLProps<
 	ButtonHTMLAttributes<HTMLButtonElement>,
 	HTMLButtonElement
 > & {
 	friendId: string;
-	username: string | null;
-	isPending: boolean;
 };
 
-export const FriendRemoveButton = ({
+export const FriendRequestDenyButton = ({
 	friendId,
-	username,
-	isPending,
 	className,
 	...props
 }: FriendRemoveButtonProps) => {
@@ -49,7 +45,7 @@ export const FriendRemoveButton = ({
 
 	return (
 		<>
-			<button
+			<ControlButton
 				onClick={() => {
 					if (document) {
 						(
@@ -58,22 +54,14 @@ export const FriendRemoveButton = ({
 					}
 				}}
 				{...props}
-				className={cn(
-					'size-auto self-center md:-mt-4 md:-mr-8 md:-mb-6 md:self-end',
-					className
-				)}
+				className={cn(className)}
 			>
-				<CircleX
-					className="text-primary size-8 hover:text-primary-shadow"
-					strokeWidth={1}
-				/>
-			</button>
+				Reject
+			</ControlButton>
 			<dialog id={`modal-${friendId}`} className="modal">
 				<div className="modal-box flex flex-col justify-between border border-solid border-primary rounded-3xl bg-zinc-900 h-52">
 					<p className="text-center py-4">
-						{isPending
-							? 'Do you really want to remove this friend request?'
-							: `Do you really want to remove ${username} from your friends?`}
+						Do you really want to remove this friend request?
 					</p>
 					{!loading && (
 						<div className="modal-action mt-0 flex gap-4">

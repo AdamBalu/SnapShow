@@ -3,8 +3,8 @@ import { Pencil } from 'lucide-react';
 import React from 'react';
 
 import { type UsersFriends } from '@/db/schema/usersFriends';
-import { FriendButton } from '@/components/profile/friend-button';
-import { FriendsPreview } from '@/components/profile/friends-preview';
+import { FriendButton } from '@/components/friends/friend-button';
+import { FriendsPreview } from '@/components/friends/friends-preview';
 import { ControlButton } from '@/components/ui/control-button';
 
 type ProfileControlProps = {
@@ -22,7 +22,7 @@ export const ProfileControls = ({
 }: ProfileControlProps) => (
 	<div className="flex w-full gap-2 justify-center items-center md:justify-start">
 		<span>{friendCount} Friends</span>
-		<FriendsPreview userId={userId} />
+		<FriendsPreview />
 
 		{userId !== signedUserId ? (
 			<FriendButton userId={userId} friendStatus={friendStatus} />

@@ -6,15 +6,13 @@ import { useFormContext } from 'react-hook-form';
 import { cn } from '@/lib/cn';
 
 type FormInputProps = HTMLProps<HTMLInputElement> & {
-	label: string;
+	label?: string;
 	name: string;
-	icon?: React.ReactNode;
 };
 
 export const FormInput = ({
 	label,
 	name,
-	icon,
 	className,
 	...inputProps
 }: FormInputProps) => {
@@ -24,17 +22,19 @@ export const FormInput = ({
 	} = useFormContext();
 
 	return (
-		<label htmlFor={name} className="form-control w-full">
-			<div className="label">
-				<span className="label-text text-white font-sarpanch font-extrabold">
-					{label}
-				</span>
-			</div>
+		<div className="form-control w-full">
+			{label && (
+				<label className="label htmlFor={name}">
+					<span className="label-text text-white font-sarpanch font-extrabold">
+						{label}
+					</span>
+				</label>
+			)}
 			<div className="relative">
 				<input
 					id={name}
 					className={cn(
-						'input input-bordered w-full border-primary focus:border-primary',
+						'input input-bordered w-full border-primary focus:border-primary bg-neutral',
 						errors[name] && 'input-error',
 						className
 					)}
@@ -43,7 +43,6 @@ export const FormInput = ({
 						valueAsNumber: inputProps.type === 'number'
 					})}
 				/>
-				{icon && <div className="absolute right-3 top-2.5">{icon}</div>}
 			</div>
 
 			{errors[name] && (
@@ -51,6 +50,6 @@ export const FormInput = ({
 					{errors[name]?.message?.toString()}
 				</span>
 			)}
-		</label>
+		</div>
 	);
 };
