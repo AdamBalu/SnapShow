@@ -43,12 +43,13 @@ export const authOptions = {
 				return Response.redirect(new URL('/registration', nextUrl.origin));
 			}
 
-			if (!isLoggedIn && isProtected) {
-				const redirectUrl = new URL('/signin', nextUrl.origin);
-				redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
-
-				return Response.redirect(redirectUrl);
-			}
+			// todo add back later / modify
+			// if (!isLoggedIn && isProtected) {
+			// 	const redirectUrl = new URL('/signin', nextUrl.origin);
+			// 	redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
+			//
+			// 	return Response.redirect(redirectUrl);
+			// }
 
 			return true;
 		}
