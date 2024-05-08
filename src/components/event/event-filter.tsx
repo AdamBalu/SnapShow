@@ -80,14 +80,19 @@ export const EventFilter = ({
 									selectedValues={[]}
 								/>
 							</div>
-							<div className="flex flex-row flex-grow gap-8 items-end">
+							<div className="flex flex-row gap-8 items-end">
 								<FormInput
 									type="date"
-									className=""
+									className="text-xs sm:text-base"
 									label="From"
 									name="fromDate"
 								/>
-								<FormInput type="date" className="" label="To" name="toDate" />
+								<FormInput
+									type="date"
+									className="text-xs sm:text-base"
+									label="To"
+									name="toDate"
+								/>
 							</div>
 						</div>
 					</div>
