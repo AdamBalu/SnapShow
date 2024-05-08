@@ -3,9 +3,13 @@ import React from 'react';
 import { NavLink } from '@/components/navigation/nav-link';
 import { NavigationItems } from '@/components/navigation/navigation-list';
 import { getCountOfFriendRequests } from '@/server-actions/usersFriends';
+import { auth } from '@/auth';
 
 export const Navigation = async () => {
-	const friendRequestCount = await getCountOfFriendRequests();
+	const session = await auth();
+
+	const friendRequestCount =
+		session !== null ? await getCountOfFriendRequests() : 0;
 
 	return (
 		<nav className="flex navbar-end gap-5 flex-1">
