@@ -1,6 +1,6 @@
 'use server';
 
-import { EventList } from '@/components/event/event-list';
+import { EventListWithContext } from '@/components/event/event-list';
 import { getEventsWithNameAndGenre } from '@/server-actions/events';
 import { getAllGenres } from '@/server-actions/genres';
 import { formatDate } from '@/utils/date-time-converter';
@@ -25,7 +25,7 @@ const Page = async () => {
 
 	const genres = await getAllGenres();
 
-	return <EventList initialEvents={initialEvents} genres={genres} />;
+	return <EventListWithContext initialEvents={initialEvents} genres={genres} />;
 };
 
 export default Page;

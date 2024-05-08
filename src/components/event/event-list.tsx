@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/navigation';
 
@@ -13,6 +13,10 @@ import {
 	type EventFilterSortColumn
 } from '@/types/event-data';
 import { LogoLoader } from '@/components/logo-loader';
+import {
+	EasterEggContext,
+	EasterEggContextProvider
+} from '@/hooks/easter-egg-context';
 
 import { SortButton, type SortType } from './sort-button';
 import {
@@ -35,6 +39,8 @@ type Sort = {
 export const EventList = ({ initialEvents, genres }: EventListProps) => {
 	const maxDate = formatDate(new Date(8640000000000000));
 	const minDate = formatDate(new Date(-8640000000000000));
+
+	const easterEgg = useContext(EasterEggContext);
 
 	const { eventList, hasMore, loading, fetchData } = useEventList(
 		initialEvents,
@@ -63,6 +69,11 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 	};
 
 	const onSubmit = async (values: EventFilterSchema) => {
+		if (values.eventName === 'Somebody once?') {
+			easterEgg?.toggleEvent();
+			return;
+		}
+
 		setFilter(values.eventName);
 		setSelectedGenres(values.genres ?? []);
 
@@ -124,9 +135,6 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 		}
 	};
 
-	useEffect(() => console.log(sortType), [sortType]);
-	useEffect(() => console.log(activeFilter), [activeFilter]);
-
 	return (
 		<div>
 			<EventFilter
@@ -137,7 +145,7 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 			/>
 			<div className="flex gap-x-4 mb-5 ml-2">
 				<SortButton
-					label="Country"
+					label={easterEgg?.isOn ? 'SOMEBODY' : 'Country'}
 					name="country"
 					sortType={sortType}
 					activeFilter={activeFilter}
@@ -147,7 +155,7 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 					disabled={loading}
 				/>
 				<SortButton
-					label="Name"
+					label={easterEgg?.isOn ? 'ONCE' : 'Name'}
 					name="name"
 					sortType={sortType}
 					activeFilter={activeFilter}
@@ -157,7 +165,7 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 					disabled={loading}
 				/>
 				<SortButton
-					label="Date"
+					label={easterEgg?.isOn ? 'TOLD ME' : 'Date'}
 					name="date"
 					sortType={sortType}
 					activeFilter={activeFilter}
@@ -201,6 +209,27 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 					)}
 				</div>
 			</InfiniteScroll>
+
+			{easterEgg?.isOn ? (
+				<iframe
+					title="e"
+					src="/static/song.mp3"
+					allow="autoplay"
+					style={{ display: 'none' }}
+					id="iframeAudio"
+				/>
+			) : (
+				<div />
+			)}
 		</div>
 	);
 };
+
+export const EventListWithContext = ({
+	initialEvents,
+	genres
+}: EventListProps) => (
+	<EasterEggContextProvider>
+		<EventList initialEvents={initialEvents} genres={genres} />
+	</EasterEggContextProvider>
+);
