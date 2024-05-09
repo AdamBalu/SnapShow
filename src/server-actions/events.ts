@@ -3,7 +3,8 @@
 import {
 	and,
 	asc,
-	between,
+	gte,
+	lte,
 	count,
 	desc,
 	eq,
@@ -87,7 +88,14 @@ export const getEventsWithNameAndGenre = async (
 					),
 					genreIds.length > 0 ? inArray(genres.id, genreIds) : undefined
 				),
-				between(events.datetime, dates.dateFrom, dates.dateTo)
+				and(
+					dates.dateFrom
+						? gte(events.datetime, `${dates.dateFrom}00:00:00`)
+						: undefined,
+					dates.dateTo
+						? lte(events.datetime, `${dates.dateTo}T23:59:59Z`)
+						: undefined
+				)
 			)
 		)
 		.orderBy(sortDirection === 'down' ? desc(columnToSort) : asc(columnToSort))

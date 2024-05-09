@@ -1,6 +1,6 @@
 export type Dates = {
-	dateFrom: string;
-	dateTo: string;
+	dateFrom: string | null;
+	dateTo: string | null;
 };
 
 export type EventsListData = {

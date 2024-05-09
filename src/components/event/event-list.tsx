@@ -44,7 +44,7 @@ export const EventList = ({
 }: EventListProps) => {
 	const maxDate = formatDate(new Date(8640000000000000));
 	const minDate = formatDate(new Date(-8640000000000000));
-
+  
 	const easterEgg = useContext(EasterEggContext);
 
 	const { eventList, hasMore, loading, fetchData } = useEventList(
@@ -59,8 +59,8 @@ export const EventList = ({
 	const [filter, setFilter] = useState<string>('');
 	const [selectedGenres, setSelectedGenres] = useState<EventGenre[]>([]);
 	const [selecteDates, setSelectedDates] = useState<Dates>({
-		dateFrom: minDate,
-		dateTo: maxDate
+		dateFrom: null,
+		dateTo: null
 	});
 
 	const filterData = (
@@ -83,10 +83,8 @@ export const EventList = ({
 		setSelectedGenres(values.genres ?? []);
 
 		const dates: Dates = {
-			dateFrom: values.fromDate
-				? formatDate(new Date(values.fromDate))
-				: minDate,
-			dateTo: values.toDate ? formatDate(new Date(values.toDate)) : maxDate
+			dateFrom: values.fromDate ? formatDate(new Date(values.fromDate)) : null,
+			dateTo: values.toDate ? formatDate(new Date(values.toDate)) : null
 		};
 
 		setSelectedDates(dates);

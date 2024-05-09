@@ -18,8 +18,8 @@ const Page = async () => {
 		50,
 		[],
 		{
-			dateFrom: minDate,
-			dateTo: maxDate
+			dateFrom: null,
+			dateTo: null
 		},
 		null,
 		null
