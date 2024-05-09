@@ -3,12 +3,9 @@
 import { EventListWithContext } from '@/components/event/event-list';
 import { getEventsWithNameAndGenre } from '@/server-actions/events';
 import { getAllGenres } from '@/server-actions/genres';
-import { formatDate } from '@/utils/date-time-converter';
 import { auth } from '@/auth';
 
 const Page = async () => {
-	const maxDate = formatDate(new Date(8640000000000000));
-	const minDate = formatDate(new Date(-8640000000000000));
 	const session = await auth();
 
 	// load initial 50 items
