@@ -82,10 +82,10 @@ export const Dropdown = ({ items }: DropdownProps) => {
 					{items.map((item: DropdownItem) => (
 						<li key={item.label}>
 							<form
-								className="btn btn-ghost flex flex-col w-full"
+								className="btn btn-ghost flex flex-col w-full p-0"
 								onSubmit={e => handleFormSubmit(e, item)}
 							>
-								<button className="uppercase w-full font-extrabold text-xs sm:text-xl">
+								<button className="uppercase w-full h-full px-2 font-extrabold text-xs sm:text-xl">
 									<div className="flex items-center justify-between">
 										<Image
 											src={item.iconSrc}
