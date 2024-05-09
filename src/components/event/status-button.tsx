@@ -87,7 +87,7 @@ export const StatusButton = ({
 				<CircleCheck
 					width={32}
 					height={32}
-					className={`h-4 w-4 sm:h-8 sm:w-8 text-[#108A0D] ${loading && 'animate-pulse'}`}
+					className={`h-4 w-4 sm:h-8 sm:w-8 text-[#108A0D] hover:text-gray-500 ${loading && 'animate-pulse'}`}
 				/>
 			)}
 		</Button>
@@ -101,7 +101,7 @@ const getButtonStyle = (status: UserEventStatus) => {
 		case 'interested':
 			return 'w-[90px] bg-gray-800 border-2 border-primary hover:bg-gray-900 hover:border-2 hover:border-primary';
 		case 'going':
-			return 'w-[100px] bg-gray-800 border-2 border-[#108A0D] hover:border-2 hover:border-[#108A0D] shadow-[#108A0D] hover:bg-gray-900';
+			return 'w-[100px] bg-gray-800 border-2 border-[#108A0D] hover:border-2 hover:border-gray-500 shadow-[#108A0D] hover:bg-gray-900';
 	}
 };
 
