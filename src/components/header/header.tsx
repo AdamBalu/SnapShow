@@ -15,7 +15,7 @@ export const Header = async () => {
 			<div className="navbar container flex items-center h-20 justify-between">
 				<Logo />
 
-				<div className="flex gap-x-16">
+				<div className="flex gap-x-12 pr-4">
 					<Navigation />
 					{session !== null ? (
 						<UserControl />
@@ -24,7 +24,9 @@ export const Header = async () => {
 							href="/signin"
 							className="flex flex-col justify-center md:justify-start"
 						>
-							<Button className="justify-center">Sign In</Button>
+							<Button className="justify-center text-xs px-2 sm:px-6 shadow-[3px_4px_0_0]">
+								Sign In
+							</Button>
 						</Link>
 					)}
 				</div>

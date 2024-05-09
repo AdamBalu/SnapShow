@@ -10,7 +10,7 @@ const RootLayout = ({
 }>) => (
 	<>
 		<Header />
-		<main className="container flex flex-col flex-grow pb-20 mt-10 w-screen px-3">
+		<main className="container flex flex-col flex-grow pb-20 mt-10 px-3">
 			{children}
 		</main>
 		<Footer />
