@@ -7,6 +7,7 @@ import {
 	getUserEventStatus,
 	getUsersActionOnEventCount
 } from '@/server-actions/events';
+import type { UserEventStatus } from '@/types/event-data';
 
 import { EventDescriptionAttribute } from './event-description-attribute';
 
@@ -48,7 +49,15 @@ export const EventDescription = async ({
 				<h1 className="text-xl sm:text-3xl md:text-2xl font-sarpanch font-extrabold">
 					{event.eventName}
 				</h1>
-				<StatusButton eventId={event.eventId} initialStatus={userEventStatus} />
+				<div className="flex flex-col justify-end items-end mt-4">
+					<StatusButton
+						eventId={event.eventId}
+						initialStatus={userEventStatus}
+					/>
+					<span className="text-xs text-gray-600 text-end mt-3.5 mr-3">
+						you are {getStatusStr(userEventStatus)}
+					</span>
+				</div>
 			</div>
 			<div className="flex justify-between p-4">
 				<div>
@@ -77,4 +86,13 @@ export const EventDescription = async ({
 			</div>
 		</>
 	);
+};
+
+const getStatusStr = (s: UserEventStatus): string => {
+	switch (s) {
+		case 'not-interested':
+			return 'not interested';
+		default:
+			return s.toString();
+	}
 };
