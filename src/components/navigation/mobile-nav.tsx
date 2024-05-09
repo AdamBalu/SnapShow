@@ -14,18 +14,26 @@ export const MobileNav = async () => {
 	return (
 		<nav className="container w-[60%]">
 			<ul className="flex justify-between">
-				{NavigationItems.map(item =>
-					friendRequestCount > 0 && item.href === '/community' ? (
+				{NavigationItems.map((item, index) => {
+					if (index === NavigationItems.length - 1 && session === null) {
+						return null;
+					}
+
+					return (
 						<div key={item.href} className="indicator">
-							<span className="indicator-item badge badge-outline bg-red-500 mt-3 indicator-end indicator-top sm:mr-2">
-								{friendRequestCount}
-							</span>
-							<MobileNavLink key={item.label} {...item} />
+							{friendRequestCount > 0 && item.href === '/community' ? (
+								<>
+									<span className="indicator-item badge badge-outline bg-red-500 mt-3 indicator-end indicator-top sm:mr-2">
+										{friendRequestCount}
+									</span>
+									<MobileNavLink {...item} />
+								</>
+							) : (
+								<MobileNavLink {...item} />
+							)}
 						</div>
-					) : (
-						<MobileNavLink key={item.href} {...item} />
-					)
-				)}
+					);
+				})}
 			</ul>
 		</nav>
 	);
