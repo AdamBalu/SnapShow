@@ -11,6 +11,8 @@ export const venues = sqliteTable('venue', {
 	address: text('address').notNull(),
 	zipCode: text('zipCode').notNull(),
 	country: text('country').notNull(),
+	longitude: text('longitude').notNull().default('16.612233'),
+	latitude: text('latitude').notNull().default('49.190910'),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
