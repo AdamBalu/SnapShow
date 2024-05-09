@@ -54,7 +54,7 @@ export const Dropdown = ({ items }: DropdownProps) => {
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 					tabIndex={0}
 					role="presentation"
-					className="btn uppercase btn-ghost bg-zinc-900 text-primary hover:bg-zinc-800 h-16"
+					className="btn uppercase px-2 sm:px-6 text-xs sm:text-xl btn-ghost bg-zinc-900 text-primary hover:bg-zinc-800 h-8 sm:h-16"
 				>
 					<div className="flex gap-4 items-center">
 						{loading ? (
@@ -85,7 +85,7 @@ export const Dropdown = ({ items }: DropdownProps) => {
 								className="btn btn-ghost flex flex-col w-full"
 								onSubmit={e => handleFormSubmit(e, item)}
 							>
-								<button className="uppercase w-full font-extrabold text-xl">
+								<button className="uppercase w-full font-extrabold text-xs sm:text-xl">
 									<div className="flex items-center justify-between">
 										<Image
 											src={item.iconSrc}
