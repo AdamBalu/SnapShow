@@ -11,6 +11,6 @@ export const Logo = () => (
 			width="157"
 			height="117"
 		/>
-		<h1 className="text-2xl lg:text-3xl">SnapShow</h1>
+		<h1 className="text-md sm:text-2xl lg:text-3xl">SnapShow</h1>
 	</Link>
 );

@@ -12,7 +12,7 @@ import { usersToGenres } from '@/db/schema/usersToGenres';
 import { usersFriends } from '@/db/schema/usersFriends';
 
 export const signInAction = async (providerId: string) => {
-	await signIn(providerId, { redirectTo: '/home' });
+	await signIn(providerId, { redirectTo: '/' });
 };
 
 export const signOutAction = async () => {

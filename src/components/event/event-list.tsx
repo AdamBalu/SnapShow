@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/navigation';
 
@@ -29,6 +29,7 @@ import { EventCard } from './event-card';
 type EventListProps = {
 	initialEvents: EventsListData[];
 	genres: Genre[];
+	isUserSignedIn: boolean;
 };
 
 type Sort = {
@@ -36,7 +37,14 @@ type Sort = {
 	sortColumn: EventFilterSortColumn;
 };
 
-export const EventList = ({ initialEvents, genres }: EventListProps) => {
+export const EventList = ({
+	initialEvents,
+	genres,
+	isUserSignedIn
+}: EventListProps) => {
+	const maxDate = formatDate(new Date(8640000000000000));
+	const minDate = formatDate(new Date(-8640000000000000));
+  
 	const easterEgg = useContext(EasterEggContext);
 
 	const { eventList, hasMore, loading, fetchData } = useEventList(
@@ -90,7 +98,11 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 	};
 
 	const onEventClick = (eventId: string) => {
-		router.push(`/event/${eventId}`);
+		if (!isUserSignedIn) {
+			router.push('/signin');
+		} else {
+			router.push(`/event/${eventId}`);
+		}
 	};
 
 	const router = useRouter();
@@ -222,9 +234,14 @@ export const EventList = ({ initialEvents, genres }: EventListProps) => {
 
 export const EventListWithContext = ({
 	initialEvents,
-	genres
+	genres,
+	isUserSignedIn
 }: EventListProps) => (
 	<EasterEggContextProvider>
-		<EventList initialEvents={initialEvents} genres={genres} />
+		<EventList
+			initialEvents={initialEvents}
+			genres={genres}
+			isUserSignedIn={isUserSignedIn}
+		/>
 	</EasterEggContextProvider>
 );

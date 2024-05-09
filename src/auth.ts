@@ -11,6 +11,7 @@ import { db } from './db';
 const getIsProtectedPath = (path: string) =>
 	path !== '/' &&
 	!path.startsWith('/static') &&
+	!path.startsWith('/events') &&
 	!path.startsWith('/signin') &&
 	!path.startsWith('/api');
 

@@ -1,4 +1,4 @@
-import { PropsWithChildren, createContext, useState } from 'react';
+import { type PropsWithChildren, createContext, useState } from 'react';
 
 type EasterEggValue = {
 	isOn: boolean;

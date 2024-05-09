@@ -27,7 +27,10 @@ export const SignInButton = ({
 
 	return (
 		<li>
-			<Button onClick={onSignIn} className="min-w-64 justify-center px-4">
+			<Button
+				onClick={onSignIn}
+				className="min-w-52 sm:min-w-64 justify-center px-4"
+			>
 				{!loading && (
 					<Image src={iconPath} alt="provider icon" width="32" height="32" />
 				)}
