@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/navigation';
 

@@ -11,6 +11,7 @@ import { db } from './db';
 const getIsProtectedPath = (path: string) =>
 	path !== '/' &&
 	!path.startsWith('/static') &&
+	!path.startsWith('/events') &&
 	!path.startsWith('/signin') &&
 	!path.startsWith('/api');
 
@@ -43,13 +44,12 @@ export const authOptions = {
 				return Response.redirect(new URL('/registration', nextUrl.origin));
 			}
 
-			// todo add back later / modify
-			// if (!isLoggedIn && isProtected) {
-			// 	const redirectUrl = new URL('/signin', nextUrl.origin);
-			// 	redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
-			//
-			// 	return Response.redirect(redirectUrl);
-			// }
+			if (!isLoggedIn && isProtected) {
+				const redirectUrl = new URL('/signin', nextUrl.origin);
+				redirectUrl.searchParams.append('callbackUrl', nextUrl.href);
+
+				return Response.redirect(redirectUrl);
+			}
 
 			return true;
 		}

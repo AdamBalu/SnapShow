@@ -20,5 +20,5 @@ export const toggleReactionAction = async (postId: string, userId: string) => {
 		// the reaction doesn't exist -> add it
 		await db.insert(reactions).values({ userId, postId });
 	}
-	revalidatePath('/home');
+	revalidatePath('/');
 };
