@@ -1,11 +1,11 @@
 'use client';
 import React from 'react';
-
-import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 
+import { Button } from '@/components/ui/button';
+
 const scrollToMainPageStart = () => {
-	const mainPageStart = document.getElementById('main-page-start');
+	const mainPageStart = document.getElementById('homepage-main-content');
 	if (mainPageStart) {
 		mainPageStart.scrollIntoView({ behavior: 'smooth' });
 	}
