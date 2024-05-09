@@ -116,7 +116,9 @@ export const getEventFullDetails = async (eventId: string) =>
 			venueName: venues.name,
 			venueAddress: venues.address,
 			venueCountry: venues.country,
-			venueZipCode: venues.zipCode
+			venueZipCode: venues.zipCode,
+			venueLat: venues.latitude,
+			venueLng: venues.longitude
 		})
 		.from(events)
 		.innerJoin(eventsToGenres, eq(events.id, eventsToGenres.eventId))

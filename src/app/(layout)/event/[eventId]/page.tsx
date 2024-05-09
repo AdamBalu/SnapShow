@@ -19,7 +19,7 @@ const EventPage = async ({ params }: EventPageProps) => {
 	}
 
 	return (
-		<div className="flex flex-col items-center lg:px-32">
+		<div className="flex flex-col items-center">
 			<Suspense fallback={<LogoLoader />}>
 				<EventDetail event={event} />
 			</Suspense>
