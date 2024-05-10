@@ -13,7 +13,7 @@ export const FriendRequestList = async () => {
 			<h2 className="font-sarpanch text-xl md:text-3xl text-white font-extrabold">
 				Friend requests
 			</h2>
-			<ul className="w-full flex flex-col">
+			<ul className="w-full flex flex-col gap-4">
 				{friendRequests.map(req => (
 					<li key={req.id} className="flex-grow">
 						<FriendRequestCard

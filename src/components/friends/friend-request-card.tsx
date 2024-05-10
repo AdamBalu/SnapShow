@@ -9,6 +9,8 @@ import { acceptFriendRequest } from '@/server-actions/usersFriends';
 import { ControlButton } from '@/components/ui/control-button';
 import { FriendRequestDenyButton } from '@/components/friends/friend-request-deny-button';
 import { LogoLoader } from '@/components/logo-loader';
+import { Loader } from "@/components/loader";
+import { useQueryClient } from "@tanstack/react-query";
 
 type FriendCardProps = {
 	username: string | null;
@@ -22,10 +24,14 @@ export const FriendRequestCard = ({
 	friendId
 }: FriendCardProps) => {
 	const [isLoading, setIsLoading] = useState(false);
+	const queryClient = useQueryClient();
 
 	const onAcceptRequest = async () => {
 		setIsLoading(true);
 		await acceptFriendRequest(friendId)
+			.then(_ => {
+				queryClient.invalidateQueries({ queryKey: ['users'] });
+			})
 			.catch(err => {
 				toast.error(err.message);
 			})
@@ -47,7 +53,7 @@ export const FriendRequestCard = ({
 			</Link>
 			{isLoading && (
 				<div className="flex items-center h-12">
-					<LogoLoader />
+					<Loader />
 				</div>
 			)}
 			{!isLoading && (

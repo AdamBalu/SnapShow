@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Loader } from '@/components/loader';
 import { ControlButton } from '@/components/ui/control-button';
 import Modal from '@/components/ui/modal';
+import { useQueryClient } from "@tanstack/react-query";
 
 type FriendRemoveButtonProps = DetailedHTMLProps<
 	ButtonHTMLAttributes<HTMLButtonElement>,
@@ -28,10 +29,14 @@ export const FriendRequestDenyButton = ({
 }: FriendRemoveButtonProps) => {
 	const [loading, setLoading] = useState(false);
 	const [modalOpen, setModalOpen] = useState(false);
+	const queryClient = useQueryClient();
 
 	const onFriendRemove = async () => {
 		setLoading(true);
 		await removeFriend(friendId)
+			.then(_ => {
+				queryClient.invalidateQueries({ queryKey: ['users'] });
+			})
 			.catch(err => {
 				toast.error(err.message);
 			})
