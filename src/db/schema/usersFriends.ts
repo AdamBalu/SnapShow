@@ -18,6 +18,9 @@ export const usersFriends = sqliteTable(
 		user2Id: text('user2Id')
 			.notNull()
 			.references(() => users.id),
+		initiatedBy: text('initiatedBy')
+			.notNull()
+			.references(() => users.id),
 		isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false),
 		isPending: integer('isPending', { mode: 'boolean' }).default(false)
 	},
@@ -34,6 +37,10 @@ export const usersFriendsRelations = relations(usersFriends, ({ one }) => ({
 	}),
 	user2: one(users, {
 		fields: [usersFriends.user2Id],
+		references: [users.id]
+	}),
+	initiatedBy: one(users, {
+		fields: [usersFriends.initiatedBy],
 		references: [users.id]
 	})
 }));

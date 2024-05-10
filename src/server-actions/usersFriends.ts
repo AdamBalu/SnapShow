@@ -1,6 +1,6 @@
 'use server';
 
-import { and, count, eq, or } from 'drizzle-orm';
+import { and, count, eq, ne, or } from 'drizzle-orm';
 import { revalidatePath } from 'next/cache';
 
 import { checkUserIsSigned, checkUserIsValid } from '@/server-actions/user';
@@ -45,14 +45,23 @@ export const sendFriendRequest = async (friendId: string) => {
 	await checkUserIsValid(userId);
 	await checkUserIsValid(friendId);
 
+	const user1Id = userId <= friendId ? userId : friendId;
+	const user2Id = userId <= friendId ? friendId : userId;
+
 	await db
 		.insert(usersFriends)
-		.values({ user1Id: userId, user2Id: friendId, isPending: true })
+		.values({
+			user1Id,
+			user2Id,
+			isPending: true,
+			initiatedBy: userId
+		})
 		.onConflictDoUpdate({
 			target: [usersFriends.user1Id, usersFriends.user2Id],
 			set: {
 				isDeleted: false,
-				isPending: true
+				isPending: true,
+				initiatedBy: userId
 			}
 		});
 };
@@ -90,11 +99,20 @@ export const getFriendRequests = async () => {
 			image: users.image
 		})
 		.from(usersFriends)
-		.innerJoin(users, eq(users.id, usersFriends.user1Id))
+		.innerJoin(
+			users,
+			and(
+				or(
+					eq(users.id, usersFriends.user1Id),
+					eq(users.id, usersFriends.user2Id)
+				)
+			)
+		)
 		.where(
 			and(
-				// user1Id is user who initiated the request -> filter only id2
-				eq(usersFriends.user2Id, userId),
+				or(eq(usersFriends.user1Id, userId), eq(usersFriends.user2Id, userId)),
+				ne(usersFriends.initiatedBy, userId),
+				ne(users.id, userId),
 				eq(usersFriends.isPending, true),
 				eq(usersFriends.isDeleted, false)
 			)
@@ -109,8 +127,8 @@ export const getCountOfFriendRequests = async () => {
 		.from(usersFriends)
 		.where(
 			and(
-				// user1Id is user who initiated the request -> filter only id2
-				eq(usersFriends.user2Id, userId),
+				or(eq(usersFriends.user1Id, userId), eq(usersFriends.user2Id, userId)),
+				ne(usersFriends.initiatedBy, userId),
 				eq(usersFriends.isPending, true),
 				eq(usersFriends.isDeleted, false)
 			)
@@ -128,7 +146,10 @@ export const acceptFriendRequest = async (friendId: string) => {
 			isPending: false
 		})
 		.where(
-			and(eq(usersFriends.user1Id, friendId), eq(usersFriends.user2Id, userId))
+			and(
+				eq(usersFriends.initiatedBy, friendId),
+				or(eq(usersFriends.user1Id, userId), eq(usersFriends.user2Id, userId))
+			)
 		);
 
 	revalidatePath('/community');

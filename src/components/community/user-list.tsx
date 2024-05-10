@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { useSession } from 'next-auth/react';
 
 import { UserCard } from '@/components/user/user-card';
 import { UserSearch } from '@/components/community/user-search';
@@ -9,8 +8,11 @@ import { Pagination } from '@/components/ui/pagination';
 import { usePagedUserList } from '@/hooks/user-list';
 import { LogoLoader } from '@/components/logo-loader';
 
-export const UserList = () => {
-	const userId = useSession().data?.user?.id;
+type UserListProps = {
+	userId: string;
+};
+
+export const UserList = ({ userId }: UserListProps) => {
 	const {
 		data,
 		page,
@@ -19,7 +21,7 @@ export const UserList = () => {
 		isPending,
 		setQueryFilter,
 		queryFilter
-	} = usePagedUserList(userId!, 10);
+	} = usePagedUserList(userId, 10);
 
 	return (
 		<div className="lg:w-2/3 flex flex-col gap-4">

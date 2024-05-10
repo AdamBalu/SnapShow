@@ -157,7 +157,7 @@ export const getUsers = async (
 	nameFilter?: string
 ) => {
 	const query = db
-		.selectDistinct({
+		.select({
 			id: users.id,
 			username: users.username,
 			image: users.image,
@@ -179,7 +179,7 @@ export const getUsersCount = async (
 	nameFilter?: string
 ) => {
 	const query = db
-		.selectDistinct({
+		.select({
 			count: count()
 		})
 		.from(users)
