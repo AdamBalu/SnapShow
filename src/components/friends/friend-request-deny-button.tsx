@@ -6,6 +6,7 @@ import React, {
 	useState
 } from 'react';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { cn } from '@/lib/cn';
 import { removeFriend } from '@/server-actions/usersFriends';
@@ -13,7 +14,6 @@ import { Button } from '@/components/ui/button';
 import { Loader } from '@/components/loader';
 import { ControlButton } from '@/components/ui/control-button';
 import Modal from '@/components/ui/modal';
-import { useQueryClient } from "@tanstack/react-query";
 
 type FriendRemoveButtonProps = DetailedHTMLProps<
 	ButtonHTMLAttributes<HTMLButtonElement>,

@@ -3,14 +3,13 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { Avatar } from '@/components/user/avatar';
 import { acceptFriendRequest } from '@/server-actions/usersFriends';
 import { ControlButton } from '@/components/ui/control-button';
 import { FriendRequestDenyButton } from '@/components/friends/friend-request-deny-button';
-import { LogoLoader } from '@/components/logo-loader';
-import { Loader } from "@/components/loader";
-import { useQueryClient } from "@tanstack/react-query";
+import { Loader } from '@/components/loader';
 
 type FriendCardProps = {
 	username: string | null;
