@@ -7,7 +7,7 @@ import { Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/form-input';
-import { type Genre } from '@/db/schema/genre';
+import { type Genres } from '@/db/schema/genres';
 
 import { MultiSelectInput } from '../ui/form/multi-select';
 import { Loader } from '../loader';
@@ -29,8 +29,8 @@ export type EventGenre = z.infer<typeof genreSchema>;
 
 type EventFilterProps = {
 	onSubmit: (values: EventFilterSchema) => void;
-	genres: Genre[];
-	usersGenres: Genre[];
+	genres: Genres[];
+	usersGenres: Genres[];
 	loading: boolean;
 };
 

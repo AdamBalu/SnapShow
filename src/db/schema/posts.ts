@@ -4,6 +4,7 @@ import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { comments } from '@/db/schema/comments';
 import { reactions, type Reaction } from '@/db/schema/reactions';
 import { users } from '@/db/schema/users';
+import { photos } from '@/db/schema/photos';
 
 import { events } from './events';
 
@@ -18,7 +19,6 @@ export const posts = sqliteTable('post', {
 	eventId: text('eventId')
 		.notNull()
 		.references(() => events.id),
-	photo: text('photo'),
 	timestamp: integer('timestamp', { mode: 'timestamp' }).default(
 		sql`(CURRENT_TIMESTAMP)`
 	),
@@ -36,5 +36,6 @@ export const postsRelations = relations(posts, ({ one, many }) => ({
 		references: [users.id]
 	}),
 	comments: many(comments),
-	reactions: many(reactions)
+	reactions: many(reactions),
+	photos: many(photos)
 }));

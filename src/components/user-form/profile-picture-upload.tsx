@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import { Controller, useFormContext } from 'react-hook-form';
+import { generateUploadButton } from '@uploadthing/react';
 
 import { Avatar } from '@/components/user/avatar';
-import { UploadButton } from '@/components/user-form/user-form';
+import type { OurFileRouter } from '@/app/api/uploadthing/core';
+
+const UploadButton = generateUploadButton<OurFileRouter>();
 
 type AvatarProps = {
 	profilePicture: string | undefined | null;

@@ -1,7 +1,7 @@
 import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { relations } from 'drizzle-orm';
 
-import { venues } from '@/db/schema/venue';
+import { venues } from '@/db/schema/venues';
 import { usersToEvents } from '@/db/schema/usersToEvents';
 import { eventsToGenres } from '@/db/schema/eventsToGenres';
 import { interpretersToEvents } from '@/db/schema/interpretersToEvents';

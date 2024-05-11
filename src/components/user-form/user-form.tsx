@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { generateUploadButton } from '@uploadthing/react';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { useSession } from 'next-auth/react';
@@ -13,12 +12,9 @@ import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/form-input';
 import { FormTextArea } from '@/components/ui/form/form-textarea';
 import { MultiSelectInput } from '@/components/ui/form/multi-select';
-import { type OurFileRouter } from '@/app/api/uploadthing/core';
 import { ProfilePictureUpload } from '@/components/user-form/profile-picture-upload';
 import { updateUser } from '@/server-actions/user';
-import { type Genre } from '@/db/schema/genre';
-
-export const UploadButton = generateUploadButton<OurFileRouter>();
+import { type Genres } from '@/db/schema/genres';
 
 const genreSchema = z.object({
 	id: z.string(),
@@ -39,8 +35,8 @@ type UserFormProps = {
 	bio: string | null | undefined;
 	heading: string;
 	userImage: string | null | undefined;
-	genres: Genre[];
-	usersGenres: Genre[];
+	genres: Genres[];
+	usersGenres: Genres[];
 };
 
 export const UserForm = ({

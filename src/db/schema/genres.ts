@@ -13,7 +13,7 @@ export const genres = sqliteTable('genre', {
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
-export type Genre = typeof genres.$inferSelect;
+export type Genres = typeof genres.$inferSelect;
 
 export const genresRelations = relations(genres, ({ many }) => ({
 	usersToGenres: many(usersToGenres),

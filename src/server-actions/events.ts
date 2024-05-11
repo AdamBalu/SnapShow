@@ -22,11 +22,11 @@ import {
 	type UserEventStatus
 } from '@/types/event-data';
 import { type SortType } from '@/components/event/sort-button';
-import { venues } from '@/db/schema/venue';
+import { venues } from '@/db/schema/venues';
 import { events } from '@/db/schema/events';
 import { db } from '@/db';
 import { eventsToGenres } from '@/db/schema/eventsToGenres';
-import { genres } from '@/db/schema/genre';
+import { genres } from '@/db/schema/genres';
 import { checkUserIsSigned } from '@/server-actions/user';
 import { users } from '@/db/schema/users';
 import { usersToEvents } from '@/db/schema/usersToEvents';

@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
 
-import { type Genre } from '@/db/schema/genre';
+import { type Genres } from '@/db/schema/genres';
 
 export const GenreItem = ({
 	name,
 	icon,
 	className
-}: Genre & { className?: string }) => (
+}: Genres & { className?: string }) => (
 	<li
 		className={`${className} flex text-sm gap-1 sm:gap-2 px-2 py-1 rounded-md items-center
 	font-sarpanch sm:text-lg uppercase border border-solid border-primary sm:rounded-xl sm:py-2 sm:px-4`}
