@@ -56,16 +56,12 @@ export const EventFilter = ({
 								label="EventName"
 								name="eventName"
 							/>
-							<Button
-								className="h-min w-min self-end mr-1"
-								disabled={form.formState.isSubmitting}
+							<button
+								type="submit"
+								className="z-50 -ml-20 mt-8 active:scale-90 transition-transform duration-300"
 							>
-								{loading ? (
-									<Loader className="bg-zinc-900 w-[24px] h-[24px]" />
-								) : (
-									<Search />
-								)}
-							</Button>
+								<Search size={28} color="#08d9d6" />
+							</button>
 						</div>
 						<div className="flex flex-col space-between gap-x-8 lg:flex-row">
 							<div className="w-full ">

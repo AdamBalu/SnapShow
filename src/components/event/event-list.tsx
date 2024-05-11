@@ -25,6 +25,7 @@ import {
 	type EventFilterSchema
 } from './event-filter';
 import { EventCard } from './event-card';
+import { EventSort } from './event-sort';
 
 type EventListProps = {
 	initialEvents: EventsListData[];
@@ -118,27 +119,6 @@ export const EventList = ({
 		);
 	};
 
-	const onCountrySort = (direction: SortType) => {
-		if (!loading) {
-			const sortColumn = direction ? 'country' : null;
-			sortData(sortColumn, direction);
-		}
-	};
-
-	const onNameSort = (direction: SortType) => {
-		if (!loading) {
-			const sortColumn = direction ? 'name' : null;
-			sortData(sortColumn, direction);
-		}
-	};
-
-	const onDateTimeSort = (direction: SortType) => {
-		if (!loading) {
-			const sortColumn = direction ? 'date' : null;
-			sortData(sortColumn, direction);
-		}
-	};
-
 	return (
 		<div>
 			<EventFilter
@@ -147,72 +127,55 @@ export const EventList = ({
 				usersGenres={[]}
 				loading={loading}
 			/>
-			<div className="flex gap-x-4 mb-5 ml-2">
-				<SortButton
-					label={easterEgg?.isOn ? 'SOMEBODY' : 'Country'}
-					name="country"
-					sortType={sortType}
-					activeFilter={activeFilter}
-					setActiveFilter={setActiveFilter}
-					setSortType={setSortType}
-					onSort={onCountrySort}
-					disabled={loading}
-				/>
-				<SortButton
-					label={easterEgg?.isOn ? 'ONCE' : 'Name'}
-					name="name"
-					sortType={sortType}
-					activeFilter={activeFilter}
-					setActiveFilter={setActiveFilter}
-					setSortType={setSortType}
-					onSort={onNameSort}
-					disabled={loading}
-				/>
-				<SortButton
-					label={easterEgg?.isOn ? 'TOLD ME' : 'Date'}
-					name="date"
-					sortType={sortType}
-					activeFilter={activeFilter}
-					setActiveFilter={setActiveFilter}
-					setSortType={setSortType}
-					onSort={onDateTimeSort}
-					disabled={loading}
-				/>
-			</div>
 
-			<InfiniteScroll
-				dataLength={eventList.length}
-				next={async () =>
-					await fetchData(
-						false,
-						filter,
-						selectedGenres,
-						selectedDates,
-						sort.sortColumn,
-						sort.sortType
-					)
-				}
-				hasMore={hasMore}
-				loader={
-					<div className="flex justify-center mt-4">
-						<LogoLoader />
+			<EventSort
+				sortType={sortType}
+				activeFilter={activeFilter}
+				setActiveFilter={setActiveFilter}
+				setSortType={setSortType}
+				sortData={sortData}
+				loading={loading}
+			/>
+
+			{!loading ? (
+				<InfiniteScroll
+					dataLength={eventList.length}
+					next={async () =>
+						await fetchData(
+							false,
+							filter,
+							selectedGenres,
+							selectedDates,
+							sort.sortColumn,
+							sort.sortType
+						)
+					}
+					hasMore={hasMore}
+					loader={
+						<div className="flex justify-center mt-4">
+							<LogoLoader />
+						</div>
+					}
+				>
+					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+						{eventList ? (
+							eventList.map(event => (
+								<EventCard
+									event={event}
+									onClick={onEventClick}
+									key={event.eventId}
+								/>
+							))
+						) : (
+							<div>e</div>
+						)}
 					</div>
-				}
-			>
-				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-					{eventList ? (
-						eventList.map(event => (
-							<EventCard
-								event={event}
-								onClick={onEventClick}
-								key={event.eventId}
-							/>
-						))
-					) : (
-						<div>e</div>
-					)}
+				</InfiniteScroll>
+			) : (
+				<div className="flex justify-center mt-4">
+					<LogoLoader />
 				</div>
-			</InfiniteScroll>
+			)}
 
 			{easterEgg?.isOn ? (
 				<iframe

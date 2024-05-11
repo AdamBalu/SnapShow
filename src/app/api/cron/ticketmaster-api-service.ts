@@ -20,7 +20,7 @@ import {
 
 const baseUrl = 'https://app.ticketmaster.com';
 const apiKey = process.env.TICKETMASTER_API_KEY;
-const country = 'FI';
+const country = 'CZ';
 
 type AttractionData = {
 	interpreter: Interpreter;
