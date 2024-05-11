@@ -5,17 +5,23 @@ import { desc } from 'drizzle-orm';
 import { db } from '@/db';
 import { posts } from '@/db/schema/posts';
 
-import { Post } from './post';
+import { PostCard } from './post-card';
 
 export const PostsFeed = async () => {
 	const postsArray = await db.query.posts.findMany({
-		with: { reactions: true },
+		with: { reactions: true, photos: true },
 		orderBy: [desc(posts.timestamp)]
 	});
+
 	return (
 		<div className="flex flex-col w-10/12 justify-center">
 			{postsArray.map(post => (
-				<Post key={post.id} post={post} />
+				<PostCard
+					key={post.id}
+					post={post}
+					reactions={post.reactions}
+					photos={post.photos}
+				/>
 			))}
 		</div>
 	);

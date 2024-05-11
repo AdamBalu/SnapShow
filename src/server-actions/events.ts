@@ -237,3 +237,13 @@ export const updateUserEventStatus = async (
 
 	revalidatePath(`/event/${eventId}`);
 };
+
+export const getUserEvents = async (userId: string) =>
+	db
+		.select({ id: events.id, name: events.name })
+		.from(events)
+		.innerJoin(usersToEvents, eq(events.id, usersToEvents.eventId))
+		.where(
+			and(eq(usersToEvents.userId, userId), eq(usersToEvents.isDeleted, false))
+		)
+		.orderBy(desc(events.datetime));

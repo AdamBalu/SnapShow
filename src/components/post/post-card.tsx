@@ -3,7 +3,9 @@
 import Image from 'next/image';
 
 import { auth } from '@/auth';
-import { type PostWithReactions } from '@/db/schema/posts';
+import { type Reaction } from '@/db/schema/reactions';
+import { type Photo } from '@/db/schema/photos';
+import { type Post } from '@/db/schema/posts';
 
 import { PostBottomBar } from './post-bottom-bar';
 import { PostProfileBadge } from './post-profile-badge';
@@ -11,38 +13,40 @@ import { PostReactions } from './post-reactions';
 import { PostText } from './post-text';
 
 type PostProps = {
-	post?: PostWithReactions;
+	post: Post;
+	reactions: Reaction[];
+	photos: Photo[];
 };
 
-export const Post = async (props: PostProps) => {
+export const PostCard = async ({ post, reactions, photos }: PostProps) => {
 	const currentSession = await auth();
-	const isLiked = !!props.post?.reactions.find(
+	const isLiked = !!reactions.find(
 		reaction => reaction.userId === currentSession?.user.id
 	);
 
 	return (
 		<div className="bg-zinc-900 rounded-lg mb-4 p-4 flex flex-col justify-center">
 			<PostProfileBadge
-				userId={props.post?.userId}
-				eventId={props.post?.eventId}
-				timestamp={props.post?.timestamp}
+				userId={post.userId}
+				eventId={post.eventId}
+				timestamp={post.timestamp}
 			/>
 			<div className=" pb-6">
-				<PostText content={props.post?.comment} />
+				<PostText content={post.comment} />
 			</div>
 			<div className="flex justify-center">
-				{props.post?.photo && (
+				{photos.at(0)?.url && (
 					<Image
 						className="rounded-md py-4"
-						src={props.post.photo}
+						src={photos[0].url}
 						alt="post image content"
 						width={400}
 						height={250}
 					/>
 				)}
 			</div>
-			{props.post?.id && <PostReactions reactions={props.post?.reactions} />}
-			<PostBottomBar postId={props.post!.id} isLiked={isLiked} />
+			{reactions && <PostReactions reactions={reactions} />}
+			<PostBottomBar postId={post.id} isLiked={isLiked} />
 		</div>
 	);
 };
