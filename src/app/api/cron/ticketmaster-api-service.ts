@@ -3,9 +3,9 @@ import { type SQLiteTableWithColumns } from 'drizzle-orm/sqlite-core/table';
 
 import { db } from '@/db';
 import { type Event, events } from '@/db/schema/events';
-import { type Genre, genres } from '@/db/schema/genre';
+import { type Genres, genres } from '@/db/schema/genres';
 import { type Interpreter, interpreters } from '@/db/schema/interpreters';
-import { type Venue, venues } from '@/db/schema/venue';
+import { type Venues, venues } from '@/db/schema/venues';
 import {
 	type InterpreterToEvent,
 	interpretersToEvents
@@ -24,7 +24,7 @@ const country = 'FI';
 
 type AttractionData = {
 	interpreter: Interpreter;
-	genre: Genre;
+	genre: Genres;
 };
 
 export const getTicketmasterEvents = async () => {
@@ -152,7 +152,7 @@ const updateInterpretToEvent = async (
 	}
 };
 
-const updateGenreToEvent = async (event: Event, genre: Genre) => {
+const updateGenreToEvent = async (event: Event, genre: Genres) => {
 	const eventToGenre: EventToGenre = {
 		eventId: event.id,
 		genreId: genre.id,
@@ -182,7 +182,7 @@ const updateGenreToEvent = async (event: Event, genre: Genre) => {
 const updateDbData = async (
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	table: SQLiteTableWithColumns<any>,
-	data: Event | Venue | Interpreter | Genre
+	data: Event | Venues | Interpreter | Genres
 ) => {
 	const res = await db.select().from(table).where(eq(table.id, data.id));
 	const updateData = res.length === 0;
@@ -197,7 +197,7 @@ const updateDbData = async (
 const getVenueData = (eventVenue: EventVenue) => {
 	const fullAddress = `${eventVenue.city ? `${eventVenue.city.name},` : ''}${eventVenue.address ? eventVenue.address.line1 : ''}`;
 	console.log(fullAddress);
-	const venue: Venue = {
+	const venue: Venues = {
 		id: eventVenue.id,
 		name: eventVenue.name ?? '',
 		address: fullAddress,
@@ -213,7 +213,7 @@ const getVenueData = (eventVenue: EventVenue) => {
 
 const getAttractionData = (attraction: Attraction) => {
 	let interpreter: Interpreter | null = null;
-	let genre: Genre | null = null;
+	let genre: Genres | null = null;
 
 	// ignore genres that are not 'Music'
 	if (
