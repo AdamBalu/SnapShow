@@ -137,45 +137,39 @@ export const EventList = ({
 				loading={loading}
 			/>
 
-			{!loading ? (
-				<InfiniteScroll
-					dataLength={eventList.length}
-					next={async () =>
-						await fetchData(
-							false,
-							filter,
-							selectedGenres,
-							selectedDates,
-							sort.sortColumn,
-							sort.sortType
-						)
-					}
-					hasMore={hasMore}
-					loader={
-						<div className="flex justify-center mt-4">
-							<LogoLoader />
-						</div>
-					}
-				>
-					<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-						{eventList ? (
-							eventList.map(event => (
-								<EventCard
-									event={event}
-									onClick={onEventClick}
-									key={event.eventId}
-								/>
-							))
-						) : (
-							<div>e</div>
-						)}
+			<InfiniteScroll
+				dataLength={eventList.length}
+				next={async () =>
+					await fetchData(
+						false,
+						filter,
+						selectedGenres,
+						selectedDates,
+						sort.sortColumn,
+						sort.sortType
+					)
+				}
+				hasMore={hasMore}
+				loader={
+					<div className="flex justify-center mt-4">
+						<LogoLoader />
 					</div>
-				</InfiniteScroll>
-			) : (
-				<div className="flex justify-center mt-4">
-					<LogoLoader />
+				}
+			>
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+					{eventList ? (
+						eventList.map(event => (
+							<EventCard
+								event={event}
+								onClick={onEventClick}
+								key={event.eventId}
+							/>
+						))
+					) : (
+						<div>e</div>
+					)}
 				</div>
-			)}
+			</InfiniteScroll>
 
 			{easterEgg?.isOn ? (
 				<iframe
