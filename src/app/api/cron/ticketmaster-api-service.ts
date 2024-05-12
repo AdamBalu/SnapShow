@@ -20,7 +20,7 @@ import {
 
 const baseUrl = 'https://app.ticketmaster.com';
 const apiKey = process.env.TICKETMASTER_API_KEY;
-const country = 'CZ';
+const country = 'AU';
 
 type AttractionData = {
 	interpreter: Interpreter;
@@ -203,8 +203,8 @@ const getVenueData = (eventVenue: EventVenue) => {
 		address: fullAddress,
 		zipCode: eventVenue.postalCode ?? '',
 		country: eventVenue.country ? eventVenue.country.name : '',
-		longitude: eventVenue.location.longitude ?? '',
-		latitude: eventVenue.location.latitude ?? '',
+		longitude: eventVenue.location.longitude ?? '16.61239',
+		latitude: eventVenue.location.latitude ?? '49.190936',
 		isDeleted: false
 	};
 
