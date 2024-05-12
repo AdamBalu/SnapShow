@@ -1,7 +1,9 @@
-import { EventFilterSortColumn } from '@/types/event-data';
-import { SortButton, SortType } from './sort-button';
 import { useContext } from 'react';
+
+import { type EventFilterSortColumn } from '@/types/event-data';
 import { EasterEggContext } from '@/hooks/easter-egg-context';
+
+import { SortButton, type SortType } from './sort-button';
 
 type EventSortProps = {
 	sortType: SortType;
