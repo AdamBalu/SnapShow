@@ -23,3 +23,21 @@ export const displayableDateTime = (date: Date) => {
 
 	return `${day}.${month}. ${year} ${hours}:${minutes}`;
 };
+
+export const localizeDate = (utcDate: Date) => {
+	const offsetInMinutes = utcDate.getTimezoneOffset();
+
+	const MINUTESTOMILLIS = 60000;
+	// Adjust the UTC date to local timezone
+	const localDate = new Date(
+		utcDate.getTime() - offsetInMinutes * MINUTESTOMILLIS
+	);
+	return localDate;
+};
+
+export const offsetDateForFormatting = (date: Date) => {
+	const SECONDSOFFSET = 10;
+	const SECONDSTOMILLIS = 1000;
+	const offsetDate = new Date(date.getTime() - SECONDSOFFSET * SECONDSTOMILLIS);
+	return offsetDate;
+};
