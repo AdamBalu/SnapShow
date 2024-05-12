@@ -19,9 +19,7 @@ export const posts = sqliteTable('post', {
 		.notNull()
 		.references(() => events.id),
 	photo: text('photo'),
-	timestamp: integer('timestamp', { mode: 'timestamp' }).default(
-		sql`(CURRENT_TIMESTAMP)`
-	),
+	datetime: text('datetime').default(sql`(CURRENT_TIMESTAMP)`),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
