@@ -9,7 +9,7 @@ import { PostCard } from './post-card';
 
 export const PostsFeed = async () => {
 	const postsArray = await db.query.posts.findMany({
-		with: { reactions: true },
+		with: { reactions: true, photos: true },
 		orderBy: [desc(posts.datetime)]
 	});
 

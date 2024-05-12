@@ -14,7 +14,6 @@ type TimeBadgeProps = {
 
 export const TimeBadge = async (props: TimeBadgeProps) => {
 	const timeAgo = new TimeAgo('en-US');
-	console.log(props.datetime);
 	return props.datetime ? (
 		<div
 			className="tooltip tooltip-bottom"
