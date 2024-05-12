@@ -15,7 +15,7 @@ export const comments = sqliteTable('comment', {
 	postId: text('postId')
 		.notNull()
 		.references(() => posts.id),
-	timestamp: text('timestamp').default(sql`(CURRENT_TIMESTAMP)`),
+	datetime: text('datetime').default(sql`(CURRENT_TIMESTAMP)`),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
