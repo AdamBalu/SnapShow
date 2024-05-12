@@ -26,7 +26,11 @@ export const LocationBadge = async (props: LocationBadge) => {
 				<LucideMapPin />
 				<a href={`/event/${location.event.id}`}>
 					{location?.venue && (
-						<span className="hover:underline">{`${location.event.name} | ${location.venue.name}`}</span>
+						<span className="hover:underline">
+							{location.venue.name
+								? `${location.event.name} | ${location.venue.name}`
+								: location.event.name}
+						</span>
 					)}
 				</a>
 			</div>

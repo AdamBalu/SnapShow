@@ -2,17 +2,18 @@
 
 import { eq } from 'drizzle-orm';
 import Image from 'next/image';
+import React from 'react';
 
 import { db } from '@/db';
 import { users } from '@/db/schema/users';
+import { TimeBadge } from '@/components/post/time-badge';
 
 import { LocationBadge } from './location-badge';
-import { TimeBadge } from './time-badge';
 
 type PostProfileBadgeProps = {
 	userId: string | undefined;
 	eventId: string | null | undefined;
-	timestamp: Date | null | undefined;
+	datetime: Date | null;
 };
 
 export const PostProfileBadge = async (props: PostProfileBadgeProps) => {
@@ -41,7 +42,7 @@ export const PostProfileBadge = async (props: PostProfileBadgeProps) => {
 					<span className="hover:underline">{user?.name}</span>
 				</a>
 				<div className="flex text-gray-600">
-					{props.timestamp && <TimeBadge timestamp={props.timestamp} />}
+					{props.datetime && <TimeBadge datetime={props.datetime} />}
 					{props.eventId && <LocationBadge eventId={props.eventId} />}
 				</div>
 			</div>
