@@ -7,15 +7,15 @@ export default withUt({
   theme: {
     extend: {
       colors: {
-        'primary': "#08D9D6",
-        'primary-shadow': "#099E9C",
-        'secondary': "#1D232A",
+        "primary": "#08D9D6",
+        "primary-shadow": "#099E9C",
+        "secondary": "#1D232A"
       },
       backgroundImage: {
-        'body-main': "url('/static/background.svg')",
+        "body-main": "url('/static/background.svg')"
       },
       transitionProperty: {
-        'width': 'width'
+        "width": "width"
       },
 
       container: {
@@ -56,5 +56,5 @@ export default withUt({
     ]
   },
 
-  plugins: [require("daisyui")]
+  plugins: [require("daisyui"), require("tailwind-scrollbar")]
 });
