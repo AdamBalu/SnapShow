@@ -58,11 +58,11 @@ export const FriendsPreview = ({
 			<Modal
 				className="h-96"
 				modalId="friend-list-modal"
-				title="Your friends"
+				title="Friends"
 				open={modalOpen}
 				close={() => setModalOpen(false)}
 			>
-				<div className="flex flex-col items-center h-96">
+				<div className="scrollbar-thin flex flex-col items-center h-96 overflow-scroll">
 					{isPending && <Loader />}
 					<ul className="flex flex-col gap-2 w-full">
 						{data?.map(friend => (

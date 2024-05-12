@@ -23,6 +23,7 @@ export const PostImagesUpload = ({ name }: PostImagesUploadProps) => {
 
 	const onImageDelete = async (imageToDelete: string) => {
 		setImages([...images.filter(img => img !== imageToDelete)]);
+		setValue(name, [...images.filter(img => img !== imageToDelete)]);
 		mutate(imageToDelete);
 	};
 
@@ -33,7 +34,7 @@ export const PostImagesUpload = ({ name }: PostImagesUploadProps) => {
 	}, [isSubmitSuccessful]);
 
 	return (
-		<div className="flex flex-col w-full h-full justify-between gap-4 flex-grow">
+		<div className="flex flex-col w-full justify-between gap-4 flex-grow">
 			<Controller
 				{...register(name)}
 				control={control}
@@ -64,33 +65,35 @@ export const PostImagesUpload = ({ name }: PostImagesUploadProps) => {
 					</div>
 				)}
 			/>
-			{errors[name] && images.length === 0 ? (
-				<div className="mt-2 text-sm text-error h-80">
-					Post must have at least one image.
-				</div>
-			) : (
-				<ul className="mt-2 flex flex-row h-80 overflow-scroll gap-6 flex-wrap justify-around md:justify-start p-5 rounded-lg">
-					{images.map(image => (
-						<li key={image} className="flex flex-col items-end">
-							<button
-								onClick={() => onImageDelete(image)}
-								className="-mb-8 mr-2 z-50 btn btn-circle btn-xs"
-							>
-								<X className="size-4" />
-							</button>
-							<Image
-								className=" w-full h-auto sm:h-32 sm:w-auto lg:h-40 rounded-lg"
-								src={image}
-								width="0"
-								height="0"
-								sizes="100vw"
-								objectFit="contain"
-								alt="uploaded image"
-							/>
-						</li>
-					))}
-				</ul>
-			)}
+			<div className="flex-grow">
+				{errors[name] && images.length === 0 ? (
+					<div className="mt-2 text-sm text-error">
+						Post must have at least one image.
+					</div>
+				) : (
+					<ul className="scrollbar-thin mt-2 flex max-h-80 overflow-scroll flex-row gap-6 flex-wrap justify-around md:justify-start p-5 rounded-lg">
+						{images.map(image => (
+							<li key={image} className="flex flex-col items-end">
+								<button
+									onClick={() => onImageDelete(image)}
+									className="-mb-8 mr-2 z-50 btn btn-circle btn-xs"
+								>
+									<X className="size-4" />
+								</button>
+								<Image
+									className=" w-full h-auto sm:h-32 sm:w-auto lg:h-40 rounded-lg"
+									src={image}
+									width="0"
+									height="0"
+									sizes="100vw"
+									objectFit="contain"
+									alt="uploaded image"
+								/>
+							</li>
+						))}
+					</ul>
+				)}
+			</div>
 		</div>
 	);
 };

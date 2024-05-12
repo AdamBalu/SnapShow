@@ -71,7 +71,7 @@ export const NewPost = ({ userId, profilePicture, events }: NewPostProps) => {
 					<FormProvider {...form}>
 						<form
 							onSubmit={form.handleSubmit(onSubmit)}
-							className="flex flex-col gap-2 w-full items-center "
+							className="flex flex-col gap-2 items-center flex-grow"
 						>
 							<div className="flex w-full gap-5 items-center">
 								<Avatar
