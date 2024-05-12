@@ -51,3 +51,6 @@ export const createPost = async (
 
 	revalidatePath('/');
 };
+
+export const retrievePostPhotos = async (postId: string) =>
+	db.select().from(photos).where(eq(photos.postId, postId));
