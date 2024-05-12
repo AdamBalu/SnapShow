@@ -7,7 +7,6 @@ import { db } from '@/db';
 import { reactions } from '@/db/schema/reactions';
 import { posts } from '@/db/schema/posts';
 import { photos } from '@/db/schema/photos';
-import { photos } from '@/db/schema/photos';
 
 export const toggleReactionAction = async (postId: string, userId: string) => {
 	// try to fetch the current reaction from user
