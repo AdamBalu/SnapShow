@@ -5,7 +5,7 @@ import { and, eq } from 'drizzle-orm';
 import { db } from '@/db';
 import { users } from '@/db/schema/users';
 import { usersToGenres } from '@/db/schema/usersToGenres';
-import { genres } from '@/db/schema/genre';
+import { genres } from '@/db/schema/genres';
 import { eventsToGenres } from '@/db/schema/eventsToGenres';
 
 export const getUsersFavoriteGenres = async (userId: string) =>

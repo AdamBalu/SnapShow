@@ -4,7 +4,7 @@ import React, { useContext, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/navigation';
 
-import { type Genre } from '@/db/schema/genre';
+import { type Genres } from '@/db/schema/genres';
 import { formatDate } from '@/utils/date-time-converter';
 import { useEventList } from '@/hooks/event-list';
 import {
@@ -28,7 +28,7 @@ import { EventCard } from './event-card';
 
 type EventListProps = {
 	initialEvents: EventsListData[];
-	genres: Genre[];
+	genres: Genres[];
 	isUserSignedIn: boolean;
 };
 

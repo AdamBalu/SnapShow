@@ -9,11 +9,11 @@ import {
 	verificationTokens
 } from '@/db/schema/users';
 import { posts, postsRelations } from '@/db/schema/posts';
-import { genres, genresRelations } from '@/db/schema/genre';
+import { genres, genresRelations } from '@/db/schema/genres';
 import { comments, commentsRelations } from '@/db/schema/comments';
 import { interpreters, interpretersRelations } from '@/db/schema/interpreters';
 import { reactions, reactionsRelations } from '@/db/schema/reactions';
-import { venues, venuesRelations } from '@/db/schema/venue';
+import { venues, venuesRelations } from '@/db/schema/venues';
 import { events, eventsRelations } from '@/db/schema/events';
 import {
 	eventsToGenres,
@@ -32,6 +32,7 @@ import {
 	usersToGenres,
 	usersToGenresRelations
 } from '@/db/schema/usersToGenres';
+import { photos, photosRelations } from '@/db/schema/photos';
 
 const client = createClient({
 	url: process.env.DATABASE_URL!,
@@ -51,6 +52,7 @@ export const db = drizzle(client, {
 		accounts,
 		sessions,
 		verificationTokens,
+		photos,
 
 		// many to many
 		eventsToGenres,
@@ -72,6 +74,7 @@ export const db = drizzle(client, {
 		interpretersToEventsRelations,
 		usersFriendsRelations,
 		usersToEventsRelations,
-		usersToGenresRelations
+		usersToGenresRelations,
+		photosRelations
 	}
 });

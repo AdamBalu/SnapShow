@@ -3,14 +3,17 @@ import { toast } from 'sonner';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Avatar } from '@/components/user/avatar';
-import { UploadButton } from '@/components/user-form/user-form';
+import { UploadButton } from '@/components/uploadthing/upload-button';
 
-type AvatarProps = {
+type ProfilePictureUploadProps = {
 	profilePicture: string | undefined | null;
 	name: string;
 };
 
-export const ProfilePictureUpload = ({ profilePicture, name }: AvatarProps) => {
+export const ProfilePictureUpload = ({
+	profilePicture,
+	name
+}: ProfilePictureUploadProps) => {
 	const [profilePic, setProfilePic] = useState(profilePicture);
 	const { register, control, setValue } = useFormContext();
 

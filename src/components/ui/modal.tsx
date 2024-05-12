@@ -60,7 +60,9 @@ const Modal = ({
 				)}
 			>
 				<div className="flex justify-between align-middle">
-					<p className="text-center pb-4">{title}</p>
+					<span className="text-xl pb-4 font-sarpanch font-extrabold">
+						{title}
+					</span>
 					<button
 						onClick={close}
 						className="btn btn-sm btn-circle btn-ghost -mt-1"

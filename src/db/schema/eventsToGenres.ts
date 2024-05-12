@@ -7,7 +7,7 @@ import {
 import { relations } from 'drizzle-orm';
 
 import { events } from '@/db/schema/events';
-import { genres } from '@/db/schema/genre';
+import { genres } from '@/db/schema/genres';
 
 export const eventsToGenres = sqliteTable(
 	'eventsToGenres',

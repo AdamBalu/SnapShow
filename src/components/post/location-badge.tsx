@@ -3,7 +3,7 @@ import { LucideMapPin } from 'lucide-react';
 
 import { db } from '@/db';
 import { events } from '@/db/schema/events';
-import { venues } from '@/db/schema/venue';
+import { venues } from '@/db/schema/venues';
 
 type LocationBadge = {
 	eventId: string;

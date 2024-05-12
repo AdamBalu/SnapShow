@@ -16,7 +16,7 @@ export const venues = sqliteTable('venue', {
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
-export type Venue = typeof venues.$inferSelect;
+export type Venues = typeof venues.$inferSelect;
 
 export const venuesRelations = relations(venues, ({ many }) => ({
 	events: many(events)
