@@ -62,9 +62,9 @@ export const FriendsPreview = ({
 				open={modalOpen}
 				close={() => setModalOpen(false)}
 			>
-				<div className="scrollbar-thin flex flex-col items-center h-96 overflow-scroll">
+				<div className="scrollbar-thin flex flex-col items-center h-96 overflow-y-scroll">
 					{isPending && <Loader />}
-					<ul className="flex flex-col gap-2 w-full">
+					<ul className="flex flex-col gap-2 w-full pr-2">
 						{data?.map(friend => (
 							<li key={friend.id} className="btn h-16 w-full">
 								<Link
