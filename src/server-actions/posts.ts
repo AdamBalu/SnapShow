@@ -5,6 +5,7 @@ import { revalidatePath } from 'next/cache';
 
 import { db } from '@/db';
 import { reactions } from '@/db/schema/reactions';
+import { photos } from '@/db/schema/photos';
 
 export const toggleReactionAction = async (postId: string, userId: string) => {
 	// try to fetch the current reaction from user
@@ -22,3 +23,6 @@ export const toggleReactionAction = async (postId: string, userId: string) => {
 	}
 	revalidatePath('/');
 };
+
+export const retrievePostPhotos = async (postId: string) =>
+	db.select().from(photos).where(eq(photos.postId, postId));

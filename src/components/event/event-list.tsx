@@ -18,7 +18,7 @@ import {
 	EasterEggContextProvider
 } from '@/hooks/easter-egg-context';
 
-import { SortButton, type SortType } from './sort-button';
+import { type SortType } from './sort-button';
 import {
 	EventFilter,
 	type EventGenre,
