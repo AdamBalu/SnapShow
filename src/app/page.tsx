@@ -1,10 +1,12 @@
-import { Banner } from '@/components/banner';
-import { ExploreEventsButton } from '@/components/home/explore-events-button';
-import { HomepageFilters } from '@/components/filters/homepage-filters';
-import { PostsFeed } from '@/components/post/posts-feed';
-import { Header } from '@/components/header/header';
-import { Footer } from '@/components/footer/footer';
+'use server';
+
 import { auth } from '@/auth';
+import { Banner } from '@/components/banner';
+import { HomepageFilters } from '@/components/filters/homepage-filters';
+import { Footer } from '@/components/footer/footer';
+import { Header } from '@/components/header/header';
+import { ExploreEventsButton } from '@/components/home/explore-events-button';
+import { PostsFeed } from '@/components/post/posts-feed';
 
 const Page = async () => {
 	const session = await auth();

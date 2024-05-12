@@ -16,6 +16,10 @@ type PostProps = {
 
 export const Post = async (props: PostProps) => {
 	const currentSession = await auth();
+	let convertedDate = null;
+	if (props.post?.datetime) {
+		convertedDate = new Date(props.post?.datetime);
+	}
 	const isLiked = !!props.post?.reactions.find(
 		reaction => reaction.userId === currentSession?.user.id
 	);
@@ -25,7 +29,7 @@ export const Post = async (props: PostProps) => {
 			<PostProfileBadge
 				userId={props.post?.userId}
 				eventId={props.post?.eventId}
-				timestamp={props.post?.timestamp}
+				datetime={convertedDate}
 			/>
 			<div className=" pb-6">
 				<PostText content={props.post?.comment} />
