@@ -41,7 +41,7 @@ export const PostProfileBadge = async (props: PostProfileBadgeProps) => {
 					<span className="hover:underline">{user?.name}</span>
 				</a>
 				<div className="flex text-gray-600">
-					{props.datetime && <TimeBadge timestamp={props.datetime} />}
+					{props.datetime && <TimeBadge datetime={props.datetime} />}
 					{props.eventId && <LocationBadge eventId={props.eventId} />}
 				</div>
 			</div>

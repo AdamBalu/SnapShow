@@ -10,7 +10,7 @@ import { Post } from './post';
 export const PostsFeed = async () => {
 	const postsArray = await db.query.posts.findMany({
 		with: { reactions: true },
-		orderBy: [desc(posts.timestamp)]
+		orderBy: [desc(posts.datetime)]
 	});
 	return (
 		<div className="flex flex-col w-10/12 justify-center">

@@ -9,19 +9,19 @@ import { isValidDate } from '@/utils/date-validity-checker';
 TimeAgo.addDefaultLocale(en);
 
 type TimeBadgeProps = {
-	timestamp: Date;
+	datetime: Date;
 };
 
 export const TimeBadge = async (props: TimeBadgeProps) => {
 	const timeAgo = new TimeAgo('en-US');
-	console.log(props.timestamp);
-	return props.timestamp ? (
+	console.log(props.datetime);
+	return props.datetime ? (
 		<div
 			className="tooltip tooltip-bottom"
-			data-tip={displayableDateTime(props.timestamp)}
+			data-tip={displayableDateTime(props.datetime)}
 		>
-			{isValidDate(props.timestamp) && (
-				<span>{timeAgo.format(props.timestamp)}</span>
+			{isValidDate(props.datetime) && (
+				<span>{timeAgo.format(props.datetime)}</span>
 			)}
 		</div>
 	) : (
