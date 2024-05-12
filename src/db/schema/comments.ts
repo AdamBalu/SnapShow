@@ -1,8 +1,8 @@
-import { text, integer, sqliteTable } from 'drizzle-orm/sqlite-core';
 import { relations, sql } from 'drizzle-orm';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
-import { users } from '@/db/schema/users';
 import { posts } from '@/db/schema/posts';
+import { users } from '@/db/schema/users';
 
 export const comments = sqliteTable('comment', {
 	id: text('id')
@@ -15,9 +15,7 @@ export const comments = sqliteTable('comment', {
 	postId: text('postId')
 		.notNull()
 		.references(() => posts.id),
-	timestamp: integer('timestamp', { mode: 'timestamp' }).default(
-		sql`(CURRENT_TIMESTAMP)`
-	),
+	timestamp: text('timestamp').default(sql`(CURRENT_TIMESTAMP)`),
 	isDeleted: integer('isDeleted', { mode: 'boolean' }).default(false)
 });
 
