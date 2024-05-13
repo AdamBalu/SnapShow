@@ -1,11 +1,5 @@
-'use server';
-
-import { eq } from 'drizzle-orm';
 import Image from 'next/image';
-import React from 'react';
 
-import { db } from '@/db';
-import { users } from '@/db/schema/users';
 import { TimeBadge } from '@/components/post/time-badge';
 
 import { LocationBadge } from './location-badge';
@@ -14,36 +8,45 @@ type PostProfileBadgeProps = {
 	userId: string | undefined;
 	eventId: string | null | undefined;
 	datetime: Date | null;
+	venueName: string | undefined | null;
+	eventName: string | undefined | null;
+	venueAddress: string | undefined | null;
+	userPic: string | undefined | null;
+	userName: string | undefined | null;
 };
 
-export const PostProfileBadge = async (props: PostProfileBadgeProps) => {
+export const PostProfileBadge = (props: PostProfileBadgeProps) => {
 	if (props.userId === undefined) {
 		return <span>Unknown user</span>;
 	}
-	const user = await db.query.users.findFirst({
-		where: eq(users.id, props.userId)
-	});
 
 	return (
 		<div className="mb-6 flex flex-row">
-			<a href={`/user/${user?.id}`}>
-				{user?.image && (
+			<a href={`/user/${props.userId}`}>
+				{props.userPic && (
 					<Image
 						className="rounded-badge mr-2 w-16 h-16 hover:drop-shadow-md hover:shadow-blue-400"
-						src={user?.image}
-						width={512}
-						height={512}
+						src={props.userPic}
+						width={256}
+						height={256}
 						alt="User profile image"
 					/>
 				)}
 			</a>
 			<div className="flex-col">
-				<a href={`/user/${user?.id}`}>
-					<span className="hover:underline">{user?.name}</span>
+				<a href={`/user/${props.userId}`}>
+					<span className="hover:underline">{props.userName}</span>
 				</a>
 				<div className="flex text-gray-600">
 					{props.datetime && <TimeBadge datetime={props.datetime} />}
-					{props.eventId && <LocationBadge eventId={props.eventId} />}
+					{props.eventId && (
+						<LocationBadge
+							eventId={props.eventId}
+							venueName={props.venueName}
+							venueAddress={props.venueAddress}
+							eventName={props.eventName}
+						/>
+					)}
 				</div>
 			</div>
 		</div>

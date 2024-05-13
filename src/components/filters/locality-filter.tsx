@@ -1,5 +1,4 @@
-'use server';
-import React from 'react';
+'use client';
 
 import { Dropdown } from '@/components/ui/dropdown';
 

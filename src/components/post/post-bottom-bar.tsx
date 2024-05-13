@@ -13,6 +13,7 @@ import { PostButton } from './post-button';
 type PostBottomBarProps = {
 	postId: string;
 	isLiked: boolean;
+	onChangeReaction: () => void;
 };
 
 const toggleLike = async (postId: string, userId: string) => {
@@ -33,12 +34,11 @@ export const PostBottomBar = (props: PostBottomBarProps) => {
 			) : (
 				<PostButton
 					onClickAction={async () => {
-						setLoading(true);
 						const session = await getSession();
 						if (session?.user.id) {
 							await toggleLike(props.postId, session?.user.id);
 						}
-						setLoading(false);
+						await props.onChangeReaction();
 					}}
 					icon={<LucideThumbsUp fill={props.isLiked ? '#eee' : undefined} />}
 					text="Like"

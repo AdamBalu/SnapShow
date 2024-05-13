@@ -1,28 +1,21 @@
-'use server';
+'use client';
 
-import { desc } from 'drizzle-orm';
+import { type Session } from 'next-auth';
 
-import { db } from '@/db';
-import { posts } from '@/db/schema/posts';
-
-import { PostCard } from './post-card';
-
-export const PostsFeed = async () => {
-	const postsArray = await db.query.posts.findMany({
-		with: { reactions: true, photos: true },
-		orderBy: [desc(posts.datetime)]
-	});
-
-	return (
-		<div className="flex flex-col w-10/12 justify-center">
-			{postsArray.map(post => (
-				<PostCard
-					key={post.id}
-					post={post}
-					reactions={post.reactions}
-					photos={post.photos}
-				/>
-			))}
-		</div>
-	);
+type PostsFeedProps = {
+	currentUser: Session | null;
 };
+
+export const PostsFeed = async () => (
+	<div>yo</div>
+	// <div className="flex flex-col w-10/12 justify-center">
+	// 	{postsArray.map(post => (
+	// 		<PostCard
+	// 			key={post.id}
+	// 			post={post}
+	// 			reactions={post.reactions}
+	// 			photos={post.photos}
+	// 		/>
+	// 	))}
+	// </div>
+);

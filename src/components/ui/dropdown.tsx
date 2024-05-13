@@ -1,16 +1,16 @@
-'use client';
-import React, { useState } from 'react';
-import Image from 'next/image';
 import { LucideChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
 import Loading from '@/app/(layout)/edit-details/loading';
+import { Button } from '@/components/ui/button';
 
 export type DropdownItem = {
 	label: string;
 	iconSrc: string;
 	action?: () => Promise<void>;
+	callback?: (text: string) => void;
 };
 
 type DropdownProps = {
@@ -27,14 +27,24 @@ export const Dropdown = ({ items }: DropdownProps) => {
 	const handleItemClick = (item: DropdownItem) => {
 		setLoading(true);
 		setSelectedItem(item);
+
+		// If an action is defined, execute it synchronously
 		if (item.action) {
 			item
 				.action()
-				.then(_ => setLoading(false))
+				.then(() => setLoading(false))
 				.catch(error => {
 					toast.error(error);
+					setLoading(false);
 				});
-		} else {
+		}
+		// If a callback is defined, call it synchronously
+		else if (item.callback) {
+			item.callback(item.label);
+			setLoading(false);
+		}
+		// If neither action nor callback is defined, just set loading to false
+		else {
 			setLoading(false);
 		}
 	};
