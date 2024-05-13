@@ -14,9 +14,13 @@ export const LocationBadge = (props: LocationBadge) => (
 			<a href={`/event/${props.eventId}`}>
 				{props.venueName && (
 					<span className="hover:underline">
-						{props.venueName
+						{props.eventName && props.venueName
 							? `${props.eventName} | ${props.venueName}`
-							: props.eventName}
+							: props.venueName
+								? props.venueName === ''
+								: props.eventName === ''
+									? props.eventName === ''
+									: 'Unknown event'}
 					</span>
 				)}
 			</a>

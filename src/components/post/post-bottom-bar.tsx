@@ -24,7 +24,6 @@ export const PostBottomBar = (props: PostBottomBarProps) => (
 	// }
 
 	<div className="flex justify-evenly">
-		(
 		<PostButton
 			onClickAction={async () => {
 				const session = await getSession();
@@ -36,7 +35,6 @@ export const PostBottomBar = (props: PostBottomBarProps) => (
 			icon={<LucideThumbsUp fill={props.isLiked ? '#eee' : undefined} />}
 			text="Like"
 		/>
-		)
 		<PostButton
 			onClickAction={() => null}
 			icon={<LucideMessageCircle />}

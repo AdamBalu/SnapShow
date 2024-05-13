@@ -81,6 +81,9 @@ export const getAllPostIdsPaginatedFiltered = async (
 	pageSize: number,
 	genreFilter: string
 ) => {
+	console.log(page);
+	console.log(pageSize);
+	console.log(genreFilter);
 	const postIds = await db
 		.select({ id: posts.id })
 		.from(posts)
@@ -91,11 +94,14 @@ export const getAllPostIdsPaginatedFiltered = async (
 		.orderBy(desc(posts.datetime))
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
+	console.log(':D');
+	console.log(postIds);
 	return postIds.map(post => post.id);
 };
 
 // Function to fetch post details along with reactions and photos
 export const getPostDetails = async (postId: string) => {
+	console.log(`post:${postId}`);
 	// Fetch post details
 	const post = await db.query.posts.findFirst({
 		where: eq(posts.id, postId)
@@ -172,7 +178,7 @@ export const getPostDetails = async (postId: string) => {
 			url: pic.url
 		}))
 	};
-
+	console.log(`post:${postId}`);
 	console.log(postData);
 	return postData;
 };
@@ -191,8 +197,6 @@ export const getPostsPaginated = async (
 	pageSize: number,
 	genreFilter: string | null
 ) => {
-	console.log('tadysu');
-	console.log(genreFilter);
 	if (genreFilter === null || genreFilter === undefined) {
 		const postIds = await getAllPostIdsPaginated(page, pageSize);
 		const posts = await Promise.all(
@@ -205,6 +209,7 @@ export const getPostsPaginated = async (
 			pageSize,
 			genreFilter
 		);
+		console.log(`post:${postIds}`);
 		const posts = await Promise.all(
 			postIds.map(postId => getPostDetails(postId))
 		);

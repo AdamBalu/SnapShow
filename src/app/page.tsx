@@ -18,7 +18,6 @@ const Page = async () => {
 		: undefined;
 
 	let genres = await getAllGenres();
-	console.log(genres);
 	const allGenres = {
 		id: 'allgenres',
 		name: 'all genres',
@@ -32,7 +31,7 @@ const Page = async () => {
 	// 	with: { reactions: true, photos: true },
 	// 	orderBy: [desc(posts.datetime)]
 	// });
-	let initialPosts = await getPostsPaginated(1, 3);
+	let initialPosts = await getPostsPaginated(1, 10, null);
 	if (initialPosts === null || initialPosts.length === 0) {
 		initialPosts = [];
 	}

@@ -25,19 +25,27 @@ export const Homepage = ({
 	genres
 }: HomepageProps) => {
 	const onGenreChange = (newGenre: string) => {
-		console.log(newGenre);
 		if (newGenre.toLowerCase() === 'all genres') {
 			setSelectedGenre(null);
 		} else {
 			setSelectedGenre(newGenre);
 		}
+		setGenreChanged(true);
+	};
+
+	const onEffect = () => {
+		setGenreChanged(false);
+		console.log(
+			`genre has changed to ${selectedGenre}, now setting it back to false`
+		);
 	};
 
 	const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
+	// const [initPosts, setInitPosts] = useState(initialPosts);
+	const [genreChanged, setGenreChanged] = useState(false);
 
 	return (
 		<div>
-			<p>{selectedGenre}</p>
 			<div className="flex justify-between h-20 mb-10">
 				<HomepageFilters genres={genres} onGenreChange={onGenreChange} />
 				{session?.user && events && (
@@ -53,6 +61,8 @@ export const Homepage = ({
 					initialPosts={initialPosts}
 					selectedGenre={selectedGenre}
 					session={session}
+					genreChanged={genreChanged}
+					onEffect={onEffect}
 				/>
 			</div>
 		</div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { type Session } from 'next-auth';
+import { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { usePostList } from '@/hooks/post-list';
@@ -13,23 +14,43 @@ type InfiniteFeedProps = {
 	initialPosts: PostData[];
 	selectedGenre: string | null;
 	session: Session | null;
+	genreChanged: boolean;
+	onEffect: () => void;
 };
 
 export const InfiniteFeed = ({
 	initialPosts,
 	selectedGenre,
-	session
+	session,
+	genreChanged,
+	onEffect
 }: InfiniteFeedProps) => {
-	const { postsList, hasMore, loading, fetchData } = usePostList(
+	const { postsList, hasMore, fetchData } = usePostList(
 		initialPosts,
-		1 // page size
+		10 // page size
 	);
+
+	useEffect(() => {
+		if (genreChanged) {
+			// fetchNewData();
+			if (selectedGenre !== null) {
+				fetchData(true, selectedGenre, 1).then(() =>
+					console.log(`new data re-fetched for ${selectedGenre}`)
+				);
+			} else {
+				fetchData(true, selectedGenre, 1).then(() =>
+					console.log('new data re-fetched for all genres')
+				);
+			}
+			onEffect();
+		}
+	}, [genreChanged, onEffect, fetchData, selectedGenre]);
 
 	return (
 		<div>
 			<InfiniteScroll
 				dataLength={postsList.length}
-				next={async () => await fetchData(false, selectedGenre)} // selectedGenre ....
+				next={async () => await fetchData(false, selectedGenre)}
 				hasMore={hasMore}
 				loader={
 					<div className="flex justify-center mt-4">
@@ -40,9 +61,6 @@ export const InfiniteFeed = ({
 				<div>
 					{postsList ? (
 						postsList.map(post => (
-							// <div className="bg-blue-700 text-yellow-50 py-96" key={post.id}>
-							// 	{`${post.datetime}${post.comment}`}
-							// </div>
 							<PostCard
 								key={post.id}
 								photos={post.photos}

@@ -69,14 +69,14 @@ export const Dropdown = ({ items }: DropdownProps) => {
 					<div className="flex gap-4 items-center">
 						{loading ? (
 							<Loading />
-						) : (
+						) : selectedItem.iconSrc !== '' ? (
 							<Image
 								width={24}
 								height={24}
 								alt={selectedItem.label}
 								src={selectedItem.iconSrc}
 							/>
-						)}
+						) : null}
 						{selectedItem.label}
 						<LucideChevronDown />
 					</div>
@@ -97,12 +97,14 @@ export const Dropdown = ({ items }: DropdownProps) => {
 							>
 								<button className="uppercase w-full h-full px-2 font-extrabold text-xs sm:text-xl">
 									<div className="flex items-center justify-between">
-										<Image
-											src={item.iconSrc}
-											alt={item.label}
-											width={24}
-											height={24}
-										/>
+										{item.iconSrc !== '' && (
+											<Image
+												src={item.iconSrc}
+												alt={item.label}
+												width={24}
+												height={24}
+											/>
+										)}
 										{item.label}
 									</div>
 								</button>

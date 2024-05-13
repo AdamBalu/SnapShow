@@ -16,7 +16,11 @@ export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 		if (!loading) {
 			setLoading(true);
 
-			const posts: any = await getPostsPaginated(index, pageSize, genreFilter);
+			const posts: any = await getPostsPaginated(
+				filterIndex ?? index,
+				pageSize,
+				genreFilter
+			);
 
 			setHasMore(posts.length === pageSize);
 			setPostsList(prevItems => (clearData ? posts : [...prevItems, ...posts]));
