@@ -22,14 +22,14 @@ export const InfiniteFeed = ({
 }: InfiniteFeedProps) => {
 	const { postsList, hasMore, loading, fetchData } = usePostList(
 		initialPosts,
-		1
+		1 // page size
 	);
 
 	return (
 		<div>
 			<InfiniteScroll
 				dataLength={postsList.length}
-				next={async () => await fetchData(false)} // selectedGenre ....
+				next={async () => await fetchData(false, selectedGenre)} // selectedGenre ....
 				hasMore={hasMore}
 				loader={
 					<div className="flex justify-center mt-4">

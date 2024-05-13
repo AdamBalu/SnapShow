@@ -5,6 +5,8 @@ import { revalidatePath } from 'next/cache';
 
 import { db } from '@/db';
 import { events } from '@/db/schema/events';
+import { eventsToGenres } from '@/db/schema/eventsToGenres';
+import { genres } from '@/db/schema/genres';
 import { photos } from '@/db/schema/photos';
 import { posts } from '@/db/schema/posts';
 import { reactions } from '@/db/schema/reactions';
@@ -68,6 +70,24 @@ export const getAllPostIdsPaginated = async (
 	const postIds = await db
 		.select({ id: posts.id })
 		.from(posts)
+		.orderBy(desc(posts.datetime))
+		.limit(pageSize)
+		.offset((page - 1) * pageSize);
+	return postIds.map(post => post.id);
+};
+
+export const getAllPostIdsPaginatedFiltered = async (
+	page: number,
+	pageSize: number,
+	genreFilter: string
+) => {
+	const postIds = await db
+		.select({ id: posts.id })
+		.from(posts)
+		.innerJoin(events, eq(events.id, posts.eventId)) // Join events table
+		.innerJoin(eventsToGenres, eq(eventsToGenres.eventId, events.id)) // Join eventsToGenres table
+		.innerJoin(genres, eq(genres.id, eventsToGenres.genreId)) // Join genres table
+		.where(eq(genres.name, genreFilter))
 		.orderBy(desc(posts.datetime))
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
@@ -166,10 +186,30 @@ export const getAllPosts = async () => {
 	return posts;
 };
 
-export const getPostsPaginated = async (page: number, pageSize: number) => {
-	const postIds = await getAllPostIdsPaginated(page, pageSize);
-	const posts = await Promise.all(
-		postIds.map(postId => getPostDetails(postId))
-	);
-	return posts;
+export const getPostsPaginated = async (
+	page: number,
+	pageSize: number,
+	genreFilter: string | null
+) => {
+	console.log('tadysu');
+	console.log(genreFilter);
+	if (genreFilter === null || genreFilter === undefined) {
+		const postIds = await getAllPostIdsPaginated(page, pageSize);
+		const posts = await Promise.all(
+			postIds.map(postId => getPostDetails(postId))
+		);
+		return posts;
+	} else {
+		const postIds = await getAllPostIdsPaginatedFiltered(
+			page,
+			pageSize,
+			genreFilter
+		);
+		const posts = await Promise.all(
+			postIds.map(postId => getPostDetails(postId))
+		);
+		console.log('filtered posts:');
+		console.log(postIds);
+		return posts;
+	}
 };

@@ -2,11 +2,8 @@
 
 import { LucideMessageCircle, LucideThumbsUp } from 'lucide-react';
 import { getSession } from 'next-auth/react';
-import { useState } from 'react';
 
 import { toggleReactionAction } from '@/server-actions/posts';
-
-import { Loader } from '../loader';
 
 import { PostButton } from './post-button';
 
@@ -20,35 +17,30 @@ const toggleLike = async (postId: string, userId: string) => {
 	await toggleReactionAction(postId, userId);
 };
 
-export const PostBottomBar = (props: PostBottomBarProps) => {
-	const [loading, setLoading] = useState(false);
-	return (
-		// const currentSession = await getUser;
-		// if (!currentSession?.user) {
-		// 	return null; // TODO: handle in a nicer way
-		// }
+export const PostBottomBar = (props: PostBottomBarProps) => (
+	// const currentSession = await getUser;
+	// if (!currentSession?.user) {
+	// 	return null; // TODO: handle in a nicer way
+	// }
 
-		<div className="flex justify-evenly">
-			{loading ? (
-				<Loader />
-			) : (
-				<PostButton
-					onClickAction={async () => {
-						const session = await getSession();
-						if (session?.user.id) {
-							await toggleLike(props.postId, session?.user.id);
-						}
-						await props.onChangeReaction();
-					}}
-					icon={<LucideThumbsUp fill={props.isLiked ? '#eee' : undefined} />}
-					text="Like"
-				/>
-			)}
-			<PostButton
-				onClickAction={() => null}
-				icon={<LucideMessageCircle />}
-				text="Comment"
-			/>
-		</div>
-	);
-};
+	<div className="flex justify-evenly">
+		(
+		<PostButton
+			onClickAction={async () => {
+				const session = await getSession();
+				if (session?.user.id) {
+					props.onChangeReaction();
+					await toggleLike(props.postId, session?.user.id);
+				}
+			}}
+			icon={<LucideThumbsUp fill={props.isLiked ? '#eee' : undefined} />}
+			text="Like"
+		/>
+		)
+		<PostButton
+			onClickAction={() => null}
+			icon={<LucideMessageCircle />}
+			text="Comment"
+		/>
+	</div>
+);

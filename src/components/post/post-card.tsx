@@ -1,6 +1,6 @@
 import { type Session } from 'next-auth';
 import Image from 'next/image';
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 
 import { type Photo } from '@/db/schema/photos';
 import {
@@ -23,7 +23,6 @@ type PostProps = {
 	}[];
 	photos: Photo[];
 	session: Session | null;
-	reactionBar: ReactNode;
 };
 
 export const PostCard = ({ post, reactions, photos, session }: PostProps) => {

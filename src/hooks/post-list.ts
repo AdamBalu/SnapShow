@@ -8,15 +8,19 @@ export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 	const [index, setIndex] = useState(2);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	const fetchData = async (clearData: boolean) => {
+	const fetchData = async (
+		clearData: boolean,
+		genreFilter: string | null,
+		filterIndex?: number
+	) => {
 		if (!loading) {
 			setLoading(true);
 
-			const posts: any = await getPostsPaginated(index, pageSize);
+			const posts: any = await getPostsPaginated(index, pageSize, genreFilter);
 
 			setHasMore(posts.length === pageSize);
 			setPostsList(prevItems => (clearData ? posts : [...prevItems, ...posts]));
-			setIndex(prevIndex => prevIndex + 1);
+			setIndex(prevIndex => (filterIndex ? filterIndex + 1 : prevIndex + 1));
 			setLoading(false);
 		}
 	};
