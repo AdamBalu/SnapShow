@@ -58,7 +58,7 @@ export const Dropdown = ({ items }: DropdownProps) => {
 	};
 
 	return (
-		<div>
+		<div className="max-w-80">
 			<div className="dropdown">
 				<Button
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -86,24 +86,26 @@ export const Dropdown = ({ items }: DropdownProps) => {
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 					tabIndex={0}
 					role="presentation"
-					className={`menu menu-sm w-full
-					 dropdown-content bg-zinc-900 mt-3 z-[1] p-2 shadow rounded-box`}
+					className={`menu menu-sm w-full h-64 overflow-y-scroll z-50
+					 dropdown-content bg-zinc-900 mt-3 p-2 shadow rounded-box grid grid-cols-1`}
 				>
 					{items.map((item: DropdownItem) => (
 						<li key={item.label}>
 							<form
-								className="btn btn-ghost flex flex-col w-full p-0"
+								className="btn btn-ghost flex flex-row p-0"
 								onSubmit={e => handleFormSubmit(e, item)}
 							>
 								<button className="uppercase w-full h-full px-2 font-extrabold text-xs sm:text-xl">
 									<div className="flex items-center justify-between">
-										{item.iconSrc !== '' && (
+										{item.iconSrc !== '' ? (
 											<Image
 												src={item.iconSrc}
 												alt={item.label}
 												width={24}
 												height={24}
 											/>
+										) : (
+											<div />
 										)}
 										{item.label}
 									</div>

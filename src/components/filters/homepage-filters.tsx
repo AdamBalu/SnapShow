@@ -15,7 +15,6 @@ export const HomepageFilters = ({
 }: HomepageFiltersProps) => (
 	<div className="flex justify-center items-center mb-10 ">
 		<div className="w-10/12 flex justify-between sticky top-0">
-			{/* <LocalityFilter /> */}
 			<GenreFilter genres={genres} onGenreChange={onGenreChange} />
 		</div>
 	</div>

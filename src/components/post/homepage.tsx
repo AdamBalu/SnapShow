@@ -46,8 +46,7 @@ export const Homepage = ({
 
 	return (
 		<div>
-			<div className="flex justify-between h-20 mb-10">
-				<HomepageFilters genres={genres} onGenreChange={onGenreChange} />
+			<div className="flex justify-between h-20 mb-10 w-[90vw]">
 				{session?.user && events && (
 					<NewPost
 						userId={session.user.id}
@@ -55,6 +54,7 @@ export const Homepage = ({
 						events={events}
 					/>
 				)}
+				<HomepageFilters genres={genres} onGenreChange={onGenreChange} />
 			</div>
 			<div className="flex justify-center">
 				<InfiniteFeed

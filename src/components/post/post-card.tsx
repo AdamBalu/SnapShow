@@ -8,6 +8,7 @@ import {
 	offsetDateForFormatting
 } from '@/utils/date-time-converter';
 
+import { CommentSection } from './comments/comment.section';
 import { PostBottomBar } from './post-bottom-bar';
 import { PostProfileBadge } from './post-profile-badge';
 import { PostReactions } from './post-reactions';
@@ -30,6 +31,10 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 		reaction => reaction.userId === session?.user.id
 	);
 
+	const toggleComments = () => {
+		setCommentsOpen(oldValue => !oldValue);
+	};
+
 	const onChangeReaction = () => {
 		if (liked) {
 			// remove the user
@@ -50,6 +55,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 
 	const [liked, setLiked] = useState(isLiked);
 	const [reacts, setReacts] = useState(reactions);
+	const [commentsOpen, setCommentsOpen] = useState(false);
 	let convertedDate = null;
 	if (post?.datetime) {
 		convertedDate = new Date(post?.datetime);
@@ -57,7 +63,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 	}
 
 	return (
-		<div className="bg-zinc-900 rounded-lg mb-4 p-4 flex flex-col justify-center">
+		<div className="bg-zinc-900 rounded-lg mb-4 p-4 flex flex-col justify-center w-[90vw]">
 			<PostProfileBadge
 				userId={post.userId}
 				eventId={post.eventId}
@@ -87,7 +93,9 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 				postId={post.id}
 				isLiked={liked}
 				onChangeReaction={onChangeReaction}
+				toggleComments={toggleComments}
 			/>
+			<CommentSection postId={post.id} open={commentsOpen} />
 		</div>
 	);
 };

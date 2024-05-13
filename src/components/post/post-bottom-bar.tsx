@@ -11,6 +11,7 @@ type PostBottomBarProps = {
 	postId: string;
 	isLiked: boolean;
 	onChangeReaction: () => void;
+	toggleComments: () => void;
 };
 
 const toggleLike = async (postId: string, userId: string) => {
@@ -18,11 +19,6 @@ const toggleLike = async (postId: string, userId: string) => {
 };
 
 export const PostBottomBar = (props: PostBottomBarProps) => (
-	// const currentSession = await getUser;
-	// if (!currentSession?.user) {
-	// 	return null; // TODO: handle in a nicer way
-	// }
-
 	<div className="flex justify-evenly">
 		<PostButton
 			onClickAction={async () => {
@@ -36,7 +32,7 @@ export const PostBottomBar = (props: PostBottomBarProps) => (
 			text="Like"
 		/>
 		<PostButton
-			onClickAction={() => null}
+			onClickAction={() => props.toggleComments()}
 			icon={<LucideMessageCircle />}
 			text="Comment"
 		/>
