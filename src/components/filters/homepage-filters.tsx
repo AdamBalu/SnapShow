@@ -13,9 +13,7 @@ export const HomepageFilters = ({
 	genres,
 	onGenreChange
 }: HomepageFiltersProps) => (
-	<div className="flex justify-center items-center mb-10 ">
-		<div className="w-10/12 flex justify-between sticky top-0">
-			<GenreFilter genres={genres} onGenreChange={onGenreChange} />
-		</div>
+	<div className="mb-10 absolute right-0 z-20">
+		<GenreFilter genres={genres} onGenreChange={onGenreChange} />
 	</div>
 );

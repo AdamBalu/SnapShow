@@ -9,6 +9,7 @@ import { Homepage } from '@/components/post/homepage';
 import { getUserEvents } from '@/server-actions/events';
 import { getAllGenres } from '@/server-actions/genres';
 import { getPostsPaginated } from '@/server-actions/posts';
+import { DropdownContextProvider } from '@/hooks/dropdown-context';
 
 const Page = async () => {
 	const session = await auth();
