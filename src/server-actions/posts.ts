@@ -102,7 +102,6 @@ export const getAllPostIdsPaginatedFiltered = async (
 
 // Function to fetch post details along with reactions and photos
 export const getPostDetails = async (postId: string) => {
-	console.log(`post:${postId}`);
 	// Fetch post details
 	const post = await db.query.posts.findFirst({
 		where: eq(posts.id, postId)
@@ -201,6 +200,8 @@ export const getPostsPaginated = async (
 		const posts = await Promise.all(
 			postIds.map(postId => getPostDetails(postId))
 		);
+		// console.log('FIXING STUFF');
+		// console.log(posts);
 		return posts;
 	} else {
 		const postIds = await getAllPostIdsPaginatedFiltered(
@@ -208,7 +209,6 @@ export const getPostsPaginated = async (
 			pageSize,
 			genreFilter
 		);
-		console.log(`post:${postIds}`);
 		const posts = await Promise.all(
 			postIds.map(postId => getPostDetails(postId))
 		);

@@ -1,6 +1,6 @@
 'use server';
 
-import { count, desc, eq } from 'drizzle-orm';
+import { count, eq } from 'drizzle-orm';
 
 import { db } from '@/db';
 import { comments, type Comment } from '@/db/schema/comments';
@@ -9,28 +9,6 @@ import { users } from '@/db/schema/users';
 type _CommentType = Comment & {
 	userImage: string | null | undefined;
 };
-
-// export const getCommentsPaginated = async (
-// 	postId: string,
-// 	page: number,
-// 	pageSize: number
-// ) => {
-// 	const commentList = await db
-// 		.select()
-// 		.from(comments)
-// 		.where(eq(comments.postId, postId))
-// 		.orderBy(desc(comments.datetime))
-// 		.limit(pageSize)
-// 		.offset((page - 1) * pageSize);
-
-// 	const userIds = commentList.map(comment => comment.userId);
-
-// 	const userList = await db
-//       .select()
-//       .from(users)
-//       .where(inArray(users.id, userIds));
-
-// };
 
 const getCommentIdsPaginated = async (
 	postId: string,
@@ -41,7 +19,7 @@ const getCommentIdsPaginated = async (
 		.select({ id: comments.id })
 		.from(comments)
 		.where(eq(comments.postId, postId))
-		.orderBy(desc(comments.datetime))
+		.orderBy(comments.datetime)
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
 
