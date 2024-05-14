@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { usePostList } from '@/hooks/post-list';
+import { type PostData } from '@/types/post-data';
 
 import { LogoLoader } from '../logo-loader';
 
