@@ -3,9 +3,9 @@ import Image from 'next/image';
 import React, { useContext, useState } from 'react';
 import { toast } from 'sonner';
 
-import Loading from '@/app/(layout)/edit-details/loading';
 import { Button } from '@/components/ui/button';
 import { DropdownContext } from '@/hooks/dropdown-context';
+import { Loader } from '@/components/loader';
 
 export type DropdownItem = {
 	label: string;
@@ -69,7 +69,7 @@ export const Dropdown = ({ items }: DropdownProps) => {
 			>
 				<div className="flex gap-4 items-center">
 					{loading ? (
-						<Loading />
+						<Loader />
 					) : selectedItem.iconSrc !== '' ? (
 						<Image
 							width={24}

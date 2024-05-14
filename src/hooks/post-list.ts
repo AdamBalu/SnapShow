@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { getPostsPaginated } from '@/server-actions/posts';
+import { type PostData } from '@/types/post-data';
 
 export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 	const [postsList, setPostsList] = useState<PostData[]>(initialPosts);
@@ -16,7 +17,7 @@ export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 		if (!loading) {
 			setLoading(true);
 
-			const posts: any = await getPostsPaginated(
+			const posts = await getPostsPaginated(
 				filterIndex ?? index,
 				pageSize,
 				genreFilter

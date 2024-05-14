@@ -2,8 +2,6 @@
 
 import { auth } from '@/auth';
 import { Banner } from '@/components/banner';
-import { Footer } from '@/components/footer/footer';
-import { Header } from '@/components/header/header';
 import { ExploreEventsButton } from '@/components/home/explore-events-button';
 import { Homepage } from '@/components/post/homepage';
 import { getUserEvents } from '@/server-actions/events';
@@ -43,22 +41,18 @@ const Page = async () => {
 
 	return (
 		<>
-			<Header />
-			<main className="container flex flex-col flex-grow pb-20 mt-10 px-3">
-				{!session && (
-					<div className="flex flex-col lg:mx-24 md:justify-around gap-10 md:flex-row h-screen mt-[15%]">
-						<Banner />
-						<ExploreEventsButton />
-					</div>
-				)}
-				<Homepage
-					initialPosts={filteredInitialPosts}
-					events={events}
-					session={session}
-					genres={genres}
-				/>
-			</main>
-			<Footer />
+			{!session && (
+				<div className="flex flex-col lg:mx-24 md:justify-around gap-10 md:flex-row h-screen mt-[15%]">
+					<Banner />
+					<ExploreEventsButton />
+				</div>
+			)}
+			<Homepage
+				initialPosts={filteredInitialPosts}
+				events={events}
+				session={session}
+				genres={genres}
+			/>
 		</>
 	);
 };
