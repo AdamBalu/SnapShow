@@ -94,8 +94,6 @@ export const getAllPostIdsPaginatedFiltered = async (
 		.orderBy(desc(posts.datetime))
 		.limit(pageSize)
 		.offset((page - 1) * pageSize);
-	console.log(':D');
-	console.log(postIds);
 	return postIds.map(post => post.id);
 };
 
@@ -178,8 +176,6 @@ export const getPostDetails = async (postId: string) => {
 			url: pic.url
 		}))
 	};
-	console.log(`post:${postId}`);
-	console.log(postData);
 	return postData;
 };
 
@@ -213,8 +209,6 @@ export const getPostsPaginated = async (
 		const posts = await Promise.all(
 			postIds.map(postId => getPostDetails(postId))
 		);
-		console.log('filtered posts:');
-		console.log(postIds);
 		return posts;
 	}
 };

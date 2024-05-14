@@ -8,7 +8,7 @@ import {
 	offsetDateForFormatting
 } from '@/utils/date-time-converter';
 
-import { CommentSection } from './comments/comment.section';
+import { CommentSection } from './comments/comment-section';
 import { PostBottomBar } from './post-bottom-bar';
 import { PostProfileBadge } from './post-profile-badge';
 import { PostReactions } from './post-reactions';
@@ -63,7 +63,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 	}
 
 	return (
-		<div className="bg-zinc-900 rounded-lg mb-4 p-4 flex flex-col justify-center w-[90vw]">
+		<div className="bg-zinc-900 rounded-lg mb-4 p-4 flex flex-col justify-center w-[90vw] md:w-[70vw]">
 			<PostProfileBadge
 				userId={post.userId}
 				eventId={post.eventId}
