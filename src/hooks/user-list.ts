@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
 import { getUsers, getUsersCount } from '@/server-actions/user';
+import { getReactingUsers } from '@/server-actions/reactions';
 
 export type UserFilter = {
 	method: 'all' | 'friends';
@@ -62,6 +63,14 @@ export const useFriendList = (userId: string) =>
 		queryKey: ['friends', userId],
 		queryFn: async () =>
 			await getUsers(userId, 1, Number.MAX_SAFE_INTEGER, 'friends'),
+		refetchOnWindowFocus: false,
+		enabled: false
+	});
+
+export const useReactionsList = (postId: string) =>
+	useQuery({
+		queryKey: ['reactions', postId],
+		queryFn: async () => await getReactingUsers(postId),
 		refetchOnWindowFocus: false,
 		enabled: false
 	});

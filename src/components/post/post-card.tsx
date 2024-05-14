@@ -80,7 +80,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 				<PostText content={post.comment} />
 			</div>
 			<PhotoCarousel postPhotos={photos} />
-			{reactions && <PostReactions reactions={reacts} />}
+			{reactions && <PostReactions reactions={reacts} postId={post.id} />}
 			<PostBottomBar
 				postId={post.id}
 				isLiked={liked}

@@ -1,10 +1,10 @@
 import { ReactingPeople } from './reacting-people';
 
 type PostReactionsProps = {
+	postId: string;
 	reactions: {
 		id: string;
 		userId: string;
-		postId: string;
 		userPic: string | null | undefined;
 	}[];
 };
@@ -16,7 +16,7 @@ export const PostReactions = (props: PostReactionsProps) => {
 			<div className="mr-4">
 				{likeCount} {likeCount === 1 ? 'Like' : 'Likes'}
 			</div>
-			<ReactingPeople reactions={props.reactions} />
+			<ReactingPeople reactions={props.reactions} postId={props.postId} />
 		</div>
 	);
 };
