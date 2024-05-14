@@ -6,7 +6,6 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 
 import { LogoLoader } from '@/components/logo-loader';
-import { comments } from '@/db/schema/comments';
 import { useCommentsListPaginated } from '@/hooks/comments-list';
 import { sendComment } from '@/server-actions/comments';
 
@@ -47,14 +46,13 @@ export const CommentSection = ({
 	return (
 		open && (
 			<div className="bg-zinc-900 rounded-lg p-2 h-full border-t-zinc-700 border-t-2">
-				{/* {postId} */}
 				{isPending ? (
-					<div className="flex align-middle">
+					<div className="w-full my-10 flex justify-center">
 						<LogoLoader />
 					</div>
-				) : comments ? (
+				) : data && data.length > 0 ? (
 					<div className="">
-						{data?.map(comment => (
+						{data.map(comment => (
 							<div key={comment?.id} className="chat chat-start">
 								<div className="chat-image avatar">
 									<div className="w-10 rounded-full">
@@ -81,8 +79,13 @@ export const CommentSection = ({
 						))}
 					</div>
 				) : (
-					<span>No comments under this post :&#40</span>
+					<div className="flex w-full justify-center">
+						<span className="opacity-50 text-xs my-10">
+							No comments under this post, yet :(
+						</span>
+					</div>
 				)}
+
 				<form onSubmit={submitComment}>
 					<div className="flex mt-2">
 						<textarea

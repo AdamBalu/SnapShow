@@ -43,15 +43,17 @@ export const Homepage = ({
 
 	return (
 		<div>
-			<div className="flex justify-between h-20 mb-10 w-[90vw]">
-				{session?.user && events && (
-					<NewPost
-						userId={session.user.id}
-						profilePicture={session.user.image}
-						events={events}
-					/>
-				)}
-				<HomepageFilters genres={genres} onGenreChange={onGenreChange} />
+			<div className="flex justify-center">
+				<div className="flex justify-between h-20 mb-10 w-[90vw] md:w-[70vw]">
+					{session?.user && events && (
+						<NewPost
+							userId={session.user.id}
+							profilePicture={session.user.image}
+							events={events}
+						/>
+					)}
+					<HomepageFilters genres={genres} onGenreChange={onGenreChange} />
+				</div>
 			</div>
 			<div className="flex justify-center">
 				<InfiniteFeed
