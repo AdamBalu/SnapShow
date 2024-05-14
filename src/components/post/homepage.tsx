@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { type Genres } from '@/db/schema/genres';
 import { type UserEvent } from '@/types/event-data';
 import { DropdownContextProvider } from '@/hooks/dropdown-context';
+import { type PostData } from '@/types/post-data';
 
 import { HomepageFilters } from '../filters/homepage-filters';
 

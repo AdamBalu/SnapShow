@@ -1,4 +1,4 @@
-type PostData = {
+export type PostData = {
 	id: string;
 	authorName: string | null | undefined;
 	comment: string | null;

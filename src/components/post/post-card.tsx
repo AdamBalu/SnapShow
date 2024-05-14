@@ -6,6 +6,7 @@ import {
 	localizeDate,
 	offsetDateForFormatting
 } from '@/utils/date-time-converter';
+import { type PostData } from '@/types/post-data';
 
 import { PhotoCarousel } from '../ui/photo-carousel';
 

@@ -62,9 +62,9 @@ export const NewPost = ({
 		<>
 			<Button
 				onClick={() => setModalOpen(true)}
-				className="text-sm sm:text-2xl h-8 sm:h-auto px-2 py-0 sm:px-6 sm:py-4"
+				className="text-sm sm:text-2xl h-4 sm:h-auto px-2 py-0 sm:px-6 sm:py-1"
 			>
-				<LucideMessageSquarePlus className="w-5 h-5 sm:w-10 sm:h-10" />
+				<LucideMessageSquarePlus className="w-5 h-5 sm:w-6 sm:h-6" />
 				New post
 			</Button>
 			<Modal
