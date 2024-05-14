@@ -18,13 +18,14 @@ import {
 	EasterEggContextProvider
 } from '@/hooks/easter-egg-context';
 
-import { SortButton, type SortType } from './sort-button';
+import { type SortType } from './sort-button';
 import {
 	EventFilter,
 	type EventGenre,
 	type EventFilterSchema
 } from './event-filter';
 import { EventCard } from './event-card';
+import { EventSort } from './event-sort';
 
 type EventListProps = {
 	initialEvents: EventsListData[];
@@ -118,27 +119,6 @@ export const EventList = ({
 		);
 	};
 
-	const onCountrySort = (direction: SortType) => {
-		if (!loading) {
-			const sortColumn = direction ? 'country' : null;
-			sortData(sortColumn, direction);
-		}
-	};
-
-	const onNameSort = (direction: SortType) => {
-		if (!loading) {
-			const sortColumn = direction ? 'name' : null;
-			sortData(sortColumn, direction);
-		}
-	};
-
-	const onDateTimeSort = (direction: SortType) => {
-		if (!loading) {
-			const sortColumn = direction ? 'date' : null;
-			sortData(sortColumn, direction);
-		}
-	};
-
 	return (
 		<div>
 			<EventFilter
@@ -147,38 +127,15 @@ export const EventList = ({
 				usersGenres={[]}
 				loading={loading}
 			/>
-			<div className="flex gap-x-4 mb-5 ml-2">
-				<SortButton
-					label={easterEgg?.isOn ? 'SOMEBODY' : 'Country'}
-					name="country"
-					sortType={sortType}
-					activeFilter={activeFilter}
-					setActiveFilter={setActiveFilter}
-					setSortType={setSortType}
-					onSort={onCountrySort}
-					disabled={loading}
-				/>
-				<SortButton
-					label={easterEgg?.isOn ? 'ONCE' : 'Name'}
-					name="name"
-					sortType={sortType}
-					activeFilter={activeFilter}
-					setActiveFilter={setActiveFilter}
-					setSortType={setSortType}
-					onSort={onNameSort}
-					disabled={loading}
-				/>
-				<SortButton
-					label={easterEgg?.isOn ? 'TOLD ME' : 'Date'}
-					name="date"
-					sortType={sortType}
-					activeFilter={activeFilter}
-					setActiveFilter={setActiveFilter}
-					setSortType={setSortType}
-					onSort={onDateTimeSort}
-					disabled={loading}
-				/>
-			</div>
+
+			<EventSort
+				sortType={sortType}
+				activeFilter={activeFilter}
+				setActiveFilter={setActiveFilter}
+				setSortType={setSortType}
+				sortData={sortData}
+				loading={loading}
+			/>
 
 			<InfiniteScroll
 				dataLength={eventList.length}

@@ -5,12 +5,10 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { Search } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
 import { FormInput } from '@/components/ui/form/form-input';
 import { type Genres } from '@/db/schema/genres';
 
 import { MultiSelectInput } from '../ui/form/multi-select';
-import { Loader } from '../loader';
 
 const genreSchema = z.object({
 	id: z.string(),
@@ -34,11 +32,7 @@ type EventFilterProps = {
 	loading: boolean;
 };
 
-export const EventFilter = ({
-	onSubmit,
-	genres,
-	loading
-}: EventFilterProps) => {
+export const EventFilter = ({ onSubmit, genres }: EventFilterProps) => {
 	const form = useForm<EventFilterSchema>({
 		resolver: zodResolver(eventFilterSchema)
 	});
@@ -56,16 +50,12 @@ export const EventFilter = ({
 								label="EventName"
 								name="eventName"
 							/>
-							<Button
-								className="h-min w-min self-end mr-1"
-								disabled={form.formState.isSubmitting}
+							<button
+								type="submit"
+								className="z-50 -ml-20 mt-8 active:scale-90 transition-transform duration-300"
 							>
-								{loading ? (
-									<Loader className="bg-zinc-900 w-[24px] h-[24px]" />
-								) : (
-									<Search />
-								)}
-							</Button>
+								<Search size={28} color="#08d9d6" />
+							</button>
 						</div>
 						<div className="flex flex-col space-between gap-x-8 lg:flex-row">
 							<div className="w-full ">

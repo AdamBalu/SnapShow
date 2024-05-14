@@ -30,8 +30,8 @@ const SignIn = () => {
 	}, [status, router]);
 
 	return (
-		<div className="flex flex-col gap-10 mx-auto sm:w-auto">
-			<div className="font-sarpanch max-w-96 font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary p-8 sm:p-16 text-white flex flex-col gap-10 items-center">
+		<div className="flex flex-col gap-10 mx-2 sm:w-auto justify-center">
+			<div className="font-sarpanch font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl border-2 border-primary p-8 sm:p-16 text-white flex flex-col gap-10 items-center">
 				<h1 className="text-3xl">Sign In</h1>
 
 				<ul className="flex flex-col gap-6 w-auto">
