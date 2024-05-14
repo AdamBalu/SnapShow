@@ -52,7 +52,7 @@ export const EventFilter = ({ onSubmit, genres }: EventFilterProps) => {
 							/>
 							<button
 								type="submit"
-								className="z-50 -ml-20 mt-8 active:scale-90 transition-transform duration-300"
+								className="z-1 -ml-14 mt-8 sm:-ml-20 active:scale-90 transition-transform duration-300"
 							>
 								<Search size={28} color="#08d9d6" />
 							</button>
