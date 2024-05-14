@@ -1,5 +1,4 @@
 import { type Session } from 'next-auth';
-import Image from 'next/image';
 import { useState } from 'react';
 
 import { type Photo } from '@/db/schema/photos';
@@ -7,6 +6,8 @@ import {
 	localizeDate,
 	offsetDateForFormatting
 } from '@/utils/date-time-converter';
+
+import { PhotoCarousel } from '../ui/photo-carousel';
 
 import { CommentSection } from './comments/comment-section';
 import { PostBottomBar } from './post-bottom-bar';
@@ -77,17 +78,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 			<div className=" pb-6">
 				<PostText content={post.comment} />
 			</div>
-			<div className="flex justify-center">
-				{photos.at(0)?.url && (
-					<Image
-						className="rounded-md py-4"
-						src={photos[0].url}
-						alt="post image content"
-						width={400}
-						height={250}
-					/>
-				)}
-			</div>
+			<PhotoCarousel postPhotos={photos} />
 			{reactions && <PostReactions reactions={reacts} />}
 			<PostBottomBar
 				postId={post.id}

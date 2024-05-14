@@ -12,7 +12,7 @@ type PostReactionsProps = {
 export const PostReactions = (props: PostReactionsProps) => {
 	const likeCount = props.reactions.length;
 	return (
-		<div className="flex">
+		<div className="flex my-2">
 			<div className="mr-4">
 				{likeCount} {likeCount === 1 ? 'Like' : 'Likes'}
 			</div>
