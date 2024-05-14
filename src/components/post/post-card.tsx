@@ -95,7 +95,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 				onChangeReaction={onChangeReaction}
 				toggleComments={toggleComments}
 			/>
-			<CommentSection postId={post.id} open={commentsOpen} />
+			<CommentSection postId={post.id} open={commentsOpen} session={session} />
 		</div>
 	);
 };

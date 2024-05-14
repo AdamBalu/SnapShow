@@ -99,3 +99,15 @@ export const getCommentsCount = async (postId: string) => {
 
 	return query;
 };
+
+export const sendComment = async (
+	userId: string,
+	postId: string,
+	text: string
+) => {
+	await db.insert(comments).values({
+		text,
+		userId,
+		postId
+	});
+};

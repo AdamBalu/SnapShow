@@ -1,18 +1,48 @@
 'use client';
 
+import { LucideSendHorizonal } from 'lucide-react';
+import { type Session } from 'next-auth';
 import Image from 'next/image';
+import React, { useState } from 'react';
 
 import { LogoLoader } from '@/components/logo-loader';
 import { comments } from '@/db/schema/comments';
 import { useCommentsListPaginated } from '@/hooks/comments-list';
+import { sendComment } from '@/server-actions/comments';
 
 type CommentSectionProps = {
 	postId: string;
 	open: boolean;
+	session: Session | null;
 };
 
-export const CommentSection = ({ postId, open }: CommentSectionProps) => {
+export const CommentSection = ({
+	postId,
+	open,
+	session
+}: CommentSectionProps) => {
 	// const comment = useCommentsList(postId);
+	const [commentContent, setCommentContent] = useState('');
+
+	const submitComment = async (event: React.FormEvent) => {
+		event.preventDefault();
+		const comment = commentContent;
+		if (comment === undefined || comment === null || comment.trim() === '') {
+			return;
+		}
+		if (session?.user === undefined) {
+			return;
+		}
+		await sendComment(session.user.id, postId, comment);
+		refetch();
+		setCommentContent('');
+	};
+
+	const handleTextareaChange = (e: React.FormEvent) => {
+		// @ts-expect-error ignore
+		setCommentContent(e.target.value);
+	};
+
 	const { data, isPending, refetch } = useCommentsListPaginated(postId, 1, 10);
 	return (
 		open && (
@@ -54,7 +84,19 @@ export const CommentSection = ({ postId, open }: CommentSectionProps) => {
 				) : (
 					<span>No comments under this post :&#40</span>
 				)}
-				<input />
+				<form onSubmit={submitComment}>
+					<div className="flex mt-2">
+						<textarea
+							value={commentContent}
+							onChange={handleTextareaChange}
+							placeholder="Enter your comment..."
+							className="bg-zinc-800 w-full border border-primary rounded-lg px-2 py-1"
+						/>
+						<button>
+							<LucideSendHorizonal className="w-8 h-8 p-2 rounded-lg text-primary border border-primary hover:bg-zinc-600 mx-2" />
+						</button>
+					</div>
+				</form>
 			</div>
 		)
 	);
