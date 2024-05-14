@@ -53,9 +53,9 @@ export const CommentSection = ({
 						<LogoLoader />
 					</div>
 				) : comments ? (
-					<div className="chat chat-start">
+					<div className="">
 						{data?.map(comment => (
-							<>
+							<div key={comment?.id} className="chat chat-start">
 								<div className="chat-image avatar">
 									<div className="w-10 rounded-full">
 										{comment?.userImage && (
@@ -68,17 +68,16 @@ export const CommentSection = ({
 										)}
 									</div>
 								</div>
-								<div className="chat-header">{comment?.userName}</div>
-								<time className="text-xs opacity-50 ml-2">
-									{comment?.datetime}
-								</time>
-								<div
-									key={comment?.id}
-									className="chat-bubble mb-4 bg-slate-800"
-								>
+								<div className="chat-header">
+									{comment?.userName}
+									<time className="text-xs opacity-50 ml-2">
+										{comment?.datetime}
+									</time>
+								</div>
+								<div className="chat-bubble mb-4 bg-slate-800">
 									{comment?.text}
 								</div>
-							</>
+							</div>
 						))}
 					</div>
 				) : (
