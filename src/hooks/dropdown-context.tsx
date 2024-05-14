@@ -2,7 +2,7 @@ import { type PropsWithChildren, createContext, useState } from 'react';
 
 type DropdownValue = {
 	isExpanded: boolean;
-	toggleEvent: () => void;
+	toggleExpand: () => void;
 };
 
 export const DropdownContext = createContext<DropdownValue | null>(null);
@@ -16,7 +16,7 @@ export const DropdownContextProvider = ({ children }: PropsWithChildren) => {
 
 	return (
 		<DropdownContext.Provider
-			value={{ isExpanded: expanded, toggleEvent: ToggleExpand }}
+			value={{ isExpanded: expanded, toggleExpand: ToggleExpand }}
 		>
 			{children}
 		</DropdownContext.Provider>

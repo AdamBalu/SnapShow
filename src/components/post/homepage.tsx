@@ -44,8 +44,8 @@ export const Homepage = ({
 
 	return (
 		<DropdownContextProvider>
-			<div className="flex justify-center">
-				<div className="flex justify-between h-20 mb-10 w-[90vw] md:w-[70vw] relative">
+			<div className="flex justify-center" id="homepage-main-content">
+				<div className="flex justify-between h-20 mb-10 mt-2 w-[90vw] md:w-[70vw] relative">
 					{session?.user && events && (
 						<NewPost
 							userId={session.user.id}

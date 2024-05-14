@@ -53,8 +53,12 @@ export const NewPost = ({ userId, profilePicture, events }: NewPostProps) => {
 
 	return (
 		<>
-			<Button onClick={() => setModalOpen(true)}>
-				<LucideMessageSquarePlus className="w-10 h-10" /> New post
+			<Button
+				onClick={() => setModalOpen(true)}
+				className="text-sm sm:text-2xl h-8 sm:h-auto px-2 py-0 sm:px-6 sm:py-4"
+			>
+				<LucideMessageSquarePlus className="w-5 h-5 sm:w-10 sm:h-10" />
+				New post
 			</Button>
 			<Modal
 				title="New post"

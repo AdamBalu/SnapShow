@@ -58,15 +58,13 @@ export const Dropdown = ({ items }: DropdownProps) => {
 	) => {
 		e.preventDefault();
 		handleItemClick(item);
-		dropdown?.toggleEvent();
+		dropdown?.toggleExpand();
 	};
-
-	console.log(dropdown);
 
 	return (
 		<div className="flex flex-col items-end justify-end">
 			<Button
-				onClick={() => dropdown?.toggleEvent()}
+				onClick={() => dropdown?.toggleExpand()}
 				className="btn uppercase px-2 sm:px-6 text-xs sm:text-xl btn-ghost bg-zinc-900 text-primary hover:bg-zinc-800 h-8 sm:h-16"
 			>
 				<div className="flex gap-4 items-center">
