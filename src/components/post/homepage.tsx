@@ -37,6 +37,10 @@ export const Homepage = ({
 		setGenreChanged(false);
 	};
 
+	const onNewPostSubmit = () => {
+		setGenreChanged(true);
+	};
+
 	const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
 	// const [initPosts, setInitPosts] = useState(initialPosts);
 	const [genreChanged, setGenreChanged] = useState(false);
@@ -50,6 +54,7 @@ export const Homepage = ({
 							userId={session.user.id}
 							profilePicture={session.user.image}
 							events={events}
+							onNewPostSubmit={onNewPostSubmit}
 						/>
 					)}
 					<HomepageFilters genres={genres} onGenreChange={onGenreChange} />

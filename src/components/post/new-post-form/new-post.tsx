@@ -32,9 +32,15 @@ type NewPostProps = {
 		id: string;
 		name: string;
 	}[];
+	onNewPostSubmit: () => void;
 };
 
-export const NewPost = ({ userId, profilePicture, events }: NewPostProps) => {
+export const NewPost = ({
+	userId,
+	profilePicture,
+	events,
+	onNewPostSubmit
+}: NewPostProps) => {
 	const [modalOpen, setModalOpen] = useState(false);
 	const form = useForm<NewPostSchema>({
 		resolver: zodResolver(newPostSchema)
@@ -49,6 +55,7 @@ export const NewPost = ({ userId, profilePicture, events }: NewPostProps) => {
 			.catch(err => {
 				toast.error(err.message);
 			});
+		onNewPostSubmit();
 	};
 
 	return (
