@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { LucideMessageSquarePlus } from 'lucide-react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -52,7 +53,9 @@ export const NewPost = ({ userId, profilePicture, events }: NewPostProps) => {
 
 	return (
 		<>
-			<Button onClick={() => setModalOpen(true)}>New post</Button>
+			<Button onClick={() => setModalOpen(true)}>
+				<LucideMessageSquarePlus className="w-10 h-10" /> New post
+			</Button>
 			<Modal
 				title="New post"
 				modalId="new-post"
