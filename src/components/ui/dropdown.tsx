@@ -1,16 +1,16 @@
-'use client';
-import React, { useState } from 'react';
-import Image from 'next/image';
 import { LucideChevronDown } from 'lucide-react';
+import Image from 'next/image';
+import React, { useState } from 'react';
 import { toast } from 'sonner';
 
-import { Button } from '@/components/ui/button';
 import Loading from '@/app/(layout)/edit-details/loading';
+import { Button } from '@/components/ui/button';
 
 export type DropdownItem = {
 	label: string;
 	iconSrc: string;
 	action?: () => Promise<void>;
+	callback?: (text: string) => void;
 };
 
 type DropdownProps = {
@@ -27,14 +27,24 @@ export const Dropdown = ({ items }: DropdownProps) => {
 	const handleItemClick = (item: DropdownItem) => {
 		setLoading(true);
 		setSelectedItem(item);
+
+		// If an action is defined, execute it synchronously
 		if (item.action) {
 			item
 				.action()
-				.then(_ => setLoading(false))
+				.then(() => setLoading(false))
 				.catch(error => {
 					toast.error(error);
+					setLoading(false);
 				});
-		} else {
+		}
+		// If a callback is defined, call it synchronously
+		else if (item.callback) {
+			item.callback(item.label);
+			setLoading(false);
+		}
+		// If neither action nor callback is defined, just set loading to false
+		else {
 			setLoading(false);
 		}
 	};
@@ -48,7 +58,7 @@ export const Dropdown = ({ items }: DropdownProps) => {
 	};
 
 	return (
-		<div>
+		<div className="max-w-80">
 			<div className="dropdown">
 				<Button
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -59,14 +69,14 @@ export const Dropdown = ({ items }: DropdownProps) => {
 					<div className="flex gap-4 items-center">
 						{loading ? (
 							<Loading />
-						) : (
+						) : selectedItem.iconSrc !== '' ? (
 							<Image
 								width={24}
 								height={24}
 								alt={selectedItem.label}
 								src={selectedItem.iconSrc}
 							/>
-						)}
+						) : null}
 						{selectedItem.label}
 						<LucideChevronDown />
 					</div>
@@ -76,23 +86,27 @@ export const Dropdown = ({ items }: DropdownProps) => {
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 					tabIndex={0}
 					role="presentation"
-					className={`menu menu-sm w-full
-					 dropdown-content bg-zinc-900 mt-3 z-[1] p-2 shadow rounded-box`}
+					className={`menu menu-sm w-full h-64 overflow-y-scroll z-50
+					 dropdown-content bg-zinc-900 mt-3 p-2 shadow rounded-box grid grid-cols-1`}
 				>
 					{items.map((item: DropdownItem) => (
 						<li key={item.label}>
 							<form
-								className="btn btn-ghost flex flex-col w-full p-0"
+								className="btn btn-ghost flex flex-row p-0"
 								onSubmit={e => handleFormSubmit(e, item)}
 							>
 								<button className="uppercase w-full h-full px-2 font-extrabold text-xs sm:text-xl">
 									<div className="flex items-center justify-between">
-										<Image
-											src={item.iconSrc}
-											alt={item.label}
-											width={24}
-											height={24}
-										/>
+										{item.iconSrc !== '' ? (
+											<Image
+												src={item.iconSrc}
+												alt={item.label}
+												width={24}
+												height={24}
+											/>
+										) : (
+											<div />
+										)}
 										{item.label}
 									</div>
 								</button>

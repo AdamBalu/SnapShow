@@ -1,14 +1,15 @@
-'use server';
-
-import { type Reaction } from '@/db/schema/reactions';
-
 import { ReactingPeople } from './reacting-people';
 
 type PostReactionsProps = {
-	reactions: Reaction[];
+	reactions: {
+		id: string;
+		userId: string;
+		postId: string;
+		userPic: string | null | undefined;
+	}[];
 };
 
-export const PostReactions = async (props: PostReactionsProps) => {
+export const PostReactions = (props: PostReactionsProps) => {
 	const likeCount = props.reactions.length;
 	return (
 		<div className="flex">

@@ -1,18 +1,44 @@
+'use server';
+
 import { auth } from '@/auth';
 import { Banner } from '@/components/banner';
-import { HomepageFilters } from '@/components/filters/homepage-filters';
 import { Footer } from '@/components/footer/footer';
 import { Header } from '@/components/header/header';
 import { ExploreEventsButton } from '@/components/home/explore-events-button';
-import { NewPost } from '@/components/post/new-post-form/new-post';
-import { PostsFeed } from '@/components/post/posts-feed';
+import { Homepage } from '@/components/post/homepage';
 import { getUserEvents } from '@/server-actions/events';
+import { getAllGenres } from '@/server-actions/genres';
+import { getPostsPaginated } from '@/server-actions/posts';
 
 const Page = async () => {
 	const session = await auth();
+	// this is for the newPost component
 	const events = session?.user.id
 		? await getUserEvents(session?.user.id)
 		: undefined;
+
+	let genres = await getAllGenres();
+	const allGenres = {
+		id: 'allgenres',
+		name: 'all genres',
+		isDeleted: false,
+		icon: ''
+	};
+	genres = [allGenres, ...genres];
+
+	// TODO: change this for partial fetching
+	// const initialPosts = await db.query.posts.findMany({
+	// 	with: { reactions: true, photos: true },
+	// 	orderBy: [desc(posts.datetime)]
+	// });
+	let initialPosts = await getPostsPaginated(1, 10, null);
+	if (initialPosts === null || initialPosts.length === 0) {
+		initialPosts = [];
+	}
+
+	const filteredInitialPosts: PostData[] = initialPosts.filter(
+		(post): post is PostData => post !== null
+	);
 
 	return (
 		<>
@@ -24,22 +50,12 @@ const Page = async () => {
 						<ExploreEventsButton />
 					</div>
 				)}
-
-				<div id="homepage-main-content">
-					<div className="flex justify-between h-20 mb-10">
-						<HomepageFilters />
-						{session?.user && events && (
-							<NewPost
-								userId={session.user.id}
-								profilePicture={session.user.image}
-								events={events}
-							/>
-						)}
-					</div>
-					<div className="flex justify-center">
-						<PostsFeed />
-					</div>
-				</div>
+				<Homepage
+					initialPosts={filteredInitialPosts}
+					events={events}
+					session={session}
+					genres={genres}
+				/>
 			</main>
 			<Footer />
 		</>

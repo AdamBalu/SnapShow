@@ -1,23 +1,17 @@
-import React from 'react';
-
 import { Dropdown } from '@/components/ui/dropdown';
+import { type Genres } from '@/db/schema/genres';
 
-export const GenreFilter = () => (
-	<Dropdown
-		items={[
-			{
-				label: 'DURUMDURUM',
-				iconSrc: '/static/easter-egg.gif'
-				// action: signOutAction // for example
-			},
-			{
-				label: 'TUDUDUDTU',
-				iconSrc: '/static/easter-egg.gif'
-			},
-			{
-				label: 'cant stop',
-				iconSrc: '/static/easter-egg.gif'
-			}
-		]}
-	/>
-);
+type GenreFilterProps = {
+	genres: Genres[];
+	onGenreChange: (newGenre: string) => void;
+};
+
+export const GenreFilter = ({ genres, onGenreChange }: GenreFilterProps) => {
+	const dropdownItems = genres.map(genre => ({
+		label: genre.name,
+		iconSrc: genre.icon,
+		callback: onGenreChange
+	}));
+
+	return <Dropdown items={dropdownItems} />;
+};

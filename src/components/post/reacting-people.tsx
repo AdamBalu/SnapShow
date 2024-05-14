@@ -1,35 +1,27 @@
-'use server';
+'use client';
 
-import { inArray } from 'drizzle-orm';
 import Image from 'next/image';
 
-import { db } from '@/db';
-import { type Reaction } from '@/db/schema/reactions';
-import { users } from '@/db/schema/users';
-
 type ReactingPeopleProps = {
-	reactions: Reaction[];
+	reactions: {
+		id: string;
+		userId: string;
+		postId: string;
+		userPic: string | null | undefined;
+	}[];
 };
 
-export const ReactingPeople = async (props: ReactingPeopleProps) => {
-	const max5users = await props.reactions.slice(0, 5).map(user => user.userId);
-	if (max5users.length < 1) {
-		return null;
-	}
-	const profilePics = await db
-		.select({ image: users.image })
-		.from(users)
-		.where(inArray(users.id, max5users));
-
+export const ReactingPeople = ({ reactions }: ReactingPeopleProps) => {
+	const max5reactions = reactions.slice(0, 5);
 	return (
 		<div className="flex">
-			{profilePics.map(
-				(profile, idx) =>
-					profile.image && (
+			{max5reactions.map(
+				(reaction, idx) =>
+					reaction.userPic && (
 						<Image
-							className={`w-6 h-6 rounded-badge border border-white relative transform -translate-x-${10 * idx} z-${profilePics.length - idx}`}
+							className={`w-6 h-6 rounded-badge border border-white relative transform -translate-x-${10 * idx} z-${max5reactions.length - idx}`}
 							key={idx}
-							src={profile.image}
+							src={reaction.userPic}
 							width={128}
 							height={128}
 							alt="profile img"

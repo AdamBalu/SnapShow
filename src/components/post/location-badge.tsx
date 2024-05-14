@@ -1,39 +1,34 @@
-import { eq } from 'drizzle-orm';
 import { LucideMapPin } from 'lucide-react';
 
-import { db } from '@/db';
-import { events } from '@/db/schema/events';
-import { venues } from '@/db/schema/venues';
-
 type LocationBadge = {
-	eventId: string;
+	eventId: string | null | undefined;
+	venueName: string | null | undefined;
+	venueAddress: string | null | undefined;
+	eventName: string | null | undefined;
 };
 
-export const LocationBadge = async (props: LocationBadge) => {
-	const locationQuery = await db
-		.select()
-		.from(events)
-		.where(eq(events.id, props.eventId))
-		.leftJoin(venues, eq(events.venueId, venues.id));
-
-	const location = locationQuery[0] ?? null;
-	return (
-		<div
-			className="tooltip tooltip-bottom"
-			data-tip={`${location.venue?.address} ${location.venue?.country}`}
-		>
-			<div className="flex ml-4">
+export const LocationBadge = (props: LocationBadge) => (
+	<div
+		className="text-gray-600 mt-4 md:flex md:items-center md:ml-6 md:mt-0 tooltip tooltip-bottom text-sm md:text-base"
+		data-tip={`${props.venueAddress}`}
+	>
+		<div className="flex items-center ml-4">
+			<div className="w-8 h-8">
 				<LucideMapPin />
-				<a href={`/event/${location.event.id}`}>
-					{location?.venue && (
-						<span className="hover:underline">
-							{location.venue.name
-								? `${location.event.name} | ${location.venue.name}`
-								: location.event.name}
-						</span>
-					)}
-				</a>
 			</div>
+			<a href={`/event/${props.eventId}`}>
+				{props.venueName && (
+					<span className="underline md:no-underline hover:underline">
+						{props.eventName && props.venueName
+							? `${props.eventName} | ${props.venueName}`
+							: props.venueName
+								? props.venueName === ''
+								: props.eventName === ''
+									? props.eventName === ''
+									: 'Unknown event'}
+					</span>
+				)}
+			</a>
 		</div>
-	);
-};
+	</div>
+);

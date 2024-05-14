@@ -1,5 +1,3 @@
-'use server';
-
 import TimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
 
@@ -12,7 +10,7 @@ type TimeBadgeProps = {
 	datetime: Date;
 };
 
-export const TimeBadge = async (props: TimeBadgeProps) => {
+export const TimeBadge = (props: TimeBadgeProps) => {
 	const timeAgo = new TimeAgo('en-US');
 	return props.datetime ? (
 		<div
