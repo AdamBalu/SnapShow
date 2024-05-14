@@ -7,28 +7,37 @@ type LocationBadge = {
 	eventName: string | null | undefined;
 };
 
-export const LocationBadge = (props: LocationBadge) => (
-	<div
-		className="text-gray-600 mt-4 md:flex md:items-center md:ml-6 md:mt-0 tooltip tooltip-bottom text-sm md:text-base"
-		data-tip={`${props.venueAddress}`}
-	>
-		<div className="flex items-center ml-4">
-			<div className="w-8 h-8">
-				<LucideMapPin />
-			</div>
-			<a href={`/event/${props.eventId}`}>
-				{props.venueName && (
-					<span className="underline md:no-underline hover:underline">
-						{props.eventName && props.venueName
-							? `${props.eventName} | ${props.venueName}`
-							: props.venueName
-								? props.venueName === ''
-								: props.eventName === ''
-									? props.eventName === ''
-									: 'Unknown event'}
+export const LocationBadge = (props: LocationBadge) => {
+	let locationInfo = '';
+	const eventName = props.eventName ?? '';
+	const venueName = props.venueName ?? '';
+
+	if (eventName !== '' && venueName !== '') {
+		locationInfo = `${props.eventName} | ${props.venueName}`;
+	} else if (eventName !== '') {
+		locationInfo = eventName!;
+	} else if (venueName !== '') {
+		locationInfo = venueName!;
+	} else {
+		locationInfo = 'Unknown event location';
+	}
+	console.log(locationInfo);
+
+	return (
+		<div className="text-gray-600 mt-4 md:flex md:items-center md:ml-6 md:mt-0 text-sm md:text-base">
+			<div className="flex items-center ml-4">
+				<div className="w-8 h-8">
+					<LucideMapPin />
+				</div>
+				<a href={`/event/${props.eventId}`}>
+					<span
+						data-tip={`${props.venueAddress}`}
+						className="tooltip tooltip-bottom underline md:no-underline hover:underline"
+					>
+						{locationInfo}
 					</span>
-				)}
-			</a>
+				</a>
+			</div>
 		</div>
-	</div>
-);
+	);
+};

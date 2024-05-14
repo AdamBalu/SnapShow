@@ -35,9 +35,6 @@ export const Homepage = ({
 
 	const onEffect = () => {
 		setGenreChanged(false);
-		console.log(
-			`genre has changed to ${selectedGenre}, now setting it back to false`
-		);
 	};
 
 	const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
