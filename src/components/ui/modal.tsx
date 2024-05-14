@@ -55,7 +55,7 @@ const Modal = ({
 			<div
 				{...props}
 				className={cn(
-					'modal-box flex flex-col justify-start border border-solid border-primary rounded-3xl bg-zinc-900',
+					'scrollbar-thin modal-box flex flex-col justify-start border border-solid border-primary rounded-lg bg-zinc-900',
 					className
 				)}
 			>

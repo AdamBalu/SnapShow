@@ -20,7 +20,10 @@ const RootLayout = ({
 }: Readonly<{
 	children: React.ReactNode;
 }>) => (
-	<html lang="en">
+	<html
+		lang="en"
+		className="scrollbar-thumb-primary scrollbar-track-transparent scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+	>
 		<head>
 			<FaviconLinks />
 			<meta name="msapplication-TileColor" content="#da532c" />

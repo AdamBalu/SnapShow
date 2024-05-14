@@ -47,7 +47,7 @@ export const Profile = async ({ user }: ProfileProps) => {
 				<div className="flex flex-col items-start gap-10 w-full">
 					<div className="flex flex-col gap-3 w-full">
 						<span className="font-sarpanch">Bio</span>
-						<p className="text-sm md:text-md text-justify break-words overflow-hidden">
+						<p className="text-sm md:text-md text-justify break-words overflow-hidden whitespace-pre-wrap">
 							{user?.bio}
 						</p>
 					</div>
