@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 import { type Genres } from '@/db/schema/genres';
 import { type UserEvent } from '@/types/event-data';
+import { DropdownContextProvider } from '@/hooks/dropdown-context';
 
 import { HomepageFilters } from '../filters/homepage-filters';
 
@@ -42,9 +43,9 @@ export const Homepage = ({
 	const [genreChanged, setGenreChanged] = useState(false);
 
 	return (
-		<div>
+		<DropdownContextProvider>
 			<div className="flex justify-center">
-				<div className="flex justify-between h-20 mb-10 w-[90vw] md:w-[70vw]">
+				<div className="flex justify-between h-20 mb-10 w-[90vw] md:w-[70vw] relative">
 					{session?.user && events && (
 						<NewPost
 							userId={session.user.id}
@@ -64,6 +65,6 @@ export const Homepage = ({
 					onEffect={onEffect}
 				/>
 			</div>
-		</div>
+		</DropdownContextProvider>
 	);
 };

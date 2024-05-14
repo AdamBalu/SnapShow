@@ -31,7 +31,7 @@ export const UserControl = async () => {
 					// eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
 					tabIndex={0}
 					role="presentation"
-					className="menu menu-sm dropdown-content bg-zinc-900 mt-3 z-[1] p-2 shadow rounded-box w-52"
+					className="menu menu-sm dropdown-content bg-zinc-900 mt-3 z-30 p-2 shadow rounded-box w-52"
 				>
 					<li>
 						<form
