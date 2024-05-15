@@ -5,9 +5,9 @@ import { getEventsWithNameAndGenre } from '@/server-actions/events';
 import {
 	type EventsListData,
 	type Dates,
-	type EventFilterSortColumn
+	type EventFilterSortColumn,
+	type SortType
 } from '@/types/event-data';
-import { type SortType } from '@/components/event/sort-button';
 
 export const useEventList = (
 	initialEvents: EventsListData[],
