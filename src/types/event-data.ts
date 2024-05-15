@@ -17,6 +17,13 @@ export type EventsListData = {
 	venueZipCode: string;
 };
 
+export type SortType = 'up' | 'down' | null;
+
+export type Sort = {
+	sortType: SortType;
+	sortColumn: EventFilterSortColumn;
+};
+
 export type EventFilterSortColumn = 'country' | 'name' | 'date' | null;
 
 export type UserEventStatus = 'interested' | 'going' | 'not-interested';
