@@ -1,10 +1,10 @@
+import { Calendar, MapPin } from 'lucide-react';
 import Image from 'next/image';
-import { MapPin, Calendar } from 'lucide-react';
 import { useContext } from 'react';
 
-import { displayableDateTime } from '@/utils/date-time-converter';
-import { type EventsListData } from '@/types/event-data';
 import { EasterEggContext } from '@/hooks/easter-egg-context';
+import { type EventsListData } from '@/types/event-data';
+import { displayableDateTime } from '@/utils/date-time-converter';
 
 type EventCardProps = {
 	event: EventsListData;

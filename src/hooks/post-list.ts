@@ -25,7 +25,7 @@ export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 			);
 
 			const filteredPosts: PostData[] = posts.filter(
-				(post): post is PostData => post !== null
+				(post: PostData) => post !== null
 			);
 
 			setHasMore(posts.length === pageSize);
