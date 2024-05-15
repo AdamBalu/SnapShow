@@ -15,8 +15,7 @@ type SingInOption = {
 
 const SignInOptions: SingInOption[] = [
 	{ name: 'Github', id: 'github', icon: '/static/github.svg' },
-	{ name: 'Google', id: 'google', icon: '/static/google.png' },
-	{ name: 'Facebook', id: 'facebook', icon: '/static/facebook.svg' }
+	{ name: 'Google', id: 'google', icon: '/static/google.png' }
 ];
 
 const SignIn = () => {
