@@ -33,7 +33,6 @@ export const InfiniteFeed = ({
 
 	useEffect(() => {
 		if (genreChanged) {
-			// fetchNewData();
 			if (selectedGenre !== null) {
 				fetchData(true, selectedGenre, 1).then(() => null);
 			} else {
@@ -51,12 +50,12 @@ export const InfiniteFeed = ({
 				hasMore={hasMore}
 				loader={
 					<div className="flex justify-center mt-4">
-						<LogoLoader />
+						{postsList.length !== 0 && <LogoLoader />}
 					</div>
 				}
 			>
 				<div>
-					{postsList ? (
+					{postsList && postsList.length !== 0 ? (
 						postsList.map(post => (
 							<PostCard
 								key={post.id}
@@ -67,7 +66,13 @@ export const InfiniteFeed = ({
 							/>
 						))
 					) : (
-						<div>e</div>
+						<div className="flex justify-center mt-4">
+							{postsList.length !== 0 ? (
+								<LogoLoader />
+							) : (
+								<div>There are no posts yet, be the first to create one!</div>
+							)}
+						</div>
 					)}
 				</div>
 			</InfiniteScroll>
