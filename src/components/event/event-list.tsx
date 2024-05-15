@@ -50,16 +50,14 @@ export const EventList = ({
 		50
 	);
 
-	const [activeFilter, setActiveFilter] = useState<EventFilterSortColumn>(null);
-	const [sortType, setSortType] = useState<SortType>(null);
-
 	const [sort, setSort] = useState<Sort>({ sortType: null, sortColumn: null });
-	const [filter, setFilter] = useState<string>('');
-	const [selectedGenres, setSelectedGenres] = useState<EventGenre[]>([]);
 	const [selectedDates, setSelectedDates] = useState<Dates>({
 		dateFrom: null,
 		dateTo: null
 	});
+
+	const [filter, setFilter] = useState<string>('');
+	const [selectedGenres, setSelectedGenres] = useState<EventGenre[]>([]);
 
 	const filterData = (
 		eventName: string,
@@ -129,10 +127,9 @@ export const EventList = ({
 			/>
 
 			<EventSort
-				sortType={sortType}
-				activeFilter={activeFilter}
-				setActiveFilter={setActiveFilter}
-				setSortType={setSortType}
+				sortType={sort.sortType}
+				sortColumn={sort.sortColumn}
+				setSort={setSort}
 				sortData={sortData}
 				loading={loading}
 			/>
