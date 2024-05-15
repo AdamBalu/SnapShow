@@ -2,11 +2,11 @@ import { type Session } from 'next-auth';
 import { useState } from 'react';
 
 import { type Photo } from '@/db/schema/photos';
+import { type PostData } from '@/types/post-data';
 import {
 	localizeDate,
 	offsetDateForFormatting
 } from '@/utils/date-time-converter';
-import { type PostData } from '@/types/post-data';
 
 import { PhotoCarousel } from '../ui/photo-carousel';
 
@@ -74,7 +74,7 @@ export const PostCard = ({ post, reactions, photos, session }: PostProps) => {
 				eventName={post.eventName}
 				venueAddress={post.venueAddress}
 				userPic={post.authorPic}
-				userName={post.authorName}
+				userName={post.authorUsername}
 			/>
 			<div className=" pb-6">
 				<PostText content={post.comment} />

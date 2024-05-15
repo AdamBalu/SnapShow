@@ -1,6 +1,6 @@
 export type PostData = {
 	id: string;
-	authorName: string | null | undefined;
+	authorUsername: string | null | undefined;
 	comment: string | null;
 	userId: string;
 	authorPic: string | null | undefined;

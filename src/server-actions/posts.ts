@@ -153,7 +153,7 @@ export const getPostDetails = async (postId: string) => {
 
 	const postData: PostData = {
 		id: post.id,
-		authorName: author?.name,
+		authorUsername: author?.username,
 		comment: post.comment,
 		userId: post.userId,
 		authorPic: author?.image,

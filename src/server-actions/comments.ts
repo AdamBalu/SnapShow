@@ -34,16 +34,15 @@ const getCommentDetails = async (commentId: string) => {
 	if (commentDetails?.userId === null || commentDetails?.userId === undefined) {
 		return;
 	}
-	// Fetch user details for the comment
+
 	const userDetails = await db.query.users.findFirst({
 		where: eq(users.id, commentDetails!.userId!)
 	});
 
-	// Add user image to the comment details
 	return {
 		...commentDetails,
 		userImage: userDetails?.image,
-		userName: userDetails?.name
+		userName: userDetails?.username
 	};
 };
 
