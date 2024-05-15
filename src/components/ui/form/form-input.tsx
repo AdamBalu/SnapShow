@@ -1,6 +1,6 @@
 'use client';
 
-import React, { type HTMLProps } from 'react';
+import { type HTMLProps } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { cn } from '@/lib/cn';

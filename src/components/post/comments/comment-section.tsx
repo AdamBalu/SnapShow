@@ -1,13 +1,22 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
 import { LucideSendHorizonal } from 'lucide-react';
 import { type Session } from 'next-auth';
 import Image from 'next/image';
-import React, { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import { LogoLoader } from '@/components/logo-loader';
+import { FormInput } from '@/components/ui/form/form-input';
 import { useCommentsListPaginated } from '@/hooks/comments-list';
 import { sendComment } from '@/server-actions/comments';
+
+const commentSchema = z.object({
+	comment: z.string().trim().min(1).max(1024)
+});
+
+type CommentSchema = z.infer<typeof commentSchema>;
 
 type CommentSectionProps = {
 	postId: string;
@@ -20,26 +29,19 @@ export const CommentSection = ({
 	open,
 	session
 }: CommentSectionProps) => {
-	// const comment = useCommentsList(postId);
-	const [commentContent, setCommentContent] = useState('');
+	const form = useForm<CommentSchema>({
+		resolver: zodResolver(commentSchema)
+	});
 
-	const submitComment = async (event: React.FormEvent) => {
-		event.preventDefault();
-		const comment = commentContent;
-		if (comment === undefined || comment === null || comment.trim() === '') {
-			return;
-		}
+	const { register, handleSubmit, reset } = form;
+
+	const onSubmit = async (values: CommentSchema) => {
 		if (session?.user === undefined) {
 			return;
 		}
-		await sendComment(session.user.id, postId, comment);
+		await sendComment(session.user.id, postId, values.comment);
+		reset();
 		refetch();
-		setCommentContent('');
-	};
-
-	const handleTextareaChange = (e: React.FormEvent) => {
-		// @ts-expect-error ignore
-		setCommentContent(e.target.value);
 	};
 
 	const { data, isPending, refetch } = useCommentsListPaginated(postId, 1, 10);
@@ -86,19 +88,21 @@ export const CommentSection = ({
 					</div>
 				)}
 
-				<form onSubmit={submitComment}>
-					<div className="flex mt-2">
-						<textarea
-							value={commentContent}
-							onChange={handleTextareaChange}
-							placeholder="Enter your comment..."
-							className="bg-zinc-800 w-full border border-primary rounded-lg px-2 py-1"
-						/>
-						<button>
-							<LucideSendHorizonal className="w-8 h-8 p-2 rounded-lg text-primary border border-primary hover:bg-zinc-600 mx-2" />
-						</button>
-					</div>
-				</form>
+				<FormProvider {...form}>
+					<form onSubmit={handleSubmit(onSubmit)}>
+						<div className="flex mt-2">
+							<FormInput
+								placeholder="Enter your comment..."
+								type="textarea"
+								{...register('comment')}
+								className="bg-zinc-800 w-full border border-primary rounded-lg px-2 py-1"
+							/>
+							<button type="submit">
+								<LucideSendHorizonal className="w-8 h-8 p-2 rounded-lg text-primary border border-primary hover:bg-zinc-600 mx-2" />
+							</button>
+						</div>
+					</form>
+				</FormProvider>
 			</div>
 		)
 	);
