@@ -72,7 +72,7 @@ export const CommentSection = ({
 										{comment?.datetime}
 									</time>
 								</div>
-								<div className="chat-bubble mb-4 bg-slate-800">
+								<div className="chat-bubble break-words mb-4 bg-slate-800">
 									{comment?.text}
 								</div>
 							</div>
