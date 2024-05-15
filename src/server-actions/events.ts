@@ -17,7 +17,7 @@ import {
 import { revalidatePath } from 'next/cache';
 
 import {
-	SortType,
+	type SortType,
 	type Dates,
 	type EventFilterSortColumn,
 	type UserEventStatus
