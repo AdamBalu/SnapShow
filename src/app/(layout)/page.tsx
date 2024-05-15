@@ -25,11 +25,6 @@ const Page = async () => {
 	};
 	genres = [allGenres, ...genres];
 
-	// TODO: change this for partial fetching
-	// const initialPosts = await db.query.posts.findMany({
-	// 	with: { reactions: true, photos: true },
-	// 	orderBy: [desc(posts.datetime)]
-	// });
 	let initialPosts = await getPostsPaginated(1, 10, null);
 	if (initialPosts === null || initialPosts.length === 0) {
 		initialPosts = [];
