@@ -23,8 +23,14 @@ export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 				genreFilter
 			);
 
+			const filteredPosts: PostData[] = posts.filter(
+				(post): post is PostData => post !== null
+			);
+
 			setHasMore(posts.length === pageSize);
-			setPostsList(prevItems => (clearData ? posts : [...prevItems, ...posts]));
+			setPostsList(prevItems =>
+				clearData ? filteredPosts : [...prevItems, ...filteredPosts]
+			);
 			setIndex(prevIndex => (filterIndex ? filterIndex + 1 : prevIndex + 1));
 			setLoading(false);
 		}

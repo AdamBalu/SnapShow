@@ -80,6 +80,36 @@ export const getAllPostIdsPaginated = async (
 	return postIds.map(post => post.id);
 };
 
+const getAllPostIdsByEventPaginated = async (
+	page: number,
+	pageSize: number,
+	eventId: string
+) => {
+	const postIds = await db
+		.select({ id: posts.id })
+		.from(posts)
+		.where(eq(posts.eventId, eventId))
+		.orderBy(desc(posts.datetime))
+		.limit(pageSize)
+		.offset((page - 1) * pageSize);
+	return postIds.map(post => post.id);
+};
+
+const getAllPostIdsByUserPaginated = async (
+	page: number,
+	pageSize: number,
+	userId: string
+) => {
+	const postIds = await db
+		.select({ id: posts.id })
+		.from(posts)
+		.where(eq(posts.userId, userId))
+		.orderBy(desc(posts.datetime))
+		.limit(pageSize)
+		.offset((page - 1) * pageSize);
+	return postIds.map(post => post.id);
+};
+
 export const getAllPostIdsPaginatedFiltered = async (
 	page: number,
 	pageSize: number,
@@ -206,9 +236,48 @@ export const getPostsPaginated = async (
 			pageSize,
 			genreFilter
 		);
+		if (postIds.length === 0) {
+			return [];
+		}
 		const posts = await Promise.all(
 			postIds.map(postId => getPostDetails(postId))
 		);
-		return posts;
+		return posts.filter(post => post !== null);
 	}
+};
+
+export const getPostsPaginatedFilterByEvent = async (
+	page: number,
+	pageSize: number,
+	eventId: string
+) => {
+	const postIds = await getAllPostIdsByEventPaginated(page, pageSize, eventId);
+	if (postIds.length === 0) {
+		return [];
+	}
+	const posts = await Promise.all(
+		postIds.map((postId: string) => getPostDetails(postId))
+	);
+	if (posts === null) {
+		return [];
+	}
+	return posts.filter(post => post !== null);
+};
+
+export const getPostsPaginatedFilterByUser = async (
+	page: number,
+	pageSize: number,
+	userId: string
+) => {
+	const postIds = await getAllPostIdsByUserPaginated(page, pageSize, userId);
+	if (postIds.length === 0) {
+		return [];
+	}
+	const posts = await Promise.all(
+		postIds.map((postId: string) => getPostDetails(postId))
+	);
+	if (posts === null) {
+		return [];
+	}
+	return posts.filter(post => post !== null);
 };
