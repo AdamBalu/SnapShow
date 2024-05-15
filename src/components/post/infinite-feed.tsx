@@ -35,13 +35,9 @@ export const InfiniteFeed = ({
 		if (genreChanged) {
 			// fetchNewData();
 			if (selectedGenre !== null) {
-				fetchData(true, selectedGenre, 1).then(() =>
-					console.log(`new data re-fetched for ${selectedGenre}`)
-				);
+				fetchData(true, selectedGenre, 1).then(() => null);
 			} else {
-				fetchData(true, selectedGenre, 1).then(() =>
-					console.log('new data re-fetched for all genres')
-				);
+				fetchData(true, selectedGenre, 1).then(() => null);
 			}
 			onEffect();
 		}

@@ -12,6 +12,7 @@ import { posts } from '@/db/schema/posts';
 import { reactions } from '@/db/schema/reactions';
 import { users } from '@/db/schema/users';
 import { venues } from '@/db/schema/venues';
+import { type PostData } from '@/types/post-data';
 
 export const toggleReactionAction = async (postId: string, userId: string) => {
 	// try to fetch the current reaction from user
@@ -84,9 +85,6 @@ export const getAllPostIdsPaginatedFiltered = async (
 	pageSize: number,
 	genreFilter: string
 ) => {
-	console.log(page);
-	console.log(pageSize);
-	console.log(genreFilter);
 	const postIds = await db
 		.select({ id: posts.id })
 		.from(posts)
@@ -200,8 +198,7 @@ export const getPostsPaginated = async (
 		const posts = await Promise.all(
 			postIds.map(postId => getPostDetails(postId))
 		);
-		// console.log('FIXING STUFF');
-		// console.log(posts);
+
 		return posts;
 	} else {
 		const postIds = await getAllPostIdsPaginatedFiltered(

@@ -4,8 +4,8 @@ import { type Session } from 'next-auth';
 import { useState } from 'react';
 
 import { type Genres } from '@/db/schema/genres';
-import { type UserEvent } from '@/types/event-data';
 import { DropdownContextProvider } from '@/hooks/dropdown-context';
+import { type UserEvent } from '@/types/event-data';
 import { type PostData } from '@/types/post-data';
 
 import { HomepageFilters } from '../filters/homepage-filters';
@@ -44,7 +44,6 @@ export const Homepage = ({
 	};
 
 	const [selectedGenre, setSelectedGenre] = useState<string | null>(null);
-	// const [initPosts, setInitPosts] = useState(initialPosts);
 	const [genreChanged, setGenreChanged] = useState(false);
 
 	return (

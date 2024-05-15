@@ -21,7 +21,6 @@ export const LocationBadge = (props: LocationBadge) => {
 	} else {
 		locationInfo = 'Unknown event location';
 	}
-	console.log(locationInfo);
 
 	return (
 		<div className="text-gray-600 mt-4 md:flex md:items-center md:ml-6 md:mt-0 text-sm md:text-base">
