@@ -1,9 +1,14 @@
 import React from 'react';
+import { type Metadata } from 'next';
 
 import { UserForm } from '@/components/user-form/user-form';
 import { auth } from '@/auth';
 import { getAllGenres, getUsersFavoriteGenres } from '@/server-actions/genres';
 import { getUser } from '@/server-actions/user';
+
+export const metadata: Metadata = {
+	title: 'Edit profile'
+};
 
 const NewUserPage = async () => {
 	const session = await auth();

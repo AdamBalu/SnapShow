@@ -4,13 +4,17 @@ import { type EventFilterSortColumn } from '@/types/event-data';
 
 import { Button } from '../ui/button';
 
+type Sort = {
+	sortType: SortType;
+	sortColumn: EventFilterSortColumn;
+};
+
 type SortButtonProps = {
 	label: string;
 	name: EventFilterSortColumn;
 	sortType: SortType;
-	activeFilter: EventFilterSortColumn;
-	setActiveFilter: (activeFiler: EventFilterSortColumn) => void;
-	setSortType: (state: SortType) => void;
+	sortColumn: EventFilterSortColumn;
+	setSort: (sort: Sort) => void;
 	onSort: (activeFiler: SortType) => void;
 	disabled: boolean;
 };
@@ -21,15 +25,14 @@ export const SortButton = ({
 	label,
 	name,
 	sortType,
-	activeFilter,
+	sortColumn,
 	disabled,
-	setSortType,
-	setActiveFilter,
+	setSort,
 	onSort
 }: SortButtonProps) => {
 	const changeSortState = () => {
 		let direction: SortType = 'up';
-		if (name === activeFilter) {
+		if (name === sortColumn) {
 			if (sortType === null) {
 				direction = 'up';
 			} else if (sortType === 'up') {
@@ -38,9 +41,9 @@ export const SortButton = ({
 				direction = null;
 			}
 		} else {
-			setActiveFilter(name);
+			setSort({ sortColumn: name, sortType });
 		}
-		setSortType(direction);
+		setSort({ sortColumn, sortType: direction });
 		onSort(direction);
 	};
 
@@ -51,7 +54,7 @@ export const SortButton = ({
 			className="bg-zinc-900 text-primary hover:bg-zinc-800 disabled:bg-zinc-700 text-sm p-3"
 		>
 			{label}
-			{sortType && name === activeFilter ? (
+			{sortType && name === sortColumn ? (
 				sortType === 'up' ? (
 					<SortAsc />
 				) : (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { notFound } from 'next/navigation';
+import { type Metadata } from 'next';
 
 import { Profile } from '@/components/profile/profile';
 import { getUser } from '@/server-actions/user';
@@ -7,6 +8,16 @@ import { getUser } from '@/server-actions/user';
 type UserPageProps = {
 	params: {
 		userId: string;
+	};
+};
+
+export const generateMetadata = async ({
+	params
+}: UserPageProps): Promise<Metadata> => {
+	const user = await getUser(params.userId);
+
+	return {
+		title: user?.username ?? 'User Detail'
 	};
 };
 

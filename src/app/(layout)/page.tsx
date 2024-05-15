@@ -1,4 +1,4 @@
-'use server';
+import { type Metadata } from 'next';
 
 import { auth } from '@/auth';
 import { Banner } from '@/components/banner';
@@ -8,6 +8,10 @@ import { getUserEvents } from '@/server-actions/events';
 import { getAllGenres } from '@/server-actions/genres';
 import { getPostsPaginated } from '@/server-actions/posts';
 import { type PostData } from '@/types/post-data';
+
+export const metadata: Metadata = {
+	title: 'Home'
+};
 
 const Page = async () => {
 	const session = await auth();

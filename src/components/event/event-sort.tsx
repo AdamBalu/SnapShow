@@ -5,21 +5,24 @@ import { EasterEggContext } from '@/hooks/easter-egg-context';
 
 import { SortButton, type SortType } from './sort-button';
 
+type Sort = {
+	sortType: SortType;
+	sortColumn: EventFilterSortColumn;
+};
+
 type EventSortProps = {
 	sortType: SortType;
-	activeFilter: EventFilterSortColumn;
-	setActiveFilter: (column: EventFilterSortColumn) => void;
-	setSortType: (sortType: SortType) => void;
+	sortColumn: EventFilterSortColumn;
+	setSort: (sort: Sort) => void;
 	sortData: (sortColumn: EventFilterSortColumn, direction: SortType) => void;
 	loading: boolean;
 };
 
 export const EventSort = ({
+	sortColumn,
 	sortType,
-	activeFilter,
-	setActiveFilter,
-	setSortType,
 	sortData,
+	setSort,
 	loading
 }: EventSortProps) => {
 	const easterEgg = useContext(EasterEggContext);
@@ -51,9 +54,8 @@ export const EventSort = ({
 				label={easterEgg?.isOn ? 'SOMEBODY' : 'Country'}
 				name="country"
 				sortType={sortType}
-				activeFilter={activeFilter}
-				setActiveFilter={setActiveFilter}
-				setSortType={setSortType}
+				sortColumn={sortColumn}
+				setSort={setSort}
 				onSort={onCountrySort}
 				disabled={loading}
 			/>
@@ -61,9 +63,8 @@ export const EventSort = ({
 				label={easterEgg?.isOn ? 'ONCE' : 'Name'}
 				name="name"
 				sortType={sortType}
-				activeFilter={activeFilter}
-				setActiveFilter={setActiveFilter}
-				setSortType={setSortType}
+				sortColumn={sortColumn}
+				setSort={setSort}
 				onSort={onNameSort}
 				disabled={loading}
 			/>
@@ -71,9 +72,8 @@ export const EventSort = ({
 				label={easterEgg?.isOn ? 'TOLD ME' : 'Date'}
 				name="date"
 				sortType={sortType}
-				activeFilter={activeFilter}
-				setActiveFilter={setActiveFilter}
-				setSortType={setSortType}
+				sortColumn={sortColumn}
+				setSort={setSort}
 				onSort={onDateTimeSort}
 				disabled={loading}
 			/>

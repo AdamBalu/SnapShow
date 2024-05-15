@@ -2,7 +2,6 @@ import NextAuth, { type NextAuthConfig } from 'next-auth';
 import GitHub from 'next-auth/providers/github';
 import { DrizzleAdapter } from '@auth/drizzle-adapter';
 import Google from '@auth/core/providers/google';
-import Facebook from '@auth/core/providers/facebook';
 
 import { isRegistrationFinished } from '@/server-actions/user';
 
@@ -15,7 +14,7 @@ const getIsProtectedPath = (path: string) =>
 	!path.startsWith('/signin') &&
 	!path.startsWith('/api');
 
-const providers = [GitHub, Google, Facebook];
+const providers = [GitHub, Google];
 
 export const authOptions = {
 	providers,

@@ -1,9 +1,13 @@
-'use server';
+import { type Metadata } from 'next';
 
 import { EventListWithContext } from '@/components/event/event-list';
 import { getEventsWithNameAndGenre } from '@/server-actions/events';
 import { getAllGenres } from '@/server-actions/genres';
 import { auth } from '@/auth';
+
+export const metadata: Metadata = {
+	title: 'Events'
+};
 
 const Page = async () => {
 	const session = await auth();

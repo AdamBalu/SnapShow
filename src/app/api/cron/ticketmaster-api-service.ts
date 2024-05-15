@@ -20,7 +20,7 @@ import {
 
 const baseUrl = 'https://app.ticketmaster.com';
 const apiKey = process.env.TICKETMASTER_API_KEY;
-const country = 'AU';
+const country = 'BE';
 
 type AttractionData = {
 	interpreter: Interpreter;
@@ -197,14 +197,15 @@ const updateDbData = async (
 const getVenueData = (eventVenue: EventVenue) => {
 	const fullAddress = `${eventVenue.city ? `${eventVenue.city.name},` : ''}${eventVenue.address ? eventVenue.address.line1 : ''}`;
 	console.log(fullAddress);
+
 	const venue: Venues = {
 		id: eventVenue.id,
 		name: eventVenue.name ?? '',
 		address: fullAddress,
 		zipCode: eventVenue.postalCode ?? '',
 		country: eventVenue.country ? eventVenue.country.name : '',
-		longitude: eventVenue.location.longitude ?? '16.61239',
-		latitude: eventVenue.location.latitude ?? '49.190936',
+		longitude: eventVenue.location?.longitude ?? '16.61239',
+		latitude: eventVenue.location?.latitude ?? '49.190936',
 		isDeleted: false
 	};
 

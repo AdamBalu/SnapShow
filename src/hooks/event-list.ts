@@ -29,8 +29,6 @@ export const useEventList = (
 	) => {
 		if (!loading) {
 			setLoading(true);
-			console.log(sortColumn);
-			console.log(sortrDirection);
 
 			const events: EventsListData[] = await getEventsWithNameAndGenre(
 				filterValue ? filterValue : '',
