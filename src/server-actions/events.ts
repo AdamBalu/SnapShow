@@ -17,11 +17,11 @@ import {
 import { revalidatePath } from 'next/cache';
 
 import {
+	SortType,
 	type Dates,
 	type EventFilterSortColumn,
 	type UserEventStatus
 } from '@/types/event-data';
-import { type SortType } from '@/components/event/sort-button';
 import { venues } from '@/db/schema/venues';
 import { events } from '@/db/schema/events';
 import { db } from '@/db';

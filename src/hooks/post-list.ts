@@ -17,7 +17,8 @@ export const usePostList = (initialPosts: PostData[], pageSize: number) => {
 		if (!loading) {
 			setLoading(true);
 
-			const posts = await getPostsPaginated(
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+			const posts: any = await getPostsPaginated(
 				filterIndex ?? index,
 				pageSize,
 				genreFilter
