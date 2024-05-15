@@ -20,7 +20,7 @@ export const EventDetail = async ({ event }: EventDetailProps) => {
 		<div className="w-[90vw] md:w-[70vw] relative font-extrabold bg-zinc-900 bg-opacity-70 rounded-2xl text-white flex flex-col overflow-hidden">
 			<div className="flex">
 				<Image
-					className="rounded-tl-2xl rounded-tr-2xl"
+					className="rounded-tl-2xl rounded-tr-2xl w-full"
 					src={event.imageUrl ?? ''}
 					alt={event.name}
 					width={1250}
