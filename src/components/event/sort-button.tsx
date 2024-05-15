@@ -1,13 +1,12 @@
 import { SortAsc, SortDesc, ListFilter } from 'lucide-react';
 
-import { type EventFilterSortColumn } from '@/types/event-data';
+import {
+	type Sort,
+	type SortType,
+	type EventFilterSortColumn
+} from '@/types/event-data';
 
 import { Button } from '../ui/button';
-
-type Sort = {
-	sortType: SortType;
-	sortColumn: EventFilterSortColumn;
-};
 
 type SortButtonProps = {
 	label: string;
@@ -18,8 +17,6 @@ type SortButtonProps = {
 	onSort: (activeFiler: SortType) => void;
 	disabled: boolean;
 };
-
-export type SortType = 'up' | 'down' | null;
 
 export const SortButton = ({
 	label,

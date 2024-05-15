@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 
-import { type EventFilterSortColumn } from '@/types/event-data';
+import { type SortType, type EventFilterSortColumn } from '@/types/event-data';
 import { EasterEggContext } from '@/hooks/easter-egg-context';
 
-import { SortButton, type SortType } from './sort-button';
+import { SortButton } from './sort-button';
 
 type Sort = {
 	sortType: SortType;

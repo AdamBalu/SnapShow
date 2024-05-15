@@ -10,7 +10,9 @@ import { useEventList } from '@/hooks/event-list';
 import {
 	type EventsListData,
 	type Dates,
-	type EventFilterSortColumn
+	type EventFilterSortColumn,
+	type Sort,
+	type SortType
 } from '@/types/event-data';
 import { LogoLoader } from '@/components/logo-loader';
 import {
@@ -18,7 +20,6 @@ import {
 	EasterEggContextProvider
 } from '@/hooks/easter-egg-context';
 
-import { type SortType } from './sort-button';
 import {
 	EventFilter,
 	type EventGenre,
@@ -31,11 +32,6 @@ type EventListProps = {
 	initialEvents: EventsListData[];
 	genres: Genres[];
 	isUserSignedIn: boolean;
-};
-
-type Sort = {
-	sortType: SortType;
-	sortColumn: EventFilterSortColumn;
 };
 
 export const EventList = ({
