@@ -154,17 +154,13 @@ export const EventList = ({
 				}
 			>
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-					{eventList ? (
-						eventList.map(event => (
-							<EventCard
-								event={event}
-								onClick={onEventClick}
-								key={event.eventId}
-							/>
-						))
-					) : (
-						<div>e</div>
-					)}
+					{eventList.map(event => (
+						<EventCard
+							event={event}
+							onClick={onEventClick}
+							key={event.eventId}
+						/>
+					))}
 				</div>
 			</InfiniteScroll>
 
